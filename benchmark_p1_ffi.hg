@@ -1,0 +1,20 @@
+// Phase 1 Test 1.1: C FFI & C Math Functions Integration in Compound
+
+c_ka_kaam sin(x: cdouble): cdouble from "math.h"
+c_ka_kaam cos(x: cdouble): cdouble from "math.h"
+c_ka_kaam printf(fmt: cstring, val: cdouble): cint from "stdio.h"
+
+banao Vector2 = object
+    x: float64
+    y: float64
+khatam
+
+rakho angle = 0.0
+jabtak angle <= 3.14159 * 2.0 toh
+    rakho vx = cos(angle)
+    rakho vy = sin(angle)
+    rakho pos = Vector2(x: vx, y: vy)
+    printf("Vector position: x=%.2f, ", pos.x)
+    printf("y=%.2f\n", pos.y)
+    angle += 0.5
+khatam

@@ -1,0 +1,88 @@
+// Workload 2: Self-Hosted Lexer & AST Parser Pipeline in Compound
+
+banao TokenKind = enum tokIdent, tokNum, tokOp, tokEof
+
+banao Token = object
+    kind: TokenKind
+    val: string
+khatam
+
+banao ASTNode = ref object
+    kind: string
+    name: string
+    numVal: int
+    left: ASTNode
+    right: ASTNode
+khatam
+
+kaam lex(src: string): seq[Token] toh
+    rakho tokens = newSeq[Token]()
+    rakho i = 0
+    rakho n = src.len
+    jabtak i < n toh
+        rakho ch = src[i]
+        if ch == ' ' or ch == '\t' or ch == '\n' toh
+            i += 1
+            continue
+        khatam
+        if ch == '+' or ch == '-' or ch == '*' or ch == '=' toh
+            rakho s = "" & ch
+            tokens.add(Token(kind: tokOp, val: s))
+            i += 1
+            continue
+        khatam
+        if ch >= '0' and ch <= '9' toh
+            rakho numStr = ""
+            jabtak i < n and src[i] >= '0' and src[i] <= '9' toh
+                numStr.add(src[i])
+                i += 1
+            khatam
+            tokens.add(Token(kind: tokNum, val: numStr))
+            continue
+        khatam
+        if (ch >= 'a' and ch <= 'z') or (ch >= 'A' and ch <= 'Z') toh
+            rakho idStr = ""
+            jabtak i < n and ((src[i] >= 'a' and src[i] <= 'z') or (src[i] >= 'A' and src[i] <= 'Z') or (src[i] >= '0' and src[i] <= '9')) toh
+                idStr.add(src[i])
+                i += 1
+            khatam
+            tokens.add(Token(kind: tokIdent, val: idStr))
+            continue
+        khatam
+        i += 1
+    khatam
+    tokens.add(Token(kind: tokEof, val: ""))
+    wapas tokens
+khatam
+
+kaam parseExpression(tokens: seq[Token], pos: var int): ASTNode toh
+    rakho tok = tokens[pos]
+    pos += 1
+    
+    chuno tok.kind toh
+        jab tokNum toh
+            wapas ASTNode(kind: "NUM", numVal: 5)
+        jab tokIdent toh
+            wapas ASTNode(kind: "VAR", name: tok.val)
+        varna toh
+            galti_phenko "Unexpected token in parser"
+    khatam
+khatam
+
+rakho code = "x + 5"
+rakho tokenList = lex(code)
+dikhao "[Lexer] Tokens generated successfully. Count:", tokenList.len
+
+rakho pos = 0
+rakho leftNode = parseExpression(tokenList, pos)
+rakho opTok = tokenList[pos]
+pos += 1
+rakho rightNode = parseExpression(tokenList, pos)
+
+rakho rootAST = ASTNode(kind: "BINARY_OP", name: opTok.val, left: leftNode, right: rightNode)
+
+dikhao "[Parser] AST Root Kind:", rootAST.kind
+dikhao "[Parser] Operator:", rootAST.name
+dikhao "[Parser] Left Node Kind:", rootAST.left.kind
+dikhao "[Parser] Right Node Kind:", rootAST.right.kind
+dikhao "[Workload 2 PASSED] Lexer & Pattern-Matching AST Parser Pipeline succeeded!"

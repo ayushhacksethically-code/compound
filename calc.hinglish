@@ -1,0 +1,18 @@
+// Hinglish Interactive Calculator in Compound
+
+kaam jod(a: float, b: float): float toh
+    wapas a + b
+khatam
+
+kaam ghatao(a: float, b: float): float toh
+    wapas a - b
+khatam
+
+kaam guna(a: float, b: float): float toh
+    wapas a * b
+khatam
+
+dikhao "=== Compound Calculator ==="
+dikhao "10 aur 5 ka jod:", jod(10.0, 5.0)
+dikhao "10 mein se 5 ghatao:", ghatao(10.0, 5.0)
+dikhao "10 ko 5 se guna karo:", guna(10.0, 5.0)

@@ -1,0 +1,56 @@
+// Phase 3 Test 3.1: 3D Sphere Ray Tracer Benchmark in Compound
+
+import std/math
+
+banao Vec3 = object
+    x: float64
+    y: float64
+    z: float64
+khatam
+
+kaam dot(v1: Vec3, v2: Vec3): float64 toh
+    wapas v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
+khatam
+
+kaam normalize(v: Vec3): Vec3 toh
+    rakho len = sqrt(dot(v, v))
+    wapas Vec3(x: v.x / len, y: v.y / len, z: v.z / len)
+khatam
+
+rakho width = 100
+rakho height = 50
+
+dikhao "P3", width, height, 255
+
+rakho sphere_center = Vec3(x: 0.0, y: 0.0, z: -5.0)
+rakho sphere_radius = 2.0
+rakho light_dir = normalize(Vec3(x: 1.0, y: 1.0, z: -1.0))
+
+rakho j = 0
+jabtak j < height toh
+    rakho i = 0
+    jabtak i < width toh
+        rakho dir_x = (float64(i) - float64(width) / 2.0) / float64(width)
+        rakho dir_y = (float64(j) - float64(height) / 2.0) / float64(height)
+        rakho ray_dir = normalize(Vec3(x: dir_x, y: dir_y, z: -1.0))
+
+        rakho oc = Vec3(x: -sphere_center.x, y: -sphere_center.y, z: -sphere_center.z)
+        rakho b = dot(oc, ray_dir)
+        rakho c = dot(oc, oc) - sphere_radius * sphere_radius
+        rakho disc = b * b - c
+
+        if disc > 0.0 toh
+            rakho t = b - sqrt(disc)
+            rakho hit_pos = Vec3(x: ray_dir.x * t, y: ray_dir.y * t, z: ray_dir.z * t)
+            rakho normal = normalize(Vec3(x: hit_pos.x - sphere_center.x, y: hit_pos.y - sphere_center.y, z: hit_pos.z - sphere_center.z))
+            rakho intensity = max(0.0, dot(normal, light_dir))
+            rakho c_val = int(intensity * 255.0)
+            dikhao c_val, c_val, c_val
+        varna
+            dikhao 0, 0, 0
+        khatam
+
+        i += 1
+    khatam
+    j += 1
+khatam

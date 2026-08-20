@@ -1,0 +1,7 @@
+// Module A Main script importing Module B
+
+shamil_karo module_b
+
+dikhao "Calling imported helper function from module_b..."
+rakho res = helperFunc(5)
+dikhao "Result from module_b helperFunc(5):", res

@@ -1,0 +1,12 @@
+// Verification Test for Rigid Word Token Grammar in Plain English (.eg)
+
+task multiply(a: int, b: int): int do
+    keep res = a * b
+    return res
+done
+
+keep count = 10
+if count > 5 and count != 0 do
+    show "Count is active:", count
+    show "Multiplication result:", multiply(count, 3)
+done

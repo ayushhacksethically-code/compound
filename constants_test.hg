@@ -1,0 +1,12 @@
+// Constants test in Compound (.hg)
+
+dikhao "Sahi (True):", sahi
+dikhao "Galat (False):", galat
+dikhao "Debug Mode (jaanch_mode):", jaanch_mode
+
+kaam test_placeholder() toh
+    baad_mein
+khatam
+
+test_placeholder()
+dikhao "Done checking built-in constants!"

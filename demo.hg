@@ -1,0 +1,23 @@
+// Sample program in Compound (Hinglish)
+
+rakho naam = "Dost"
+dikhao "Namaste!", naam
+
+rakho ginti = 1
+jabtak ginti chhota ya barabar hai 5 se toh
+    dikhao "Ginti number:", ginti
+    ginti = ginti + 1
+khatam
+
+kaam jod(a: int, b: int): int toh
+    wapas a + b
+khatam
+
+rakho uttar = jod(20, 30)
+dikhao "20 aur 30 ka jod hai:", uttar
+
+agar uttar bada hai 40 se toh
+    dikhao "Kamaal hai! Jod 40 se bada hai."
+varna
+    dikhao "Jod chhota hai."
+khatam

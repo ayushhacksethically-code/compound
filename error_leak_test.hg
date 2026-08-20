@@ -1,0 +1,5 @@
+// Intentionally Broken Line Test
+
+rakho x = 10
+rakho y = invalid_variable_name_xyz + 5
+dikhao y

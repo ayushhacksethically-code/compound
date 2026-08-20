@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hinglish Syntax Guide (hg) | Compound Documentation</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { border-bottom: 2px solid #0076d6; padding-bottom: 10px; margin-bottom: 20px; }
+        nav a { margin-right: 15px; color: #0076d6; text-decoration: none; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { font-family: "Courier New", Courier, monospace; background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        pre code { background: none; padding: 0; }
+        h1, h2, h3 { color: #111; }
+        footer { margin-top: 50px; border-top: 1px solid #ddd; padding-top: 10px; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="/" style="text-decoration: none; color: #111;">Compound Language Docs</a></h1>
+        <nav style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="/docs/getting-started/">Getting Started</a>
+            <a href="/docs/hinglish-guide/">Hinglish Guide</a>
+            <a href="/docs/english-guide/">English Guide</a>
+            <a href="/man/rakho-create/">MAN: Variables</a>
+            <a href="/man/pukka-fixed/">MAN: Constants</a>
+            <a href="/man/banao-type/">MAN: Structures</a>
+            <a href="/man/dikhao-show/">MAN: Output</a>
+            <a href="/man/agar-if/">MAN: Conditionals</a>
+            <a href="/man/jabtak-while/">MAN: Loops</a>
+            <a href="/man/kaam-task/">MAN: Functions</a>
+            <a href="/man/chuno-match/">MAN: Pattern Match</a>
+            <a href="/man/koshish-try/">MAN: Error Handling</a>
+            <a href="/man/shamil-import/">MAN: Modules</a>
+            <a href="/man/c-ffi/">MAN: C FFI</a>
+        </nav>
+    </header>
+    <main>
+        <h1 id="hinglish-hg-language-guide">Hinglish (<code>hg</code>) Language Guide</h1>
+<p>Hinglish allows writing programs using common Hindi/English phonetic words.</p>
+<h2 id="example-program">Example Program</h2>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">bhasha=&#34;hi&#34;
+
+rakho naam = &#34;Amit&#34;
+dikhao &#34;Namaste!&#34;, naam
+
+rakho ginti = 1
+jabtak ginti chhota ya barabar hai 5 se toh
+    dikhao &#34;Ginti number:&#34;, ginti
+    ginti += 1
+khatam
+
+kaam jod(a: int, b: int): int toh
+    wapas a + b
+khatam
+
+rakho uttar = jod(10, 20)
+dikhao &#34;Jod hai:&#34;, uttar
+</code></pre>
+    </main>
+    <footer>
+        <p>Compound Programming Language Official Documentation & Man Pages | Generated with Hugo</p>
+    </footer>
+</body>
+</html>

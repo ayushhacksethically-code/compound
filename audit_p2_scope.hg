@@ -1,0 +1,11 @@
+// Point 2 Test: Block Scoping & Outer Scope Preservation Benchmark
+
+rakho x = 100
+dikhao "Outer x before block:", x
+
+agar true toh
+    rakho x = 500
+    dikhao "Inner x inside block:", x
+khatam
+
+dikhao "Outer x after block (must remain 100):", x

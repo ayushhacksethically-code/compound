@@ -1,0 +1,11 @@
+// Pure Python-style Fibonacci Example in Compound Hinglish
+
+a = 0
+b = 1
+
+jabtak a < 1000 toh
+    dikhao a
+    next_val = a + b
+    a = b
+    b = next_val
+khatam

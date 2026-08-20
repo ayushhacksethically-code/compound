@@ -1,0 +1,23 @@
+// Plain English Program for Non-Tech Beginners
+
+create name = "Aman"
+show "Welcome to Compound Language,", name
+
+create counter = 1
+repeat while counter is less than or equal to 3 do
+    show "Current Step:", counter
+    counter = counter + 1
+done
+
+task add_numbers(a: int, b: int): int do
+    give back a + b
+done
+
+create total = add_numbers(50, 100)
+show "Total is:", total
+
+if total is greater than 100 do
+    show "Awesome! Total is large."
+otherwise
+    show "Total is small."
+done

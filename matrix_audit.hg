@@ -1,0 +1,78 @@
+// Comprehensive Matrix Audit: None, Finally, Assert, Match, Defer, Lambda, Yield, Async, Del
+
+// 1. None / nil check
+banao RefNode = ref object
+    val: int
+khatam
+
+rakho emptyVal: RefNode = nil
+agar emptyVal == nil toh
+    dikhao "[1/9 PASSED] None/nil check working!"
+khatam
+
+// 2. Finally block check
+koshish_karo toh
+    dikhao "[2/9 IN-PROGRESS] Inside try..."
+galti_pakdo toh
+    dikhao "Error caught"
+aakhir_mein toh
+    dikhao "[2/9 PASSED] Finally block executed!"
+khatam
+
+// 3. Assert check
+shart_jaanch 10 > 5
+dikhao "[3/9 PASSED] Assert (shart_jaanch) working!"
+
+// 4. Match / Pattern Matching check
+rakho num = 2
+chuno num toh
+    jab 1 toh
+        dikhao "One"
+    jab 2 toh
+        dikhao "[4/9 PASSED] Match (chuno / jab) working!"
+    varna toh
+        dikhao "Other"
+khatam
+
+// 5. Lambda / Anonymous proc check
+rakho doubleVal = proc(x: int): int = x * 2
+dikhao "[5/9 PASSED] Lambda (Anonymous proc): double(10) =", doubleVal(10)
+
+// 6. Yield Iterator / Generator check
+iterator countThree(): int =
+    yield 10
+    yield 20
+    yield 30
+khatam
+
+rakho sum = 0
+har n mein countThree() toh
+    sum += n
+khatam
+dikhao "[6/9 PASSED] Yield Iterator count sum =", sum
+
+// 7. Async / Await check
+shamil_karo std/asyncdispatch
+
+kaam asyncTask(): Future[string] {.async.} =
+    wapas "Async result ready!"
+khatam
+
+rakho fut = asyncTask()
+dikhao "[7/9 PASSED] Async / Future status:", waitFor(fut)
+
+// 8. Del / Memory Free check
+rakho heapNode = new(int)
+heapNode[] = 99
+dikhao "[8/9 PASSED] Value before del:", heapNode[]
+heapNode = nil
+dikhao "[8/9 PASSED] Memory unreferenced / deallocated cleanly!"
+
+// 9. Global / Nonlocal Closure Mutation check
+rakho outerCounter = 0
+kaam incrementOuter() toh
+    outerCounter += 1
+khatam
+incrementOuter()
+incrementOuter()
+dikhao "[9/9 PASSED] Global / Nonlocal Closure Mutation count =", outerCounter

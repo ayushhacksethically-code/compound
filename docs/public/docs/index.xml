@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Docs on Compound Language Documentation</title>
+		<link>http://localhost:1313/docs/</link>
+		<description>Recent content in Docs on Compound Language Documentation</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 20 Aug 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>English Syntax Guide (eg)</title>
+				<link>http://localhost:1313/docs/english-guide/</link>
+				<pubDate>Thu, 20 Aug 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/docs/english-guide/</guid>
+				<description>&lt;h1 id=&#34;english-eg-language-guide&#34;&gt;English (&lt;code&gt;eg&lt;/code&gt;) Language Guide&lt;/h1&gt;&#xA;&lt;p&gt;Plain English allows non-technical users to write clean code without complex syntax rules.&lt;/p&gt;&#xA;&lt;h2 id=&#34;example-program&#34;&gt;Example Program&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-english&#34; data-lang=&#34;english&#34;&gt;lang=&amp;#34;en&amp;#34;&#xA;&#xA;create name = &amp;#34;Aman&amp;#34;&#xA;show &amp;#34;Welcome,&amp;#34;, name&#xA;&#xA;create counter = 1&#xA;repeat while counter is less than or equal to 3 do&#xA;    show &amp;#34;Current Step:&amp;#34;, counter&#xA;    counter += 1&#xA;done&#xA;&#xA;task add_numbers(a: int, b: int): int do&#xA;    give back a + b&#xA;done&#xA;&#xA;create total = add_numbers(50, 100)&#xA;show &amp;#34;Total:&amp;#34;, total&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
+			</item>
+			<item>
+				<title>Getting Started with Compound</title>
+				<link>http://localhost:1313/docs/getting-started/</link>
+				<pubDate>Thu, 20 Aug 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/docs/getting-started/</guid>
+				<description>&lt;h1 id=&#34;compound-programming-language&#34;&gt;Compound Programming Language&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Compound&lt;/strong&gt; is a simple, highly expressive programming language designed for both non-technical beginners and developers. It supports two native dialect runtimes:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Hinglish (&lt;code&gt;hg&lt;/code&gt;)&lt;/strong&gt;: Code naturally in Hindi + English phonetics (&lt;code&gt;rakho&lt;/code&gt;, &lt;code&gt;dikhao&lt;/code&gt;, &lt;code&gt;agar&lt;/code&gt;, &lt;code&gt;toh&lt;/code&gt;, &lt;code&gt;khatam&lt;/code&gt;).&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;English (&lt;code&gt;eg&lt;/code&gt;)&lt;/strong&gt;: Code in plain English (&lt;code&gt;create&lt;/code&gt;, &lt;code&gt;show&lt;/code&gt;, &lt;code&gt;if&lt;/code&gt;, &lt;code&gt;do&lt;/code&gt;, &lt;code&gt;done&lt;/code&gt;).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Both dialects compile via &lt;strong&gt;Nim&lt;/strong&gt; directly into &lt;strong&gt;high-performance C binaries&lt;/strong&gt;, giving you Python-like ease of use paired with C-level execution speed!&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Hinglish Syntax Guide (hg)</title>
+				<link>http://localhost:1313/docs/hinglish-guide/</link>
+				<pubDate>Thu, 20 Aug 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/docs/hinglish-guide/</guid>
+				<description>&lt;h1 id=&#34;hinglish-hg-language-guide&#34;&gt;Hinglish (&lt;code&gt;hg&lt;/code&gt;) Language Guide&lt;/h1&gt;&#xA;&lt;p&gt;Hinglish allows writing programs using common Hindi/English phonetic words.&lt;/p&gt;&#xA;&lt;h2 id=&#34;example-program&#34;&gt;Example Program&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-hinglish&#34; data-lang=&#34;hinglish&#34;&gt;bhasha=&amp;#34;hi&amp;#34;&#xA;&#xA;rakho naam = &amp;#34;Amit&amp;#34;&#xA;dikhao &amp;#34;Namaste!&amp;#34;, naam&#xA;&#xA;rakho ginti = 1&#xA;jabtak ginti chhota ya barabar hai 5 se toh&#xA;    dikhao &amp;#34;Ginti number:&amp;#34;, ginti&#xA;    ginti += 1&#xA;khatam&#xA;&#xA;kaam jod(a: int, b: int): int toh&#xA;    wapas a + b&#xA;khatam&#xA;&#xA;rakho uttar = jod(10, 20)&#xA;dikhao &amp;#34;Jod hai:&amp;#34;, uttar&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
+			</item>
+	</channel>
+</rss>

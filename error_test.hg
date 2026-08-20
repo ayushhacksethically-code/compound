@@ -1,0 +1,8 @@
+// Intentional Syntax Error Test File in Compound Hinglish
+
+rakho naam = "Rahul"
+dikhao "Namaste!", naam
+
+// Galti line 7 par: Type mismatch ya invalid syntax
+rakho ginti = "10" + 5
+dikhao ginti

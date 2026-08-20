@@ -1,0 +1,5 @@
+// Module B file for Compound
+
+kaam helperFunc*(x: int): int toh
+    wapas x * 10
+khatam

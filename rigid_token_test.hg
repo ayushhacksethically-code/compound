@@ -1,0 +1,12 @@
+// Verification Test for Rigid Word Token Grammar in Hinglish (.hg)
+
+kaam addNumbers(a: int, b: int): int toh
+    rakho total = a + b
+    wapas total
+khatam
+
+rakho score = 100
+agar score > 50 aur score != 999 toh
+    dikhao "Score is high:", score
+    dikhao "Add function output:", addNumbers(score, 50)
+khatam

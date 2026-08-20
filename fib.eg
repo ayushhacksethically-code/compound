@@ -1,0 +1,11 @@
+// Python tutorial Fibonacci example in Compound English
+
+a = 0
+b = 1
+
+while a < 1000 do
+    print a
+    next_val = a + b
+    a = b
+    b = next_val
+done

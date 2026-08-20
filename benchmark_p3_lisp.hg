@@ -1,0 +1,29 @@
+// Phase 3 Test 3.2: Mini Lisp S-Expr AST Evaluator Benchmark
+
+banao LispExpr = object
+    isNum: bool
+    val: int
+    op: string
+    leftNum: int
+    rightNum: int
+khatam
+
+kaam evalLisp(e: LispExpr): int toh
+    agar e.isNum toh
+        wapas e.val
+    varna
+        if e.op == "+" toh
+            wapas e.leftNum + e.rightNum
+        elif e.op == "*" toh
+            wapas e.leftNum * e.rightNum
+        varna
+            wapas 0
+        khatam
+    khatam
+khatam
+
+rakho addExpr = LispExpr(isNum: false, op: "+", leftNum: 10, rightNum: 20)
+rakho mulExpr = LispExpr(isNum: false, op: "*", leftNum: 5, rightNum: 6)
+
+dikhao "(+ 10 20) =>", evalLisp(addExpr)
+dikhao "(* 5 6) =>", evalLisp(mulExpr)

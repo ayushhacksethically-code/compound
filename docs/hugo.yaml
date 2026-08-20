@@ -1,0 +1,22 @@
+title: "Compound Language Documentation"
+baseURL: "http://localhost:1313/"
+languageCode: "en-us"
+
+params:
+  description: "Official Documentation for Compound (Hinglish & English) Programming Language"
+  bhasha_modes: ["Hinglish (hg)", "English (eg)"]
+
+menu:
+  main:
+    - name: "Getting Started"
+      url: "/docs/getting-started/"
+      weight: 1
+    - name: "Hinglish Guide"
+      url: "/docs/hinglish-guide/"
+      weight: 2
+    - name: "English Guide"
+      url: "/docs/english-guide/"
+      weight: 3
+    - name: "Man Pages (Syntax Ref)"
+      url: "/man/"
+      weight: 4

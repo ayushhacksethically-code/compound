@@ -1,0 +1,46 @@
+// Testing complete keyword suite & C FFI ecosystem in Compound (.hg)
+
+// 1. Shamil karo (Importing Nim/C standard libraries)
+shamil_karo os
+shamil_karo strutils
+
+// 2. C FFI Binding: Directly calling C stdio `puts` function from C library
+c_ka_kaam puts(s: cstring): cint from "stdio.h"
+
+puts("Namaste C Ecosystem se! Directly calling C stdio puts()")
+
+// 3. Constant and Data Type creation
+pukka DUNIYA = "Compound World"
+banao User = object
+    naam: string
+    umar: int
+khatam
+
+// 4. Loops & Iteration
+dikhao "--- Loop test ---"
+rakho list_items = @["Aap", "Sabka", "Swagat", "Hai"]
+har cheez mein list_items toh
+    dikhao "Item:", cheez
+khatam
+
+// 5. Try - Except - Finally (Error handling)
+dikhao "--- Error handling test ---"
+koshish_karo toh
+    dikhao "Koshish kar rahe hain..."
+    // galti_phenko "Kuch gadbad ho gayi"
+galti_pakdo toh
+    dikhao "Galti pakad li!"
+aakhir_mein toh
+    dikhao "Hamesha chalne wala code (Finally block)"
+khatam
+
+// 6. Case / Switch pattern matching
+rakho din = 1
+chuno din toh
+    jab 1 toh
+        dikhao "Somvaar"
+    jab 2 toh
+        dikhao "Mangalvaar"
+    varna toh
+        dikhao "Koyi aur din"
+khatam
