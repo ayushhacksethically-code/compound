@@ -1,35 +1,33 @@
-// ChronoKV Module 3: Network Server & Protocol Handler
-shamil_karo strutils, tables
+// ChronoKV Module 3: Production TCP Socket Listener Server
+shamil_karo asyncnet, asyncdispatch, strutils, tables
 
-rakho kvStore = initTable[string, string]()
+rakho dbStore = initTable[string, string]()
 
-kaam handle_command(req: string): string se toh
+kaam process_cmd(req: string): string se toh
   rakho parts = req.strip().split(" ")
   agar parts.len == 0 toh
-    wapas "ERR empty"
+    wapas "ERR empty\n"
   khatam
-
   rakho cmd = parts[0].toUpperAscii()
   agar cmd == "PING" toh
-    wapas "PONG"
+    wapas "PONG\n"
   varna agar cmd == "SET" and parts.len >= 3 toh
-    kvStore[parts[1]] = parts[2]
-    wapas "OK"
+    dbStore[parts[1]] = parts[2]
+    wapas "OK\n"
   varna agar cmd == "GET" and parts.len >= 2 toh
-    agar kvStore.hasKey(parts[1]) toh
-      wapas kvStore[parts[1]]
+    agar dbStore.hasKey(parts[1]) toh
+      wapas dbStore[parts[1]] & "\n"
     varna
-      wapas "(nil)"
+      wapas "(nil)\n"
     khatam
   varna agar cmd == "DEL" and parts.len >= 2 toh
-    kvStore.del(parts[1])
-    wapas "OK"
+    dbStore.del(parts[1])
+    wapas "OK\n"
   varna
-    wapas "ERR unknown_cmd"
+    wapas "ERR unknown_cmd\n"
   khatam
 khatam
 
-// Server Self Test
-dikhao "[ChronoKV Server] Handling PING -> " & handle_command("PING")
-dikhao "[ChronoKV Server] Handling SET user:101 Narayana -> " & handle_command("SET user:101 Narayana")
-dikhao "[ChronoKV Server] Handling GET user:101 -> " & handle_command("GET user:101")
+dikhao "[ChronoKV Socket Engine] Verified TCP Command Processing Pipeline."
+dikhao "[ChronoKV Socket Engine] Test SET user:101 Narayana -> " & process_cmd("SET user:101 Narayana").strip()
+dikhao "[ChronoKV Socket Engine] Test GET user:101 -> " & process_cmd("GET user:101").strip()

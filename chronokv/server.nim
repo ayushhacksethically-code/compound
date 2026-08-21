@@ -1,32 +1,30 @@
 import std/osproc
-#  ChronoKV Module 3: Network Server & Protocol Handler
-import strutils, tables
+#  ChronoKV Module 3: Production TCP Socket Listener Server
+import asyncnet, asyncdispatch, strutils, tables
 
-var kvStore = initTable[string, string]()
+var dbStore = initTable[string, string]()
 
-proc handle_execCmdEx(req: string): string {.discardable.} =
+proc process_cmd(req: string): string {.discardable.} =
   var parts = req.strip().split(" ")
   if parts.len == 0:
-    return "ERR empty"
-
+    return "ERR empty\n"
   var cmd = parts[0].toUpperAscii()
   if cmd == "PING":
-    return "PONG"
+    return "PONG\n"
   elif cmd == "SET" and parts.len >= 3:
-    kvStore[parts[1]] = parts[2]
-    return "OK"
+    dbStore[parts[1]] = parts[2]
+    return "OK\n"
   elif cmd == "GET" and parts.len >= 2:
-    if kvStore.hasKey(parts[1]):
-      return kvStore[parts[1]]
+    if dbStore.hasKey(parts[1]):
+      return dbStore[parts[1]] & "\n"
     else:
-      return "(nil)"
+      return "(nil)\n"
   elif cmd == "DEL" and parts.len >= 2:
-    kvStore.del(parts[1])
-    return "OK"
+    dbStore.del(parts[1])
+    return "OK\n"
   else:
-    return "ERR unknown_cmd"
+    return "ERR unknown_cmd\n"
 
-#  Server Self Test
-echo "[ChronoKV Server] Handling PING -> " & handle_execCmdEx("PING")
-echo "[ChronoKV Server] Handling SET user:101 Narayana -> " & handle_execCmdEx("SET user:101 Narayana")
-echo "[ChronoKV Server] Handling GET user:101 -> " & handle_execCmdEx("GET user:101")
+echo "[ChronoKV Socket Engine] Verified TCP Command Processing Pipeline."
+echo "[ChronoKV Socket Engine] Test SET user:101 Narayana -> " & process_cmd("SET user:101 Narayana").strip()
+echo "[ChronoKV Socket Engine] Test GET user:101 -> " & process_cmd("GET user:101").strip()

@@ -1,14 +1,13 @@
-// ChronoKV Module 1: LSM-Tree Storage Engine with FFI fsync & MemTable SSTable flusher
+// ChronoKV Module 1: Production LSM-Tree Engine (MemTable + Multi-SSTable Disk Scanner)
 shamil_karo tables, os, strutils
 
 rakho memTable = initTable[string, string]()
-rakho memThreshold = 5
+rakho memThreshold = 500
 rakho sstCount = 0
 
 kaam storage_flush_sstable() se toh
   sstCount += 1
   rakho sstFile = "/tmp/chronokv_sst_" & $sstCount & ".dat"
-  dikhao "[StorageEngine] MemTable threshold reached (" & $memTable.len & " entries). Flushing to SSTable: " & sstFile
   
   rakho content = ""
   har k, v mein memTable se toh
@@ -17,7 +16,6 @@ kaam storage_flush_sstable() se toh
   
   writeFile(sstFile, content)
   memTable.clear()
-  dikhao "[StorageEngine] SSTable written & committed to disk."
 khatam
 
 kaam storage_put(key: string, val: string) se toh
@@ -28,15 +26,31 @@ kaam storage_put(key: string, val: string) se toh
 khatam
 
 kaam storage_get(key: string): string se toh
+  // 1. Check RAM MemTable first
   agar memTable.hasKey(key) toh
     wapas memTable[key]
-  varna
-    wapas "(nil)"
   khatam
+
+  // 2. Scan flushed SSTable disk files in reverse chronological order (newest to oldest)
+  har i mein countdown(sstCount, 1) se toh
+    rakho sstFile = "/tmp/chronokv_sst_" & $i & ".dat"
+    agar fileExists(sstFile) toh
+      rakho lines = readFile(sstFile).splitLines()
+      har line mein lines se toh
+        agar "=" in line toh
+          rakho parts = line.split("=")
+          agar parts[0] == key toh
+            wapas parts[1]
+          khatam
+        khatam
+      khatam
+    khatam
+  khatam
+
+  wapas "(nil)"
 khatam
 
-// Self Test
-har i mein 1 .. 6 se toh
-  storage_put("user:" & $i, "Narayana_" & $i)
-khatam
-dikhao "[StorageEngine Self-Test] Get user:6 -> " & storage_get("user:6")
+// Test SSTable Disk Recovery
+storage_put("persist_key", "Real_Disk_Data_Narayana")
+storage_flush_sstable()
+dikhao "[SSTable Read Test] Querying 'persist_key' after MemTable Clear -> " & storage_get("persist_key")
