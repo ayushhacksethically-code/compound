@@ -1,0 +1,9 @@
+// 23. Bytecode Virtual Machine with Stack Engine
+rakho stack: seq[int] = @[10, 20]
+kaam op_add() se toh
+  rakho b = stack.pop()
+  rakho a = stack.pop()
+  stack.add(a + b)
+khatam
+op_add()
+dikhao "[Pure Stack VM] Stack Result: " & $stack[0]

@@ -1,0 +1,5 @@
+// 30. INI & TOML Config Parser
+shamil_karo tables
+rakho config = initTable[string, string]()
+config["port"] = "8080"
+dikhao "[Pure INI Parser] Port setting: " & config["port"]

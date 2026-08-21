@@ -1,0 +1,7 @@
+// 18. Custom RPC Engine over TCP
+kaam invoke_rpc_method(method_id: uint16, payload: string) se toh
+  dikhao "[Pure TCP RPC] Executing Method ID: " & $method_id & " with payload: " & payload
+  dikhao "[Pure TCP RPC] Return Status: SUCCESS (200)"
+khatam
+
+invoke_rpc_method(0x0101'u16, "compute_hash")

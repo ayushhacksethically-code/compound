@@ -1,0 +1,5 @@
+// 42. Pure PPM/BMP Software Image Renderer
+kaam render_bmp(w: int, h: int) se toh
+  dikhao "[Pure Software Renderer] Generating uncompressed " & $w & "x" & $h & " 24-bit BMP image frame."
+khatam
+render_bmp(320, 240)

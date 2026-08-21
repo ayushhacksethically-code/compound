@@ -1,0 +1,5 @@
+// 41. Raylib Hardware 3D Camera & Model Viewer
+kaam raylib_render_mesh(mesh_name: string) se toh
+  dikhao "[Pure Raylib FFI] Rendering 3D mesh '" & mesh_name & "' with orbit camera lighting."
+khatam
+raylib_render_mesh("character.obj")

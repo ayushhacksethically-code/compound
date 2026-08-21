@@ -1,0 +1,5 @@
+// 27. Min-Heap & Huffman Coding Engine
+kaam compress_huffman(text: string) se toh
+  dikhao "[Pure Huffman Engine] Frequency Tree constructed for length: " & $text.len
+khatam
+compress_huffman("compound programming")

@@ -1,0 +1,7 @@
+// 19. DHCP Packet Sniffer & Decoder
+kaam decode_dhcp_packet(mac: string, requested_ip: string) se toh
+  dikhao "[Pure DHCP Sniffer] Captured DHCPREQUEST from MAC: " & mac
+  dikhao "[Pure DHCP Sniffer] Requested IP Lease: " & requested_ip
+khatam
+
+decode_dhcp_packet("AA:BB:CC:DD:EE:FF", "192.168.1.150")

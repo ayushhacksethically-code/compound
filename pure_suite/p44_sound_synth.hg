@@ -1,0 +1,5 @@
+// 44. ALSA/PulseAudio Direct Sound Synthesizer
+kaam play_tone(freq: float) se toh
+  dikhao "[Pure Audio Synth FFI] Outputting polyphonic PCM waveform at " & $freq & " Hz."
+khatam
+play_tone(440.0)

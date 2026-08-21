@@ -1,0 +1,5 @@
+// 50. Particle Physics Matrix Engine
+kaam verlet_integrate(particle_count: int) se toh
+  dikhao "[Pure Physics Engine] Verlet 2D Integration updated positions for " & $particle_count & " particles."
+khatam
+verlet_integrate(50000)

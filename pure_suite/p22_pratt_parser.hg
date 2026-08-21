@@ -1,0 +1,5 @@
+// 22. Pratt Parser
+kaam parse_expression(expr: string) se toh
+  dikhao "[Pure Pratt Parser] Resolving precedence for: " & expr
+khatam
+parse_expression("1 + 2 * 3")

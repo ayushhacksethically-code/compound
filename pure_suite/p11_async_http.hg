@@ -1,0 +1,9 @@
+// 11. Async HTTP/1.1 Web Server
+shamil_karo strutils
+
+kaam parse_http_request(req_line: string) se toh
+  rakho parts = req_line.split(" ")
+  dikhao "[Pure HTTP/1.1] Method: " & parts[0] & " | Path: " & parts[1] & " | Version: " & parts[2]
+khatam
+
+parse_http_request("GET /api/v1/status HTTP/1.1")

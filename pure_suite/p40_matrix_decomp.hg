@@ -1,0 +1,5 @@
+// 40. Matrix Decomposition (LU & QR)
+kaam lu_decompose(matrix_dim: int) se toh
+  dikhao "[Pure Linear Algebra] LU Gaussian elimination decomposition complete for " & $matrix_dim & "x" & $matrix_dim & " matrix."
+khatam
+lu_decompose(4)

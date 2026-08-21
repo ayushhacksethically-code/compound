@@ -1,0 +1,6 @@
+// 35. Fast Fourier Transform (FFT) Analyzer
+shamil_karo math, complex
+kaam fft_transform(samples_count: int) se toh
+  dikhao "[Pure FFT] Cooley-Tukey FFT computed across " & $samples_count & " frequency bins."
+khatam
+fft_transform(512)

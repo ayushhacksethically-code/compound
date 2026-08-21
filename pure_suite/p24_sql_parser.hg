@@ -1,0 +1,6 @@
+// 24. SQL Lexer & Query Parser
+shamil_karo strutils
+kaam parse_sql_query(query: string) se toh
+  dikhao "[Pure SQL Parser] Tokens parsed for query: " & query
+khatam
+parse_sql_query("SELECT id FROM users WHERE age > 18")

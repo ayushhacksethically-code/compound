@@ -1,0 +1,6 @@
+// 29. Static Code Complexity Analyzer
+kaam compute_complexity(branches: int): int se toh
+  dikhao "[Pure AST Analyzer] Computing Cyclomatic Complexity..."
+  wapas 1 + branches
+khatam
+dikhao "[Pure AST Analyzer] Cyclomatic Complexity Metric: " & $compute_complexity(4)

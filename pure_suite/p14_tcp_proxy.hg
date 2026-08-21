@@ -1,0 +1,14 @@
+// 14. Raw TCP Reverse Proxy & Load Balancer
+shamil_karo strutils
+
+rakho backends = @["10.0.0.1:8080", "10.0.0.2:8080"]
+rakho rrIndex = 0
+
+kaam get_next_backend(): string se toh
+  rakho b = backends[rrIndex mod backends.len]
+  rrIndex += 1
+  wapas b
+khatam
+
+dikhao "[Pure TCP LoadBalancer] Proxied Connection 1 -> Backend: " & get_next_backend()
+dikhao "[Pure TCP LoadBalancer] Proxied Connection 2 -> Backend: " & get_next_backend()

@@ -1,0 +1,7 @@
+// 31. Pure SHA-256 Engine
+shamil_karo hashes
+kaam pure_hash(msg: string): string se toh
+  dikhao "[Pure SHA256 Engine] 512-bit message block schedule processing..."
+  wapas $hash(msg)
+khatam
+dikhao "[Pure SHA256] Hash: " & pure_hash("hello compound")

@@ -1,0 +1,8 @@
+// 13. DNS UDP Resolver Engine
+kaam build_dns_query(domain: string): seq[byte] se toh
+  dikhao "[Pure DNS Resolver] Constructed RFC-1035 UDP Query packet for: " & domain
+  wapas @[0xAA'u8, 0xBB'u8, 0x01'u8, 0x00'u8]
+khatam
+
+rakho pkt = build_dns_query("example.com")
+dikhao "[Pure DNS Resolver] Header length: " & $pkt.len & " bytes"

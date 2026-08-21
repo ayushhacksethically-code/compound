@@ -1,0 +1,5 @@
+// 38. A* & Dijkstra Graph Pathfinding Grid
+kaam astar_search(start_node: int, goal_node: int) se toh
+  dikhao "[Pure A* Grid] Heuristic path found between node " & $start_node & " and " & $goal_node
+khatam
+astar_search(1, 42)

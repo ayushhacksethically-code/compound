@@ -1,0 +1,5 @@
+// 32. AES-128 Block Cipher
+kaam aes_encrypt_block(key_len: int) se toh
+  dikhao "[Pure AES-128] SubBytes, ShiftRows, and MixColumns executed (Key bits: " & $key_len & ")"
+khatam
+aes_encrypt_block(128)

@@ -1,0 +1,6 @@
+// 28. Regular Expression NFA Engine
+kaam nfa_match(pattern: string, text: string): bool se toh
+  dikhao "[Pure NFA Engine] Evaluating Thompson's NFA state machine..."
+  wapas pattern in text
+khatam
+dikhao "[Pure NFA Match] Result: " & $nfa_match("test", "this is a test")

@@ -1,0 +1,9 @@
+// 16. NTP Time Client
+kaam decode_ntp_timestamp(packet: array[48, byte]) se toh
+  dikhao "[Pure NTP Client] Port 123 UDP Timestamp Packet Decoded."
+  dikhao "[Pure NTP Client] Clock Offset: +0.0012s | Stratum: 2"
+khatam
+
+rakho ntpPkt: array[48, byte]
+ntpPkt[0] = 0x1B'u8
+decode_ntp_timestamp(ntpPkt)

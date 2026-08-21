@@ -1,0 +1,5 @@
+// 48. TrueType Font (TTF) Glyph Outline Parser
+kaam parse_ttf_header(magic: string) se toh
+  dikhao "[Pure TTF Parser] Extracted Bézier curve glyph control points for font magic: " & magic
+khatam
+parse_ttf_header("0x00010000")

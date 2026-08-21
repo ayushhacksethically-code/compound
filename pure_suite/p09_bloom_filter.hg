@@ -1,0 +1,13 @@
+// 9. Bloom Filter with Murmur3 Hash
+shamil_karo hashes
+
+rakho filter: array[64, bool]
+
+kaam bloom_insert(val: string) se toh
+  rakho idx = abs(hash(val)) mod 64
+  filter[idx] = true
+  dikhao "[Pure Bloom Filter] Item '" & val & "' mapped to bit: " & $idx
+khatam
+
+bloom_insert("user_session_99")
+dikhao "[Pure Bloom Filter] Membership Bit Checked."

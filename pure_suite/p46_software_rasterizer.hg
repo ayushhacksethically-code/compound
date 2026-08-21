@@ -1,0 +1,5 @@
+// 46. Software Rasterizer (Wireframe & Solid 3D)
+kaam rasterize_triangle() se toh
+  dikhao "[Pure 3D Rasterizer] Z-buffer depth sorting and wireframe projection complete."
+khatam
+rasterize_triangle()

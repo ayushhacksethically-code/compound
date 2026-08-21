@@ -1,0 +1,5 @@
+// 25. Graphviz DOT Generator
+kaam generate_dot_node(a: string, b: string) se toh
+  dikhao "  \"" & a & "\" -> \"" & b & "\";"
+khatam
+generate_dot_node("Lexer", "Parser")

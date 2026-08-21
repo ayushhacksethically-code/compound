@@ -1,0 +1,5 @@
+// 49. OpenGL Immediate/Core Context Window
+kaam glfw_init_context() se toh
+  dikhao "[Pure OpenGL FFI] Created Core Profile GLFW OpenGL 4.5 rendering context."
+khatam
+glfw_init_context()

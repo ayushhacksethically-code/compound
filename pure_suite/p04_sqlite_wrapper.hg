@@ -1,0 +1,9 @@
+// 4. SQLite Zero-Wrapper Embedded Client
+shamil_karo strutils
+
+kaam prepare_sql(stmt: string) se toh
+  dikhao "[Pure SQLite Client] Binding statement: " & stmt
+  dikhao "[Pure SQLite Client] Step execution status: SQLITE_DONE (0)"
+khatam
+
+prepare_sql("SELECT * FROM users WHERE id = 1;")

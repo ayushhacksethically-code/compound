@@ -1,0 +1,12 @@
+// 5. Bitcask-Style Key-Value Store
+shamil_karo tables
+
+rakho index = initTable[string, int64]()
+
+kaam bitcask_append(k: string, v: string, offset: int64) se toh
+  index[k] = offset
+  dikhao "[Pure Bitcask] Appended " & k & " at byte offset: " & $offset
+khatam
+
+bitcask_append("key_alpha", "val_1", 2048'i64)
+dikhao "[Pure Bitcask Lookup] Key 'key_alpha' -> Offset: " & $index["key_alpha"]

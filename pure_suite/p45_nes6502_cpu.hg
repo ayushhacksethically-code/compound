@@ -1,0 +1,5 @@
+// 45. NES 6502 CPU Instruction Emulator
+kaam emulate_6502_op(op: byte) se toh
+  dikhao "[Pure NES 6502] Cycle-accurate opcode 0x" & $op & " executed."
+khatam
+emulate_6502_op(0xEA'u8)

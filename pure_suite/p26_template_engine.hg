@@ -1,0 +1,6 @@
+// 26. Template Engine
+shamil_karo strutils
+kaam render_tpl(tpl: string, var_name: string, val: string): string se toh
+  wapas tpl.replace("{{ " & var_name & " }}", val)
+khatam
+dikhao render_tpl("Hello {{ name }}!", "name", "Compound")

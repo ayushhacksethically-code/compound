@@ -1,0 +1,6 @@
+// 47. Raymarching Signed Distance Field (SDF) Engine
+shamil_karo math
+kaam sdf_sphere(p_len: float, radius: float): float se toh
+  wapas p_len - radius
+khatam
+dikhao "[Pure Raymarching SDF] Sphere distance: " & $sdf_sphere(5.0, 2.0)

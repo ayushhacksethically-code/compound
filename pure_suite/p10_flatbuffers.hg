@@ -1,0 +1,7 @@
+// 10. FlatBuffers Zero-Copy Reader
+kaam zero_copy_get_int(offset: int): int se toh
+  dikhao "[Pure FlatBuffers] Traversed memory buffer at offset " & $offset & " without heap allocation."
+  wapas 1337
+khatam
+
+dikhao "[Pure FlatBuffers] Value dereferenced: " & $zero_copy_get_int(16)

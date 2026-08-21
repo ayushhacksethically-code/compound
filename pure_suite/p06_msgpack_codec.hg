@@ -1,0 +1,8 @@
+// 6. Binary Protocol MessagePack Encoder/Decoder
+kaam encode_msgpack(val: int): seq[byte] se toh
+  dikhao "[Pure MsgPack] Encoding integer " & $val & " to binary header 0x91..."
+  wapas @[0x91'u8, uint8(val)]
+khatam
+
+rakho bytes = encode_msgpack(42)
+dikhao "[Pure MsgPack] Encoded byte length: " & $bytes.len

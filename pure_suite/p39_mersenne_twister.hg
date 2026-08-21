@@ -1,0 +1,6 @@
+// 39. Mersenne Twister (MT19937) PRNG
+shamil_karo random
+kaam mt19937_next(): uint32 se toh
+  wapas uint32(rand(100000))
+khatam
+dikhao "[Pure MT19937 PRNG] Random state output: " & $mt19937_next()

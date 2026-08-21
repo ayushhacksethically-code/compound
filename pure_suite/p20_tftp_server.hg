@@ -1,0 +1,5 @@
+// 20. TFTP Server
+kaam handle_tftp_rrq(filename: string, mode: string) se toh
+  dikhao "[Pure TFTP Server] Read Request for: " & filename
+khatam
+handle_tftp_rrq("firmware.bin", "octet")

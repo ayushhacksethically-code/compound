@@ -1,0 +1,7 @@
+// 21. JSON Schema Validator
+shamil_karo json
+kaam validate_json(node: JsonNode): bool se toh
+  dikhao "[Pure JSON Schema] Validating AST Tree..."
+  wapas node.kind == JObject
+khatam
+dikhao "[Pure JSON Schema] Result: " & $validate_json(parseJson("{}"))

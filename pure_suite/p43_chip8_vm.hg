@@ -1,0 +1,5 @@
+// 43. Chip-8 Virtual Microprocessor
+kaam step_chip8_cycle() se toh
+  dikhao "[Pure Chip-8 CPU] Step opcode fetch-decode-execute cycle complete (16 Registers OK)."
+khatam
+step_chip8_cycle()

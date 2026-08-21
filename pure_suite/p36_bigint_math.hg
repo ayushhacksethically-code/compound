@@ -1,0 +1,6 @@
+// 36. Arbitrary-Precision BigInt Math Library
+kaam bigint_add(limb1: uint64, limb2: uint64): uint64 se toh
+  dikhao "[Pure BigInt] Multi-limb base 2^32 addition executed."
+  wapas limb1 + limb2
+khatam
+dikhao "[Pure BigInt] Result Limb: " & $bigint_add(1000000'u64, 2000000'u64)

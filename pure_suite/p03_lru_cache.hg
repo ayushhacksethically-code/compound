@@ -1,0 +1,21 @@
+// 3. In-Memory Cache with LRU Eviction
+shamil_karo tables
+
+rakho cache = initTable[string, string]()
+rakho order: seq[string] = @[]
+
+kaam put_lru(k: string, v: string, cap: int) se toh
+  agar order.len >= cap toh
+    rakho evicted = order[0]
+    dikhao "[Pure LRU] Evicting oldest key: " & evicted
+    cache.del(evicted)
+    order.delete(0)
+  khatam
+  cache[k] = v
+  order.add(k)
+  dikhao "[Pure LRU] Inserted " & k & " => " & v
+khatam
+
+put_lru("a", "1", 2)
+put_lru("b", "2", 2)
+put_lru("c", "3", 2)

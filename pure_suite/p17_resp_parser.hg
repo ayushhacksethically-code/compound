@@ -1,0 +1,13 @@
+// 17. Async Redis Client Protocol (RESP) Parser
+shamil_karo strutils
+
+kaam parse_resp(line: string) se toh
+  agar line.startsWith("+") toh
+    dikhao "[Pure RESP Parser] Simple String: " & line.substr(1)
+  varna agar line.startsWith(":") toh
+    dikhao "[Pure RESP Parser] Integer: " & line.substr(1)
+  khatam
+khatam
+
+parse_resp("+PONG")
+parse_resp(":1000")

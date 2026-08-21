@@ -1,0 +1,6 @@
+// 12. Custom MQTT 3.1.1 Broker
+kaam publish_mqtt(topic: string, qos: int, msg: string) se toh
+  dikhao "[Pure MQTT Broker] Publish to '" & topic & "' (QoS " & $qos & ") -> " & msg
+khatam
+
+publish_mqtt("sensors/temperature", 1, "24.5 C")

@@ -1,0 +1,13 @@
+// 7. Custom Columnar File Store
+shamil_karo strutils
+
+kaam aggregate_column(col_data: seq[float]): float se toh
+  rakho sum = 0.0
+  har v mein col_data se toh
+    sum += v
+  khatam
+  wapas sum
+khatam
+
+rakho priceColumn = @[19.99, 49.50, 10.00]
+dikhao "[Pure Columnar Store] Vectorized Sum of Price Column: " & $aggregate_column(priceColumn)

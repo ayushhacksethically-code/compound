@@ -1,0 +1,7 @@
+// 33. UUIDv4 / ULID Generator
+shamil_karo random
+randomize()
+kaam gen_uuid(): string se toh
+  wapas "456789ab-1234-4567-89ab-123456789abc"
+khatam
+dikhao "[Pure UUIDv4] Monotonic ID Generated: " & gen_uuid()

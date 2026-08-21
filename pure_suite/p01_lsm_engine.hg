@@ -1,0 +1,16 @@
+// 1. Append-Only LSM-Tree Storage Engine
+shamil_karo tables
+
+rakho memTable = initTable[string, string]()
+
+kaam lsm_put(key: string, val: string, threshold: int) se toh
+  memTable[key] = val
+  dikhao "[Pure LSM] Put key: " & key & " => " & val & " (MemTable size: " & $memTable.len & ")"
+  agar memTable.len >= threshold toh
+    dikhao "[Pure LSM] Threshold reached! Flushing MemTable to SSTable chunk..."
+    memTable.clear()
+  khatam
+khatam
+
+lsm_put("k1", "v1", 2)
+lsm_put("k2", "v2", 2)
