@@ -1,0 +1,19 @@
+// Project 39: Bytecode Virtual Machine
+shamil_karo strutils
+
+rakho stack: seq[int] = @[]
+
+kaam vm_push(val: int) se toh
+  stack.add(val)
+khatam
+
+kaam vm_add() se toh
+  rakho b = stack.pop()
+  rakho a = stack.pop()
+  stack.add(a + b)
+khatam
+
+vm_push(10)
+vm_push(32)
+vm_add()
+dikhao "VM Stack Top Result: " & $stack[0]

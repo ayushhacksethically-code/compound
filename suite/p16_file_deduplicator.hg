@@ -1,0 +1,7 @@
+// Project 16: High-Speed File Deduplicator
+kaam find_duplicates(dir: string) se toh
+  dikhao "Finding duplicate checksums in directory: " & dir
+  chalao "find " & dir & " -type f -name '*.nim' -exec sha256sum {} + | sort | uniq -w64 -d"
+khatam
+
+find_duplicates("/home/narayanas/projects/compound")

@@ -1,0 +1,11 @@
+// Project 44: N-Body Gravitational Physics Simulator
+shamil_karo math
+
+kaam simulate_step(p1_x: float, p1_y: float, p2_x: float, p2_y: float) se toh
+  rakho dx = p2_x - p1_x
+  rakho dy = p2_y - p1_y
+  rakho dist = sqrt(dx*dx + dy*dy)
+  dikhao "Inter-particle Gravitational Distance: " & $dist
+khatam
+
+simulate_step(0.0, 0.0, 3.0, 4.0)

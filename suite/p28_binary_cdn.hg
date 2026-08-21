@@ -1,0 +1,12 @@
+// Project 28: Static Binary Asset CDN
+shamil_karo os
+
+kaam serve_asset(path: string) se toh
+  agar fileExists(path) toh
+    dikhao "Serving static cached asset: " & path & " (Size: " & $getFileSize(path) & " bytes)"
+  varna
+    dikhao "Asset not found: " & path
+  khatam
+khatam
+
+serve_asset("/home/narayanas/projects/compound/compound")

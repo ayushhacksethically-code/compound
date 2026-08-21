@@ -1,0 +1,7 @@
+// Project 4: Git Workspace Synchronizer
+kaam sync_repo(path: string) se toh
+  dikhao "Synchronizing git workspace at: " & path
+  chalao "git -C " & path & " status --short"
+khatam
+
+sync_repo("/home/narayanas/projects/compound")

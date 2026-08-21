@@ -1,0 +1,12 @@
+// Project 46: Audio Waveform Synthesizer
+shamil_karo math
+
+kaam generate_sine_wave(freq: float, duration: float) se toh
+  dikhao "Generating PCM audio sine wave frequency: " & $freq & " Hz"
+  har i mein 0 .. 3 se toh
+    rakho sample = sin(2.0 * PI * freq * (float(i) / 44100.0))
+    dikhao "  Sample #" & $i & ": " & $sample
+  khatam
+khatam
+
+generate_sine_wave(440.0, 1.0)

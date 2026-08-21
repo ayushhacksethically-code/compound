@@ -1,0 +1,8 @@
+// Project 36: Docstring Generator (hg doc)
+shamil_karo strutils
+
+kaam extract_doc(signature: string, doc: string) se toh
+  dikhao "<div class='doc-item'><code>" & signature & "</code><p>" & doc & "</p></div>"
+khatam
+
+extract_doc("proc translateHinglishLine*(line: string): string", "Translates a single line of Hinglish source to Nim AST.")

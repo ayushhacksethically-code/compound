@@ -1,0 +1,12 @@
+// Project 37: Time-Series Metric Aggregator
+shamil_karo stats, math
+
+rakho samples: seq[float] = @[10.5, 20.0, 15.2, 45.1, 12.8, 30.4]
+rakho total = 0.0
+har s mein samples se toh
+  total += s
+khatam
+rakho avg = total / float(samples.len)
+
+dikhao "Metric Samples Count: " & $samples.len
+dikhao "Calculated Average Load: " & $avg

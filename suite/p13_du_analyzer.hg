@@ -1,0 +1,7 @@
+// Project 13: Disk Space Analyzer (du clone)
+kaam analyze_disk(dir: string) se toh
+  dikhao "Analyzing disk usage in: " & dir
+  chalao "du -h --max-depth=1 " & dir & " 2>/dev/null | sort -hr | head -n 6"
+khatam
+
+analyze_disk("/home/narayanas/projects/compound")

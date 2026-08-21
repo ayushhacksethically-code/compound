@@ -1,0 +1,18 @@
+// Project 31: Self-Hosted Markdown to HTML Converter
+shamil_karo strutils
+
+kaam md_to_html(line: string) se toh
+  rakho res = line
+  agar res.startsWith("# ") toh
+    res = "<h1>" & res.substr(2) & "</h1>"
+  varna agar res.startsWith("## ") toh
+    res = "<h2>" & res.substr(3) & "</h2>"
+  varna
+    res = "<p>" & res & "</p>"
+  khatam
+  dikhao res
+khatam
+
+md_to_html("# Compound Language Docs")
+md_to_html("## High Performance Transpilation")
+md_to_html("Written in Nim and Hinglish.")

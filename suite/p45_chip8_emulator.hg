@@ -1,0 +1,7 @@
+// Project 45: Chip-8 Retro Hardware Emulator
+kaam emulate_opcode(opcode: uint16) se toh
+  dikhao "Emulating Chip-8 CPU Opcode: 0x" & $opcode
+khatam
+
+emulate_opcode(0x00E0'u16)
+emulate_opcode(0x1200'u16)

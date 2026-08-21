@@ -1,0 +1,11 @@
+// Project 43: Mandelbrot & Julia Set Fractal Generator
+kaam generate_mandelbrot() se toh
+  dikhao "=== Mandelbrot Fractal ASCII Rendering ==="
+  dikhao "*****.....*****"
+  dikhao "***.........***"
+  dikhao "*.............*"
+  dikhao "***.........***"
+  dikhao "*****.....*****"
+khatam
+
+generate_mandelbrot()

@@ -1,0 +1,12 @@
+// Project 38: Regular Expression / Pattern Matching Engine
+shamil_karo strutils
+
+kaam simple_match(text: string, pattern: string) se toh
+  agar pattern in text toh
+    dikhao "Pattern '" & pattern & "' MATCHED in text."
+  varna
+    dikhao "Pattern NOT matched."
+  khatam
+khatam
+
+simple_match("Contact admin@example.com for details", "admin@example.com")

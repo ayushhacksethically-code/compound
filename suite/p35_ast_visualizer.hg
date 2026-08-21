@@ -1,0 +1,9 @@
+// Project 35: AST Visualizer & Dependency Grapher
+kaam generate_dot(fn_name: string, caller: string) se toh
+  dikhao "  \"" & caller & "\" -> \"" & fn_name & "\";"
+khatam
+
+dikhao "digraph CallGraph {"
+generate_dot("transpileHinglish", "main")
+generate_dot("translateHinglishLine", "transpileHinglish")
+dikhao "}"

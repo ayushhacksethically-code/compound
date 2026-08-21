@@ -1,0 +1,16 @@
+// Project 3: Log Stream Rotator & Archiver
+shamil_karo os
+
+kaam rotate_log(log_path: string) se toh
+  agar fileExists(log_path) toh
+    dikhao "Rotating log file: " & log_path
+    chalao "cp " & log_path & " " & log_path & ".1 && > " & log_path
+    chalao "gzip -f " & log_path & ".1"
+    dikhao "Log rotated and compressed successfully."
+  varna
+    dikhao "Log file not found: " & log_path
+  khatam
+khatam
+
+chalao "touch /tmp/test_app.log && echo 'sample log entry' > /tmp/test_app.log"
+rotate_log("/tmp/test_app.log")

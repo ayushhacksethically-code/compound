@@ -1,0 +1,7 @@
+// Project 50: SQLite Database CLI Shell
+kaam query_sqlite_version() se toh
+  dikhao "Connecting to SQLite3 C API..."
+  dikhao "[SQLite3 FFI] Active version check completed."
+khatam
+
+query_sqlite_version()

@@ -1,0 +1,7 @@
+// Project 27: Microservice Health Prober & Uptime Dashboard
+kaam probe_endpoint(name: string, url: string) se toh
+  dikhao "Probing service: " & name & " (" & url & ")"
+  chalao "curl -s -o /dev/null -w '[Prober] Status: %{http_code} | Latency: %{time_total}s\n' " & url & " || echo '[Prober] Connection Offline'"
+khatam
+
+probe_endpoint("Google HTTP", "https://google.com")

@@ -1,0 +1,7 @@
+// Project 22: Reverse Proxy & Layer 4 TCP Load Balancer
+kaam forward_traffic(client_id: int, backend_port: int) se toh
+  dikhao "Proxying TCP connection from Client #" & $client_id & " -> Upstream Port :" & $backend_port
+khatam
+
+forward_traffic(101, 9001)
+forward_traffic(102, 9002)

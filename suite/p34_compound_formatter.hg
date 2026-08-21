@@ -1,0 +1,8 @@
+// Project 34: Self-Hosted Compound Formatter (hg fmt)
+shamil_karo strutils
+
+kaam format_line(line: string): string se toh
+  wapas line.strip().replace("  ", " ")
+khatam
+
+dikhao format_line("   rakho    a    =    10   ")

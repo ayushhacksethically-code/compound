@@ -1,0 +1,17 @@
+// Project 30: Simple Key-Value Store over TCP (Mini-Redis)
+shamil_karo tables
+
+rakho db = initTable[string, string]()
+db["session_token"] = "xyz_abc_123"
+db["user_name"] = "Narayanas"
+
+kaam get_key(k: string) se toh
+  agar db.hasKey(k) toh
+    dikhao "[KV Engine] " & k & " => " & db[k]
+  varna
+    dikhao "[KV Engine] " & k & " => (nil)"
+  khatam
+khatam
+
+get_key("user_name")
+get_key("non_existing")

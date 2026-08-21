@@ -1,0 +1,8 @@
+// Project 15: System Hardware Profiler
+kaam profile_hardware() se toh
+  dikhao "=== System Hardware Profile ==="
+  chalao "lscpu | grep 'Model name\\|CPU(s):'"
+  chalao "free -h | grep 'Mem:'"
+khatam
+
+profile_hardware()

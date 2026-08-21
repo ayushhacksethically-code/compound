@@ -1,0 +1,7 @@
+// Project 12: Fast File Content Searcher (ripgrep clone)
+kaam search_content(keyword: string, dir: string) se toh
+  dikhao "Searching for '" & keyword & "' in directory: " & dir
+  chalao "grep -rnI '" & keyword & "' " & dir & " | head -n 5"
+khatam
+
+search_content("transpile", "/home/narayanas/projects/compound")

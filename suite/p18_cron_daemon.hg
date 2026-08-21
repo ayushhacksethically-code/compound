@@ -1,0 +1,11 @@
+// Project 18: Custom Cron/Task Scheduler Daemon
+shamil_karo os, times
+
+kaam run_scheduler() se toh
+  dikhao "=== Lightweight Cron Daemon ==="
+  dikhao "Current Time: " & $now()
+  dikhao "Executing scheduled minute job..."
+  chalao "echo '[Cron Job Triggered at ' `date +%H:%M:%S` '] Task executed.'"
+khatam
+
+run_scheduler()

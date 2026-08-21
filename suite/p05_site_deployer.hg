@@ -1,0 +1,9 @@
+// Project 5: Static Site Deployer
+kaam deploy_site(src_dir: string, dest_dir: string) se toh
+  dikhao "Deploying static assets from " & src_dir & " to " & dest_dir
+  chalao "mkdir -p " & dest_dir
+  chalao "cp -r " & src_dir & "/* " & dest_dir & "/"
+  dikhao "Static site deployment complete."
+khatam
+
+deploy_site("/home/narayanas/projects/compound/docs/content", "/tmp/site_deploy")

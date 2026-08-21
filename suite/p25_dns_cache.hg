@@ -1,0 +1,7 @@
+// Project 25: Custom DNS Cache Server
+kaam query_dns(domain: string) se toh
+  dikhao "DNS Resolver query for: " & domain
+  chalao "dig +short " & domain & " | head -n 1"
+khatam
+
+query_dns("google.com")

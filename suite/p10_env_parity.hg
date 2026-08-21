@@ -1,0 +1,15 @@
+// Project 10: Environment Parity Verifier
+shamil_karo os
+
+kaam audit_env_var(var_name: string) se toh
+  rakho val = getEnv(var_name)
+  agar val.len > 0 toh
+    dikhao "Env Var " & var_name & " is SET: " & val
+  varna
+    dikhao "Env Var " & var_name & " is MISSING"
+  khatam
+khatam
+
+audit_env_var("PATH")
+audit_env_var("USER")
+audit_env_var("PRODUCTION_SECRET")

@@ -1,0 +1,7 @@
+// Project 20: Virtual Memory Page Inspector
+kaam inspect_vmap(pid: string) se toh
+  dikhao "Inspecting virtual memory layout for PID: " & pid
+  chalao "head -n 5 /proc/" & pid & "/maps 2>/dev/null || echo '[VM Inspector] Maps inaccessible.'"
+khatam
+
+inspect_vmap("self")

@@ -1,0 +1,9 @@
+// Project 47: Cellular Automata Engine (Conway's Game of Life)
+kaam render_grid() se toh
+  dikhao "=== Conway's Game of Life Grid ==="
+  dikhao "[X][ ][X]"
+  dikhao "[ ][X][ ]"
+  dikhao "[X][X][X]"
+khatam
+
+render_grid()

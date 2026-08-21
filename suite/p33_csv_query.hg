@@ -1,0 +1,17 @@
+// Project 33: CSV/TSV Querying Engine
+shamil_karo strutils
+
+rakho csvData = """id,name,role
+1,Alice,DevOps
+2,Bob,Systems Engineer
+3,Charlie,Architect"""
+
+kaam query_csv(data: string) se toh
+  har line mein data.splitLines() se toh
+    agar "DevOps" in line ya "Systems" in line toh
+      dikhao "[CSV Match] " & line
+    khatam
+  khatam
+khatam
+
+query_csv(csvData)

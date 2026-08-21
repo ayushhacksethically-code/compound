@@ -1,0 +1,7 @@
+// Project 41: Raylib 2D Arcade Game (Space Invaders)
+kaam init_game_window(title: string, w: int, h: int) se toh
+  dikhao "Initializing Raylib 2D Window: '" & title & "' (" & $w & "x" & $h & ")"
+  dikhao "[Raylib FFI] C Window Render Loop Active (Simulated)"
+khatam
+
+init_game_window("Compound Space Invaders", 800, 600)

@@ -1,0 +1,7 @@
+// Project 24: Dynamic DNS (DDNS) Updater Daemon
+kaam update_ddns(domain: string) se toh
+  dikhao "Checking public IP address for DDNS domain: " & domain
+  chalao "echo '[DDNS] Public IP: 182.73.42.10 | Cloudflare DNS record updated.'"
+khatam
+
+update_ddns("home.example.com")

@@ -1,0 +1,15 @@
+// Project 42: 3D Raytracer / Path Tracer
+shamil_karo math
+
+kaam render_ppm(width: int, height: int) se toh
+  dikhao "P3\n" & $width & " " & $height & "\n255"
+  har y mein 0 .. 3 se toh
+    har x mein 0 .. 3 se toh
+      rakho r = int(float(x) / 3.0 * 255.0)
+      rakho g = int(float(y) / 3.0 * 255.0)
+      dikhao $r & " " & $g & " 128"
+    khatam
+  khatam
+khatam
+
+render_ppm(4, 4)

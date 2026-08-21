@@ -1,0 +1,9 @@
+// Project 40: Multi-Dialect Translation Tool
+shamil_karo strutils
+
+kaam hg_to_eg(code: string): string se toh
+  wapas code.replace("rakho ", "keep ").replace("dikhao ", "show ").replace("agar ", "if ").replace(" toh", "")
+khatam
+
+dikhao hg_to_eg("rakho x = 5")
+dikhao hg_to_eg("dikhao x")

@@ -1,0 +1,11 @@
+// Project 11: Live CLI Task Manager (htop clone)
+shamil_karo os
+
+kaam print_system_stats() se toh
+  dikhao "=== Live System Task Manager ==="
+  chalao "uptime"
+  chalao "free -h"
+  chalao "ps aux --sort=-%cpu | head -n 5"
+khatam
+
+print_system_stats()

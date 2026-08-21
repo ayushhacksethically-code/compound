@@ -1,0 +1,6 @@
+// Project 1: Container Life-Cycle Cleaner
+rakho cmd = "docker ps -a --filter status=exited --format '{{.ID}}'"
+dikhao "Checking for exited containers..."
+$ "echo [ContainerCleaner] Auditing containers..."
+chalao "docker image prune -f --filter 'dangling=true'"
+dikhao "Container Audit & Cleanup Completed."

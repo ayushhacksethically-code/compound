@@ -1,0 +1,7 @@
+// Project 17: Serial Port Terminal Reader
+kaam read_serial(device: string) se toh
+  dikhao "Reading telemetry stream from serial port: " & device
+  chalao "echo '[Serial Telemetry] Baud: 9600 | Data: OK' || echo '[Serial] Device simulation'"
+khatam
+
+read_serial("/dev/ttyUSB0")

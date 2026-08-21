@@ -1,0 +1,11 @@
+// Project 49: Terminal ASCII Image/Video Viewer
+kaam render_ascii_art() se toh
+  dikhao "=== Terminal ASCII Image Renderer ==="
+  dikhao " @@@@@@@ "
+  dikhao " @     @ "
+  dikhao " @  ^  @ "
+  dikhao " @ @@@ @ "
+  dikhao " @@@@@@@ "
+khatam
+
+render_ascii_art()

@@ -1,0 +1,10 @@
+// Project 8: Multi-Server SSH Command Dispatcher
+shamil_karo os
+
+kaam dispatch_command(node_ip: string, cmd: string) se toh
+  dikhao "Dispatching diagnostic task to node " & node_ip
+  chalao "echo '[Node " & node_ip & "] Running: " & cmd & "'"
+khatam
+
+dispatch_command("192.168.1.10", "uptime")
+dispatch_command("192.168.1.11", "df -h")

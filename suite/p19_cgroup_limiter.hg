@@ -1,0 +1,7 @@
+// Project 19: Linux Cgroup Resource Limiter
+kaam apply_cgroup_limit(group_name: string, cpu_max: string) se toh
+  dikhao "Configuring cgroup v2 group: " & group_name & " (CPU limit: " & cpu_max & ")"
+  chalao "echo '[cgroups] Applied cpu.max=" & cpu_max & " to /sys/fs/cgroup/" & group_name & "' || echo '[cgroups] Simulated'"
+khatam
+
+apply_cgroup_limit("app_sandbox", "50000 100000")

@@ -1,0 +1,9 @@
+// Project 32: Custom JSON Stream Parser & Transformer
+shamil_karo json
+
+rakho jsonText = """{"name": "Compound", "version": "1.0.0", "speed": "C-level"}"""
+rakho parsed = parseJson(jsonText)
+
+dikhao "Language Name: " & parsed["name"].getStr()
+dikhao "Language Version: " & parsed["version"].getStr()
+dikhao "Performance Target: " & parsed["speed"].getStr()

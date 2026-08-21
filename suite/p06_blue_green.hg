@@ -1,0 +1,8 @@
+// Project 6: Blue-Green Deployment Orchestrator
+kaam swap_deployment(active_color: string) se toh
+  dikhao "Switching active traffic target to: " & active_color
+  chalao "ln -sfn /var/www/" & active_color & " /var/www/active"
+  dikhao "Traffic target updated successfully."
+khatam
+
+swap_deployment("green")

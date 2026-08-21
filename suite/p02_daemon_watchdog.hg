@@ -1,0 +1,9 @@
+// Project 2: Linux Daemon Watchdog
+kaam check_service(service_name: string) se toh
+  dikhao "Checking status of daemon: " & service_name
+  chalao "systemctl is-active " & service_name & " > /dev/null 2>&1 || echo '[Watchdog] Service inactive, restarting...'"
+khatam
+
+check_service("ssh")
+check_service("cron")
+dikhao "Daemon Watchdog Run Completed."
