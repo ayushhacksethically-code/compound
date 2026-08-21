@@ -1,23 +1,16 @@
-// Sample program in Compound (Hinglish)
+// Compound Language Demo (Hinglish - .hg)
+rakho naam = "Narayana"
+dikhao "Namaste " & naam & "! Welcome to Compound Language."
 
-rakho naam = "Dost"
-dikhao "Namaste!", naam
+rakho a = 10
+rakho b = 20
 
-rakho ginti = 1
-jabtak ginti chhota ya barabar hai 5 se toh
-    dikhao "Ginti number:", ginti
-    ginti = ginti + 1
+agar a < b toh
+  dikhao "a (" & $a & ") b se chhota hai."
 khatam
 
-kaam jod(a: int, b: int): int toh
-    wapas a + b
+kaam jodo(x: int, y: int): int se toh
+  wapas x + y
 khatam
 
-rakho uttar = jod(20, 30)
-dikhao "20 aur 30 ka jod hai:", uttar
-
-agar uttar bada hai 40 se toh
-    dikhao "Kamaal hai! Jod 40 se bada hai."
-varna
-    dikhao "Jod chhota hai."
-khatam
+dikhao "10 + 20 = " & $jodo(a, b)
