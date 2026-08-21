@@ -1,8 +1,0 @@
-// Phase 8 Test 8.2: Deliberate Crash Line Backtrace Test
-
-rakho a = 10
-rakho b = 0
-
-dikhao "Starting division..."
-rakho res = a div b
-dikhao res

@@ -1,16 +1,24 @@
-# Compiled binaries without extension
-/audit_*
-/benchmark_*
-/workload_*
-/calc
+# Exclude all generated Nim files EXCEPT the core compiler source files
+*.nim
+!compound.nim
+!english.nim
+!hinglish.nim
+!generate_nesting.nim
+
+# Exclude generated JavaScript output files
+*.js
+!docs/**/*.js
+
+# Exclude intermediate binaries (without extensions)
 /compound
-/constants_test
-/deep_nesting_test
 /demo
 /demo_en
+/fib
+/calc
+/constants_test
+/deep_nesting_test
 /error_leak_test
 /error_test
-/fib
 /full_test
 /matrix_audit
 /matrix_final_audit
@@ -25,35 +33,28 @@
 /datasaver_144p_logic
 /ps_test
 /smalltest
+/audit_*
+/benchmark_*
+/workload_*
+
+# Exclude temporary test directories
 test_app/
 test_eg_app/
 
-# Suite compiled binaries
-suite/p0*
-suite/p1*
-suite/p2*
-suite/p3*
-suite/p4*
-suite/p5*
+# Exclude suite binaries
+suite/p*
 !suite/p*.hg
 !suite/p*.eg
 
-pure_suite/p0*
-pure_suite/p1*
-pure_suite/p2*
-pure_suite/p3*
-pure_suite/p4*
-pure_suite/p5*
+pure_suite/p*
 !pure_suite/p*.hg
 !pure_suite/p*.eg
 
-interactive_suite/i0*
-interactive_suite/i1*
+interactive_suite/i*
 !interactive_suite/i*.hg
 !interactive_suite/i*.eg
 
-suite_storage/s0*
-suite_storage/s1*
+suite_storage/s*
 !suite_storage/s*.hg
 !suite_storage/s*.eg
 
@@ -63,18 +64,9 @@ chronokv/raft
 chronokv/server
 chronokv/storage
 
-# Generated intermediate Nim files
-*.nim
-!compound.nim
-!hinglish.nim
-!english.nim
-!generate_nesting.nim
-
-# Temporary files & logs
-/tmp/chronokv*
+# Logs & temp artifacts
 *.log
-
-# Hugo build & editor artifacts
+/tmp/*
 docs/public/
 docs/resources/
 .vscode/

@@ -1,9 +1,0 @@
-// Point 5 Test: CLI Argument Reading Benchmark
-
-import std/cmdline
-
-rakho args = commandLineParams()
-dikhao "CLI Arguments Count:", args.len
-har arg mein args toh
-    dikhao "Argument:", arg
-khatam
