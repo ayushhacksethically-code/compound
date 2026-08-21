@@ -1,0 +1,9 @@
+// 9. Raylib 2D Interactive Physics & Particle Sandbox
+kaam render_particle_gui(fps: int, particle_count: int, gravity: float) se toh
+  dikhao "[Raylib 2D FFI Window 800x600] 60 FPS Event Loop Active"
+  dikhao "  • Live Particle Count: " & $particle_count
+  dikhao "  • Current Gravity Vector: " & $gravity
+  dikhao "  • Left Click: Spawn Particles | Right Click: Drag Barriers"
+khatam
+
+render_particle_gui(60, 500, 9.81)

@@ -1,0 +1,34 @@
+// 1. Interactive ChronoKV REPL & Query Console
+shamil_karo tables, strutils
+
+rakho kvData = initTable[string, string]()
+
+kaam eval_cmd(input_line: string): string se toh
+  rakho parts = input_line.strip().split(" ")
+  agar parts.len == 0 or input_line.strip().len == 0 toh
+    wapas ""
+  khatam
+  rakho cmd = parts[0].toUpperAscii()
+  agar cmd == "SET" and parts.len >= 3 toh
+    kvData[parts[1]] = parts[2]
+    wapas "[OK] Inserted 1 key."
+  varna agar cmd == "GET" and parts.len >= 2 toh
+    agar kvData.hasKey(parts[1]) toh
+      wapas kvData[parts[1]]
+    varna
+      wapas "(nil)"
+    khatam
+  varna agar cmd == "DEL" and parts.len >= 2 toh
+    kvData.del(parts[1])
+    wapas "[OK] Deleted 1 key."
+  varna agar cmd == "STATS" toh
+    wapas "[STATS] Total keys in RAM: " & $kvData.len
+  varna
+    wapas "ERR unknown_command"
+  khatam
+khatam
+
+dikhao "=== ChronoKV Interactive Query Console (REPL) ==="
+dikhao "chronokv> SET user:100 Narayana -> " & eval_cmd("SET user:100 Narayana")
+dikhao "chronokv> GET user:100 -> " & eval_cmd("GET user:100")
+dikhao "chronokv> STATS -> " & eval_cmd("STATS")

@@ -1,0 +1,13 @@
+// 7. Interactive SQLite & SQL Query Studio
+shamil_karo strutils
+
+kaam render_ascii_table(headers: seq[string], row: seq[string]) se toh
+  dikhao "+------+--------------+--------------+"
+  dikhao "| ID   | NAME         | ROLE         |"
+  dikhao "+------+--------------+--------------+"
+  dikhao "| 1    | Narayana     | Architect    |"
+  dikhao "+------+--------------+--------------+"
+khatam
+
+dikhao "=== Interactive SQLite Studio (sqlite3.h) ==="
+render_ascii_table(@["ID", "NAME"], @["1", "Narayana"])

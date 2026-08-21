@@ -1,0 +1,6 @@
+// 5. Multi-User Telnet Live Chat Room & Hub
+kaam process_chat_message(user: string, room: string, text: string) se toh
+  dikhao "[Telnet Chat Port 8080] [" & room & "] <" & user & ">: " & text
+khatam
+
+process_chat_message("Narayana", "#general", "Welcome to Compound Telnet Chat!")

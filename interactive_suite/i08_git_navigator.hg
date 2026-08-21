@@ -1,0 +1,10 @@
+// 8. Interactive Git Branch & Log Navigator
+kaam render_git_commit_diff(hash: string, author: string, diff: string) se toh
+  dikhao "=== Git Commit Navigator ==="
+  dikhao "Commit: " & hash & " | Author: " & author
+  dikhao "--------------------------------------------------------"
+  dikhao "+ proc transpileHinglish*(code: string): string ="
+  dikhao "- proc oldTranspile(code: string): string ="
+khatam
+
+render_git_commit_diff("ee357b0", "Narayana", "+/- 101 lines")

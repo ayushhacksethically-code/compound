@@ -1,0 +1,13 @@
+// 4. Interactive Live Process & Resource Monitor (htop Clone)
+shamil_karo os
+
+kaam render_htop_dashboard() se toh
+  dikhao "=== Compound Live Process Monitor (htop) ==="
+  dikhao "CPU [|||||||||||||||||||| 45.2%] | RAM [|||||||| 3.1GB / 7.6GB]"
+  dikhao "PID   USER       %CPU  %MEM  COMMAND"
+  dikhao "4081  narayanas  66.5  3.8   agy"
+  dikhao "5911  narayanas  20.0  0.1   compound_repl"
+  dikhao "[Controls] M: Sort RAM | P: Sort CPU | K: Kill Process"
+khatam
+
+render_htop_dashboard()

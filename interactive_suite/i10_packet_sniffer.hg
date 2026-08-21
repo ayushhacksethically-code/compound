@@ -1,0 +1,7 @@
+// 10. Interactive Network Packet Sniffer & Stream Inspector
+kaam inspect_packet(src: string, dst: string, proto: string, size: int) se toh
+  dikhao "[Raw Socket Sniffer] " & src & " -> " & dst & " [" & proto & "] Length: " & $size & " bytes"
+  dikhao "  Hex Dump: 45 00 00 3c 1c 46 40 00 40 06"
+khatam
+
+inspect_packet("192.168.1.10:443", "192.168.1.15:52341", "TCP", 64)

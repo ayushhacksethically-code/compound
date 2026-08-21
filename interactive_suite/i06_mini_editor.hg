@@ -1,0 +1,15 @@
+// 6. Minimal Terminal Code Editor (nano / micro Clone)
+shamil_karo strutils
+
+rakho textBuffer = @["import std/os", "", "proc main() =", "  echo \"Hello Editor\""]
+
+kaam render_editor(file_name: string, row: int, col: int) se toh
+  dikhao "=== Compound Code Editor: " & file_name & " ==="
+  har i, line mein textBuffer se toh
+    dikhao $(i + 1) & " | " & line
+  khatam
+  dikhao "--------------------------------------------------------"
+  dikhao "Ln " & $row & ", Col " & $col & " | ^S: Save | ^F: Search | ^Q: Quit"
+khatam
+
+render_editor("main.hg", 4, 15)

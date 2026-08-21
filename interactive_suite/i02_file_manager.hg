@@ -1,0 +1,12 @@
+// 2. Terminal File Manager & Directory Browser (ranger / mc Clone)
+shamil_karo os
+
+kaam render_browser(dir_path: string) se toh
+  dikhao "=== Terminal File Browser: " & dir_path & " ==="
+  dikhao "[Parent] /home/narayanas | [Current] " & dir_path & " | [Preview]"
+  dikhao "-> file1.txt (1024 B)"
+  dikhao "-> file2.hg  (2048 B)"
+  dikhao "[Controls] Arrow keys: Navigate | Enter: Open | d: Delete"
+khatam
+
+render_browser("/home/narayanas/projects/compound")

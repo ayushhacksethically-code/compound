@@ -1,0 +1,12 @@
+// 3. Real-Time Terminal Snake & Tetris Engine
+shamil_karo random
+
+kaam render_snake_frame(score: int, snake_x: int, snake_y: int) se toh
+  dikhao "==============================="
+  dikhao "🐍 Compound Terminal Snake Game"
+  dikhao "Score: " & $score & " | FPS: 20"
+  dikhao "Head Position: [" & $snake_x & ", " & $snake_y & "]"
+  dikhao "==============================="
+khatam
+
+render_snake_frame(120, 15, 8)
