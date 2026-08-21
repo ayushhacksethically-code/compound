@@ -1,0 +1,41 @@
+{
+  "name": "compound-lang",
+  "displayName": "Compound Programming Language",
+  "description": "Syntax Highlighting and Language Support for Compound (Hinglish .hg & Plain English .eg)",
+  "version": "1.0.0",
+  "publisher": "antigravity",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "hinglish",
+        "aliases": ["Hinglish Compound", "hinglish", "hg"],
+        "extensions": [".hg"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "english",
+        "aliases": ["English Compound", "english", "eg"],
+        "extensions": [".eg"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "hinglish",
+        "scopeName": "source.hinglish",
+        "path": "./syntaxes/hinglish.tmLanguage.json"
+      },
+      {
+        "language": "english",
+        "scopeName": "source.english",
+        "path": "./syntaxes/english.tmLanguage.json"
+      }
+    ]
+  }
+}

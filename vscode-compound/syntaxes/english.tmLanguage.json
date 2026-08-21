@@ -1,0 +1,98 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "English Compound",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#shell"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.english",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.line.number-sign.english",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.english",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.english",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.english",
+          "match": "\\b(if|elif|otherwise if|else|otherwise|do|while|for|each|in|done|end|match|case|when|return|continue|skip|break|stop|try|catch|except|finally|assert)\\b"
+        },
+        {
+          "name": "keyword.declaration.english",
+          "match": "\\b(keep|var|let|fixed|const|make|type|task|function|proc|import|use|c_func)\\b"
+        },
+        {
+          "name": "support.function.builtin.english",
+          "match": "\\b(show|print|ask|input|shell|raise|throw)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.english",
+          "match": "\\b(true|false|yes|no)\\b"
+        },
+        {
+          "name": "constant.language.null.english",
+          "match": "\\b(none|empty)\\b"
+        },
+        {
+          "name": "constant.numeric.english",
+          "match": "\\b[0-9]+(\\.[0-9]+)?\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.english",
+          "match": "(?<=task\\s+|function\\s+)[a-zA-Z_][a-zA-Z0-9_]*"
+        }
+      ]
+    },
+    "shell": {
+      "patterns": [
+        {
+          "name": "keyword.other.shell.english",
+          "match": "^\\s*\\$\\s.*$"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.english"
+}
