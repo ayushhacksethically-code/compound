@@ -1,0 +1,35 @@
+// ChronoKV Module 3: Network Server & Protocol Handler
+shamil_karo strutils, tables
+
+rakho kvStore = initTable[string, string]()
+
+kaam handle_command(req: string): string se toh
+  rakho parts = req.strip().split(" ")
+  agar parts.len == 0 toh
+    wapas "ERR empty"
+  khatam
+
+  rakho cmd = parts[0].toUpperAscii()
+  agar cmd == "PING" toh
+    wapas "PONG"
+  varna agar cmd == "SET" and parts.len >= 3 toh
+    kvStore[parts[1]] = parts[2]
+    wapas "OK"
+  varna agar cmd == "GET" and parts.len >= 2 toh
+    agar kvStore.hasKey(parts[1]) toh
+      wapas kvStore[parts[1]]
+    varna
+      wapas "(nil)"
+    khatam
+  varna agar cmd == "DEL" and parts.len >= 2 toh
+    kvStore.del(parts[1])
+    wapas "OK"
+  varna
+    wapas "ERR unknown_cmd"
+  khatam
+khatam
+
+// Server Self Test
+dikhao "[ChronoKV Server] Handling PING -> " & handle_command("PING")
+dikhao "[ChronoKV Server] Handling SET user:101 Narayana -> " & handle_command("SET user:101 Narayana")
+dikhao "[ChronoKV Server] Handling GET user:101 -> " & handle_command("GET user:101")

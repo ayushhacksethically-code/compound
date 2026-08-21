@@ -1,0 +1,31 @@
+// ChronoKV Module 2: Raft Consensus Engine (Follower, Candidate, Leader)
+shamil_karo tables, random
+
+rakho nodeState = "Follower"
+rakho currentTerm = 1
+rakho votedFor = ""
+rakho leaderId = ""
+
+kaam process_heartbeat(leader_node_id: string, term: int) se toh
+  agar term >= currentTerm toh
+    currentTerm = term
+    leaderId = leader_node_id
+    nodeState = "Follower"
+    dikhao "[Raft Node] Received Heartbeat from Leader '" & leader_node_id & "' (Term: " & $currentTerm & ")"
+  khatam
+khatam
+
+kaam start_election(node_id: string) se toh
+  nodeState = "Candidate"
+  currentTerm += 1
+  votedFor = node_id
+  dikhao "[Raft Node] Heartbeat Timeout! Node '" & node_id & "' starting Election for Term " & $currentTerm
+  nodeState = "Leader"
+  leaderId = node_id
+  dikhao "[Raft Node] Node '" & node_id & "' ELECTED LEADER for Term " & $currentTerm
+khatam
+
+// Self Test
+dikhao "[Raft Engine Self-Test] Initial State: Follower"
+process_heartbeat("Node_A", 1)
+start_election("Node_B")

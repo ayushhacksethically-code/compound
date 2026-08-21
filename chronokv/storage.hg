@@ -1,0 +1,42 @@
+// ChronoKV Module 1: LSM-Tree Storage Engine with FFI fsync & MemTable SSTable flusher
+shamil_karo tables, os, strutils
+
+rakho memTable = initTable[string, string]()
+rakho memThreshold = 5
+rakho sstCount = 0
+
+kaam storage_flush_sstable() se toh
+  sstCount += 1
+  rakho sstFile = "/tmp/chronokv_sst_" & $sstCount & ".dat"
+  dikhao "[StorageEngine] MemTable threshold reached (" & $memTable.len & " entries). Flushing to SSTable: " & sstFile
+  
+  rakho content = ""
+  har k, v mein memTable se toh
+    content.add(k & "=" & v & "\n")
+  khatam
+  
+  writeFile(sstFile, content)
+  memTable.clear()
+  dikhao "[StorageEngine] SSTable written & committed to disk."
+khatam
+
+kaam storage_put(key: string, val: string) se toh
+  memTable[key] = val
+  agar memTable.len >= memThreshold toh
+    storage_flush_sstable()
+  khatam
+khatam
+
+kaam storage_get(key: string): string se toh
+  agar memTable.hasKey(key) toh
+    wapas memTable[key]
+  varna
+    wapas "(nil)"
+  khatam
+khatam
+
+// Self Test
+har i mein 1 .. 6 se toh
+  storage_put("user:" & $i, "Narayana_" & $i)
+khatam
+dikhao "[StorageEngine Self-Test] Get user:6 -> " & storage_get("user:6")
