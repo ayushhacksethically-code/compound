@@ -1,0 +1,72 @@
+name: Automated Multi-Platform Release CI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Build Compound Toolchain (${{ matrix.target.name }})
+    runs-on: ${{ matrix.target.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: linux-x64
+            os: ubuntu-latest
+            artifact_name: compound-linux-x64.tar.gz
+            binary_name: compound
+          - name: macos-x64
+            os: macos-13
+            artifact_name: compound-macos-x64.tar.gz
+            binary_name: compound
+          - name: macos-arm64
+            os: macos-latest
+            artifact_name: compound-macos-arm64.tar.gz
+            binary_name: compound
+          - name: windows-x64
+            os: windows-latest
+            artifact_name: compound-windows-x64.zip
+            binary_name: compound.exe
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Nim Environment
+        uses: j1625/setup-nim@v1
+        with:
+          nim-version: '2.0.x'
+
+      - name: Build Release Binary
+        run: |
+          nim c -d:release --mm:orc --opt:speed compound.nim
+
+      - name: Package Toolchain Distribution (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p dist/bin dist/stdlib
+          cp compound dist/bin/
+          cp -r install.sh dist/
+          tar -czvf ${{ matrix.target.artifact_name }} -C dist .
+
+      - name: Package Toolchain Distribution (Windows)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path dist\bin
+          Copy-Item compound.exe dist\bin\
+          Copy-Item install.ps1 dist\
+          Compress-Archive -Path dist\* -DestinationPath ${{ matrix.target.artifact_name }}
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ matrix.target.artifact_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

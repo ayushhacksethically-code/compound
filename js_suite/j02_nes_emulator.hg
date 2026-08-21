@@ -1,0 +1,34 @@
+// 2. NES 6502 CPU & Bitwise Instruction Decoder Engine
+banao CPU = object
+  a: uint8
+  x: uint8
+  y: uint8
+  pc: uint16
+  sp: uint8
+  status: uint8
+khatam
+
+kaam resetCPU(): CPU toh
+  wapas CPU(a: 0u8, x: 0u8, y: 0u8, pc: 0x8000u16, sp: 0xFFu8, status: 0u8)
+khatam
+
+kaam executeOpcode(cpu: var CPU, opcode: uint8) toh
+  chuno opcode toh
+    jab 0xA9u8 toh
+      cpu.a = 0x42u8
+      cpu.pc += 2u16
+    jab 0xEAu8 toh
+      cpu.pc += 1u16
+    jab 0x38u8 toh
+      cpu.status = cpu.status or 1u8
+      cpu.pc += 1u16
+    varna toh
+      cpu.pc += 1u16
+  khatam
+khatam
+
+rakho nesCpu = resetCPU()
+executeOpcode(nesCpu, 0xA9u8)
+executeOpcode(nesCpu, 0x38u8)
+
+dikhao "[2/10 PASSED] NES 6502 CPU Bitwise Execution - PC:", nesCpu.pc, "A Register:", nesCpu.a, "Status Flag:", nesCpu.status

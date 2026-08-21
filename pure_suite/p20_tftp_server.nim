@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  20. TFTP Server
 proc handle_tftp_rrq(filename: string, mode: string) {.discardable.} =
   echo "[Pure TFTP Server] Read Request for: " & filename

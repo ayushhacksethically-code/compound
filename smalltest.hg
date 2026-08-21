@@ -1,0 +1,12 @@
+kaam square(n: int): int se toh
+    wapas n * n
+khatam
+
+dikhao "1. Math Test: square of 12 = " & $square(12)
+dikhao "2. Devops Test: Current System Date: "
+$ "date"
+
+rakho active = sahi
+agar active toh
+    dikhao "Status: system perfectly operational!"
+khatam

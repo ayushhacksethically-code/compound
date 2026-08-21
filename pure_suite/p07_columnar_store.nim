@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  7. Custom Columnar File Store
 import strutils
 

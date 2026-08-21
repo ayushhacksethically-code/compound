@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  6. Binary Protocol MessagePack Encoder/Decoder
 proc encode_msgpack(val: int): seq[byte] {.discardable.} =
   echo "[Pure MsgPack] Encoding integer " & $val & " to binary header 0x91..."

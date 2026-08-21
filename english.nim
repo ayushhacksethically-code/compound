@@ -1,4 +1,4 @@
-import std/[strutils, osproc]
+import std/[strutils, osproc, os]
 
 proc maskStrings(line: string, strTable: var seq[string]): string =
   var resultStr = ""
@@ -43,8 +43,16 @@ proc translateEnglishLine*(line: string): string =
   if l.len == 0: return ""
   if l.startsWith("//") or l.startsWith("#"): return "# " & unmaskStrings(l.substr(2), strTable)
 
-  # 1. Shell Command Execution ($ "cmd" or shell "cmd")
-  if l.startsWith("$ ") or l.startsWith("shell ") or l.startsWith("chalao "):
+  # 1. Shell Command Execution ($ "cmd", shell "cmd", or ps_command "cmd")
+  if l.startsWith("ps_kaam ") or l.startsWith("ps_command ") or l.startsWith("ps_shell ") or l.startsWith("ps "):
+    var cmdStr = l
+    if cmdStr.startsWith("ps_kaam "): cmdStr = cmdStr.substr(8)
+    elif cmdStr.startsWith("ps_command "): cmdStr = cmdStr.substr(11)
+    elif cmdStr.startsWith("ps_shell "): cmdStr = cmdStr.substr(9)
+    elif cmdStr.startsWith("ps "): cmdStr = cmdStr.substr(3)
+    let unmasked = unmaskStrings(cmdStr, strTable)
+    return "discard execCmd(\"pwsh -NoProfile -NonInteractive -Command \" & quoteShell(" & unmasked & "))"
+  elif l.startsWith("$ ") or l.startsWith("shell ") or l.startsWith("chalao "):
     let cmdStr = l.replace("$ ", "").replace("shell ", "").replace("chalao ", "")
     return "discard execCmd(" & unmaskStrings(cmdStr, strTable) & ")"
 
@@ -57,9 +65,9 @@ proc translateEnglishLine*(line: string): string =
     let content = l.substr(7)
     if " from " in content:
       let parts = content.split(" from ")
-      let header = parts[1].replace("\"", "")
+      let header = parts[1]
       let fnDef = parts[0]
-      return "proc " & unmaskStrings(fnDef, strTable) & " {.importc, header: \"" & unmaskStrings(header, strTable) & "\", discardable.}"
+      return "proc " & unmaskStrings(fnDef, strTable) & " {.importc, header: " & unmaskStrings(header, strTable) & ", discardable.}"
     else:
       return "proc " & unmaskStrings(content, strTable) & " {.importc, discardable.}"
 
@@ -83,8 +91,8 @@ proc translateEnglishLine*(line: string): string =
 
   l = l.replace(" true", " true")
   l = l.replace(" false", " false")
-  l = l.replace(" yes", " true")
-  l = l.replace(" no", " false")
+  l = l.replace(" yes ", " true ")
+  l = l.replace(" no ", " false ")
   l = l.replace(" none", " nil")
   l = l.replace(" empty", " nil")
   if l == "...": l = "discard"
@@ -161,7 +169,7 @@ proc translateEnglishLine*(line: string): string =
   elif l.startsWith("assert "): l = "doAssert " & l.substr(7)
   elif l.startsWith("match "): l = "case " & l.substr(6)
   elif l.startsWith("case "): l = "of " & l.substr(5)
-  elif l.startsWith("when "): l = "of " & l.substr(5)
+  elif l.startsWith("when ") and not l.contains("defined("): l = "of " & l.substr(5)
 
   l = l.replace("ask()", "readLine(stdin)")
   l = l.replace("input()", "readLine(stdin)")
@@ -171,14 +179,14 @@ proc translateEnglishLine*(line: string): string =
   elif l.startsWith("type "):
     if l.endsWith("="): l = l[0 .. ^2].strip()
     if l.endsWith("enum"): discard
-  elif hasTrigger or l.startsWith("if ") or l.startsWith("elif ") or l == "else" or l.startsWith("while ") or l.startsWith("for ") or l == "try" or l.startsWith("except") or l == "finally" or l.startsWith("case ") or l.startsWith("of "):
+  elif (hasTrigger or l.startsWith("if ") or l.startsWith("elif ") or l == "else" or l.startsWith("while ") or l.startsWith("for ") or l == "try" or l.startsWith("except") or l == "finally" or l.startsWith("case ") or l.startsWith("of ")) and not l.startsWith("proc "):
     if not l.endsWith(":") and not l.endsWith("="): l.add(":")
 
   return unmaskStrings(l, strTable)
 
 proc transpileEnglish*(code: string): string =
   var lines = code.splitLines()
-  var nimLines: seq[string] = @["import std/osproc"]
+  var nimLines: seq[string] = @["when not defined(js):\n  import std/[osproc, os]"]
   var declaredVars: seq[string] = @[]
   var currentIndent = 0
 
@@ -219,8 +227,7 @@ proc transpileEnglish*(code: string): string =
 
     if translated.len > 0:
       nimLines.add("  ".repeat(currentIndent) & translated)
-      if translated.endsWith(":") or translated.endsWith("=") or translated.endsWith("object") or translated.startsWith("iterator "):
+      if (translated.endsWith(":") or translated.endsWith("=") or translated.endsWith("object") or translated.startsWith("iterator ")) and not translated.startsWith("#"):
         inc currentIndent
 
   return nimLines.join("\n")
-

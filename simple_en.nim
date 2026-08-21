@@ -1,20 +1,22 @@
+when not defined(js):
+  import std/[osproc, os]
 #  Plain English Program for Non-Tech Beginners
 
-var name = "Aman"
+create name = "Aman"
 echo "Welcome to Compound Language,", name
 
-var counter = 1
-while counter <= 3:
+create counter = 1
+repeat while counter is less than or equal to 3:
   echo "Current Step:", counter
-  counter = counter + 1
+  var counter = counter + 1
 
 proc add_numbers(a: int, b: int): int {.discardable.} =
-  return a + b
+  give back a + b
 
-var total = add_numbers(50, 100)
+create total = add_numbers(50, 100)
 echo "Total is:", total
 
-if total > 100:
+if total is greater than 100:
   echo "Awesome! Total is large."
 else:
   echo "Total is small."

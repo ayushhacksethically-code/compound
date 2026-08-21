@@ -3,53 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>c_ka_kaam / c_func (C Language FFI Integration) | Compound Documentation</title>
+    <title>C Language FFI Integration (c_ka_kaam / c_func) | Compound Documentation</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 950px; margin: 0 auto; padding: 20px; }
         header { border-bottom: 2px solid #0076d6; padding-bottom: 10px; margin-bottom: 20px; }
-        nav a { margin-right: 15px; color: #0076d6; text-decoration: none; font-weight: bold; }
+        nav a { margin-right: 12px; color: #0076d6; text-decoration: none; font-weight: bold; font-size: 0.95em; }
         nav a:hover { text-decoration: underline; }
         pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; }
         code { font-family: "Courier New", Courier, monospace; background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
         pre code { background: none; padding: 0; }
         h1, h2, h3 { color: #111; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+        th { background: #f2f2f2; }
         footer { margin-top: 50px; border-top: 1px solid #ddd; padding-top: 10px; font-size: 0.9em; color: #666; }
     </style>
 </head>
 <body>
     <header>
         <h1><a href="/" style="text-decoration: none; color: #111;">Compound Language Docs</a></h1>
-        <nav style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <nav style="display: flex; flex-wrap: wrap; gap: 8px;">
             <a href="/docs/getting-started/">Getting Started</a>
             <a href="/docs/hinglish-guide/">Hinglish Guide</a>
             <a href="/docs/english-guide/">English Guide</a>
-            <a href="/man/rakho-create/">MAN: Variables</a>
-            <a href="/man/pukka-fixed/">MAN: Constants</a>
-            <a href="/man/banao-type/">MAN: Structures</a>
-            <a href="/man/dikhao-show/">MAN: Output</a>
-            <a href="/man/agar-if/">MAN: Conditionals</a>
-            <a href="/man/jabtak-while/">MAN: Loops</a>
-            <a href="/man/kaam-task/">MAN: Functions</a>
-            <a href="/man/chuno-match/">MAN: Pattern Match</a>
-            <a href="/man/koshish-try/">MAN: Error Handling</a>
-            <a href="/man/shamil-import/">MAN: Modules</a>
-            <a href="/man/c-ffi/">MAN: C FFI</a>
+            <a href="/man/c-ffi/">C FFI</a>
+            <a href="/man/shell-powershell/">Shell & PS</a>
+            <a href="/man/types-and-structs/">Types & Structs</a>
+            <a href="/man/stdlib-reference/">Stdlib Ref</a>
         </nav>
     </header>
     <main>
-        <h1 id="man-page-c-language-integration-c_ka_kaam--c_func">MAN PAGE: C Language Integration (<code>c_ka_kaam</code> / <code>c_func</code>)</h1>
-<h2 id="synopsis">SYNOPSIS</h2>
+        <h1 id="man-page-c-language-ffi-integration-c_ka_kaam--c_func">MAN PAGE: C Language FFI Integration (<code>c_ka_kaam</code> / <code>c_func</code>)<a class="anchor" href="#man-page-c-language-ffi-integration-c_ka_kaam--c_func">#</a></h1>
+<h2 id="synopsis">SYNOPSIS<a class="anchor" href="#synopsis">#</a></h2>
 <ul>
-<li><strong>Hinglish (<code>hg</code>)</strong>: <code>c_ka_kaam fnSignature from &quot;header.h&quot;</code></li>
-<li><strong>English (<code>eg</code>)</strong>: <code>c_func fnSignature from &quot;header.h&quot;</code></li>
+<li><strong>Hinglish (<code>.hg</code>)</strong>: <code>c_ka_kaam &lt;fn_signature&gt; [from &quot;&lt;header.h&gt;&quot;]</code></li>
+<li><strong>English (<code>.eg</code>)</strong>: <code>c_func &lt;fn_signature&gt; [from &quot;&lt;header.h&gt;&quot;]</code></li>
 </ul>
-<h2 id="description">DESCRIPTION</h2>
-<p>Directly imports and calls functions from standard C libraries (<code>stdio.h</code>, <code>stdlib.h</code>, <code>math.h</code>) or custom compiled C code without writing glue logic.</p>
-<h2 id="examples">EXAMPLES</h2>
-<h3 id="hinglish">Hinglish:</h3>
-<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">c_ka_kaam puts(s: cstring): cint from &#34;stdio.h&#34;
-puts(&#34;Namaste C Ecosystem!&#34;)
-</code></pre>
+<hr>
+<h2 id="description">DESCRIPTION<a class="anchor" href="#description">#</a></h2>
+<p>The Foreign Function Interface (FFI) engine in Compound enables zero-cost binding to standard C libraries (<code>libc</code>, <code>libm</code>, POSIX headers) as well as custom compiled C static/shared libraries.</p>
+<p>Because Compound compiles directly down to C source code, foreign C declarations transpile directly into <code>{.importc, header: ...}</code> Nim procedure annotations with zero runtime overhead or glue code.</p>
+<hr>
+<h2 id="c-abi-type-map">C ABI TYPE MAP<a class="anchor" href="#c-abi-type-map">#</a></h2>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">C Type</th>
+					<th style="text-align: left">Compound / Nim Type</th>
+					<th style="text-align: left">Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>int</code></td>
+					<td style="text-align: left"><code>cint</code></td>
+					<td style="text-align: left">C-compatible standard integer</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>double</code> / <code>float</code></td>
+					<td style="text-align: left"><code>cdouble</code> / <code>cfloat</code></td>
+					<td style="text-align: left">C double/single-precision float</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>char*</code> / <code>const char*</code></td>
+					<td style="text-align: left"><code>cstring</code></td>
+					<td style="text-align: left">Null-terminated C string pointer</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>size_t</code></td>
+					<td style="text-align: left"><code>csize_t</code></td>
+					<td style="text-align: left">Architecture-native memory size type</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>void*</code> / <code>int64_t*</code></td>
+					<td style="text-align: left"><code>ptr void</code> / <code>ptr int64</code></td>
+					<td style="text-align: left">Raw memory pointer</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>uint32_t</code> / <code>uint64_t</code></td>
+					<td style="text-align: left"><code>uint32</code> / <code>uint64</code></td>
+					<td style="text-align: left">Fixed-width unsigned integer</td>
+			</tr>
+	</tbody>
+</table>
+<hr>
+<h2 id="header-import-grammar">HEADER IMPORT GRAMMAR<a class="anchor" href="#header-import-grammar">#</a></h2>
+<p>To bind a function from a system or local C header file, append <code>from &quot;header_name.h&quot;</code> or <code>from &quot;&lt;sys/header.h&gt;&quot;</code>:</p>
+<h3 id="1-standard-c-library-functions">1. Standard C Library Functions<a class="anchor" href="#1-standard-c-library-functions">#</a></h3>
+<h4 id="hinglish-hg">Hinglish (<code>.hg</code>)<a class="anchor" href="#hinglish-hg">#</a></h4>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">c_ka_kaam sin(x: cdouble): cdouble from &#34;math.h&#34;
+c_ka_kaam cos(x: cdouble): cdouble from &#34;math.h&#34;
+c_ka_kaam printf(fmt: cstring, val: cdouble): cint from &#34;stdio.h&#34;
+c_ka_kaam malloc(size: csize_t): ptr void from &#34;stdlib.h&#34;
+c_ka_kaam free(p: ptr void) from &#34;stdlib.h&#34;
+
+rakho angle = 3.14159 / 2.0
+rakho result = sin(angle)
+printf(&#34;Sin result: %.4f\n&#34;, result)</code></pre><h4 id="english-eg">English (<code>.eg</code>)<a class="anchor" href="#english-eg">#</a></h4>
+<pre tabindex="0"><code class="language-english" data-lang="english">c_func sin(x: cdouble): cdouble from &#34;math.h&#34;
+c_func cos(x: cdouble): cdouble from &#34;math.h&#34;
+c_func printf(fmt: cstring, val: cdouble): cint from &#34;stdio.h&#34;
+c_func malloc(size: csize_t): ptr void from &#34;stdlib.h&#34;
+c_func free(p: ptr void) from &#34;stdlib.h&#34;
+
+keep angle = 3.14159 / 2.0
+keep result = sin(angle)
+printf(&#34;Sin result: %.4f\n&#34;, result)</code></pre><hr>
+<h2 id="pointer-arithmetic--raw-memory-interop">POINTER ARITHMETIC &amp; RAW MEMORY INTEROP<a class="anchor" href="#pointer-arithmetic--raw-memory-interop">#</a></h2>
+<p>Compound supports dereferencing and manipulating C pointers directly:</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">// Allocate 8 bytes on the C heap
+rakho raw_ptr = cast[ptr int64](malloc(cast[csize_t](8)))
+
+// Write value into dereferenced pointer location
+raw_ptr[] = 999999999_i64
+dikhao &#34;Stored memory value:&#34;, raw_ptr[]
+
+// Free memory allocation
+free(cast[ptr void](raw_ptr))</code></pre>
     </main>
     <footer>
         <p>Compound Programming Language Official Documentation & Man Pages | Generated with Hugo</p>

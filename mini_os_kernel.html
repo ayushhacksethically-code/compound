@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Unified OS Kernel - Web Terminal</title>
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #00ff66;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .terminal-container {
+      width: 100%;
+      max-width: 800px;
+      background: #050811;
+      border: 2px solid #00ff66;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
+      overflow: hidden;
+    }
+    .terminal-header {
+      background: #111a2e;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #00ff66;
+      color: #79ffa7;
+      font-weight: bold;
+    }
+    .terminal-body {
+      padding: 20px;
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+    .line {
+      margin-bottom: 4px;
+      animation: fadeIn 0.2s ease-in;
+    }
+    .highlight {
+      color: #00e5ff;
+      font-weight: bold;
+    }
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background-color: #00ff66;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(2px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="terminal-container">
+    <div class="terminal-header">
+      <span>🖥️ Compound OS Kernel Web Shell (JavaScript Target)</span>
+      <span>Status: OPERATIONAL</span>
+    </div>
+    <div class="terminal-body" id="terminalOutput"></div>
+  </div>
+
+  <script>
+    const term = document.getElementById('terminalOutput');
+
+    function appendToTerminal(text) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      if (text.includes('[BOOT]') || text.includes('[KERNEL]')) {
+        line.classList.add('highlight');
+      }
+      line.textContent = text;
+      term.appendChild(line);
+      term.scrollTop = term.scrollHeight;
+    }
+
+    // Intercept console.log to render output inside our HTML CRT terminal
+    const originalLog = console.log;
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      const message = args.join(' ');
+      appendToTerminal(message);
+    };
+  </script>
+
+  <!-- Load the compiled Compound JavaScript Kernel -->
+  <script src="mini_os_kernel.js"></script>
+
+  <script>
+    // Add blinking terminal cursor at bottom
+    const cursorLine = document.createElement('div');
+    cursorLine.innerHTML = '<span>compound-kernel@web:~$ </span><span class="cursor"></span>';
+    term.appendChild(cursorLine);
+  </script>
+</body>
+</html>

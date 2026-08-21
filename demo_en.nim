@@ -1,14 +1,16 @@
+when not defined(js):
+  import std/[osproc, os]
+#  Compound Language Demo (Plain English - .eg)
+var name = "Narayana"
+echo "Hello " & name & "! Welcome to Compound Language."
 
-var name = "Compound English User"
-echo "Hello!", name
+var a = 10
+var b = 20
 
-var count = 1
-while count <= 3:
-  echo "Count number:", count
-  count = count + 1
+if a < b:
+  echo "a is smaller than b"
 
-proc add(a: int, b: int): int {.discardable.} =
-  return a + b
+proc add_numbers(x: int, y: int): int {.discardable.} =
+  return x + y
 
-var total = add(10, 25)
-echo "Total sum is:", total
+echo "10 + 20 = " & $add_numbers(a, b)

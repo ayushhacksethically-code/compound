@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  5. Bitcask-Style Key-Value Store
 import tables
 

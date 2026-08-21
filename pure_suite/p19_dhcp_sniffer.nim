@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  19. DHCP Packet Sniffer & Decoder
 proc decode_dhcp_packet(mac: string, requested_ip: string) {.discardable.} =
   echo "[Pure DHCP Sniffer] Captured DHCPREQUEST from MAC: " & mac

@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  18. Custom RPC Engine over TCP
 proc invoke_rpc_method(method_id: uint16, payload: string) {.discardable.} =
   echo "[Pure TCP RPC] Executing Method ID: " & $method_id & " with payload: " & payload

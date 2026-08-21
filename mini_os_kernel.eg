@@ -1,0 +1,46 @@
+// ============================================================================
+// Compound Language (.eg) - Cross-Platform Mini OS Kernel Demo
+// Runs natively on Bare-Metal/C AND in Web/JS environment!
+// ============================================================================
+
+keep max_pages = 64
+keep page_size = 4096
+
+task boot_kernel(): string do
+  show "=========================================="
+  show "   COMPOUND UNIFIED OS KERNEL v1.0        "
+  show "=========================================="
+  show "[BOOT] Initializing CPU Registers..."
+  show "[BOOT] Setting up Interrupt Vector Table (IVT)..."
+  show "[BOOT] Mounting Virtual File System (VFS)..."
+  show "[BOOT] Enabling Memory Management Unit (MMU)..."
+  return "KERNEL_READY"
+end
+
+task allocate_memory(num_pages: int): int do
+  keep total_bytes = num_pages * page_size
+  show "[MMU] Allocated pages: ", num_pages, " -> ", total_bytes, " bytes."
+  return total_bytes
+end
+
+task schedule_process(pid: int, name: string): bool do
+  show "[SCHEDULER] Context Switching to PID ", pid, " (", name, ")..."
+  return true
+end
+
+// --- KERNEL ENTRY POINT ---
+keep boot_status = $boot_kernel()
+
+if boot_status == "KERNEL_READY" do
+  show "[KERNEL] System Status: OK"
+  
+  // Allocate memory for Kernel heap
+  keep heap_bytes = $allocate_memory(4)
+  
+  // Schedule mini OS tasks
+  keep p1 = $schedule_process(101, "initd")
+  keep p2 = $schedule_process(102, "vfs_service")
+  keep p3 = $schedule_process(103, "shell_process")
+  
+  show "[KERNEL] All subsystems operational!"
+end

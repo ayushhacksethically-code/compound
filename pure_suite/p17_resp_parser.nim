@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  17. Async Redis Client Protocol (RESP) Parser
 import strutils
 

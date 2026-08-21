@@ -1,0 +1,18 @@
+// 5. Pure SHA-256 / 32-bit Bitwise Shift Cryptographic Suite
+kaam rotr(x: uint32, n: uint32): uint32 toh
+  wapas (x shr n) or (x shl (32u32 - n))
+khatam
+
+kaam sha256_sigma0(x: uint32): uint32 toh
+  wapas rotr(x, 7u32) xor rotr(x, 18u32) xor (x shr 3u32)
+khatam
+
+kaam sha256_sigma1(x: uint32): uint32 toh
+  wapas rotr(x, 17u32) xor rotr(x, 19u32) xor (x shr 10u32)
+khatam
+
+rakho val: uint32 = 0x6a09e667u32
+rakho s0 = sha256_sigma0(val)
+rakho s1 = sha256_sigma1(val)
+
+dikhao "[5/10 PASSED] SHA-256 Bitwise Shift Parity Test - Sigma0:", s0, "| Sigma1:", s1

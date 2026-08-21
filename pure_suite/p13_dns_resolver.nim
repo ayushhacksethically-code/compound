@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  13. DNS UDP Resolver Engine
 proc build_dns_query(domain: string): seq[byte] {.discardable.} =
   echo "[Pure DNS Resolver] Constructed RFC-1035 UDP Query packet for: " & domain

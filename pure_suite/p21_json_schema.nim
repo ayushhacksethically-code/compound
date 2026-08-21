@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  21. JSON Schema Validator
 import json
 proc validate_json(node: JsonNode): bool {.discardable.} =

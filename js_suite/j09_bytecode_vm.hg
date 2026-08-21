@@ -1,0 +1,39 @@
+// 9. Bytecode Virtual Machine & Stack Evaluator
+type OpCode = enum opPush, opAdd, opSub, opMul, opHalt
+
+banao VM = object
+  stack: seq[int]
+  sp: int
+khatam
+
+kaam runVM(code: seq[(OpCode, int)]): int toh
+  rakho vm = VM(stack: newSeq[int](), sp: 0)
+  har instr mein code toh
+    let op = instr[0]
+    let val = instr[1]
+    chuno op toh
+      jab opPush toh
+        vm.stack.add(val)
+      jab opAdd toh
+        let b = vm.stack.pop()
+        let a = vm.stack.pop()
+        vm.stack.add(a + b)
+      jab opSub toh
+        let b = vm.stack.pop()
+        let a = vm.stack.pop()
+        vm.stack.add(a - b)
+      jab opMul toh
+        let b = vm.stack.pop()
+        let a = vm.stack.pop()
+        vm.stack.add(a * b)
+      jab opHalt toh
+        break
+    khatam
+  khatam
+  wapas vm.stack[^1]
+khatam
+
+rakho program = @[(opPush, 10), (opPush, 20), (opAdd, 0), (opPush, 2), (opMul, 0), (opHalt, 0)]
+rakho result = runVM(program)
+
+dikhao "[9/10 PASSED] Bytecode VM Stack Evaluator Result ( (10 + 20) * 2 ):", result

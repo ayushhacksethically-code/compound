@@ -1,4 +1,6 @@
-#  Pure Python-style Fibonacci Example in Compound Hinglish
+when not defined(js):
+  import std/[osproc, os]
+#  Python tutorial Fibonacci example in Compound English
 
 var a = 0
 var b = 1

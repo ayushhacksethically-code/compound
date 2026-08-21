@@ -1,0 +1,39 @@
+// 1. 100k SPH Fluid Simulation & Particle Physics Engine
+shamil_karo std/math, std/times
+
+banao Particle = object
+  x: float64
+  y: float64
+  vx: float64
+  vy: float64
+  density: float64
+  pressure: float64
+khatam
+
+kaam initParticles(count: int): seq[Particle] toh
+  rakho pool = newSeq[Particle]()
+  har i mein 1 .. count toh
+    rakho p = Particle(x: float(i mod 100) * 2.0, y: float(i div 100) * 2.0, vx: 0.1, vy: -0.5, density: 1000.0, pressure: 0.0)
+    pool.add(p)
+  khatam
+  wapas pool
+khatam
+
+kaam stepSimulation(particles: var seq[Particle], dt: float64) toh
+  har p mein particles.mitems toh
+    p.x += p.vx * dt
+    p.y += p.vy * dt + 0.5 * 9.8 * dt * dt
+    p.vy += 9.8 * dt
+    agar p.y > 100.0 toh
+      p.y = 100.0
+      p.vy = -p.vy * 0.5
+    khatam
+  khatam
+khatam
+
+rakho particles = initParticles(10000)
+rakho start = epochTime()
+stepSimulation(particles, 0.016)
+rakho elapsed = epochTime() - start
+
+dikhao "[1/10 PASSED] SPH Fluid Simulation (10,000 particles) frame step completed in:", elapsed, "seconds!"

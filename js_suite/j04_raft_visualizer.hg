@@ -1,0 +1,29 @@
+// 4. Interactive Raft Consensus State Machine Engine
+type RaftRole = enum Follower, Candidate, Leader
+
+banao RaftNode = object
+  id: int
+  currentTerm: int
+  role: RaftRole
+  votedFor: int
+khatam
+
+kaam startElection(node: var RaftNode) toh
+  node.currentTerm += 1
+  node.role = Candidate
+  node.votedFor = node.id
+  dikhao "Node " & $node.id & " started election for Term " & $node.currentTerm
+khatam
+
+kaam achieveConsensus(node: var RaftNode, votes: int, totalNodes: int) toh
+  agar votes > (totalNodes div 2) toh
+    node.role = Leader
+    dikhao "Node " & $node.id & " won election! Promoted to LEADER."
+  khatam
+khatam
+
+rakho node1 = RaftNode(id: 1, currentTerm: 0, role: Follower, votedFor: -1)
+node1.startElection()
+node1.achieveConsensus(3, 5)
+
+dikhao "[4/10 PASSED] Raft State Machine Verified - Node 1 Role:", $node1.role

@@ -1,0 +1,23 @@
+// 7. Real-Time WebSocket Protocol Packer (Whiteboard Delta Sync)
+shamil_karo std/strutils
+
+banao DrawEvent = object
+  x: int
+  y: int
+  color: string
+khatam
+
+kaam packDrawEvent(ev: DrawEvent): string toh
+  wapas $ev.x & "," & $ev.y & "," & ev.color
+khatam
+
+kaam unpackDrawEvent(packet: string): DrawEvent toh
+  let parts = packet.split(',')
+  wapas DrawEvent(x: parseInt(parts[0]), y: parseInt(parts[1]), color: parts[2])
+khatam
+
+rakho ev = DrawEvent(x: 250, y: 400, color: "#FF0000")
+rakho packed = packDrawEvent(ev)
+rakho unpacked = unpackDrawEvent(packed)
+
+dikhao "[7/10 PASSED] WebSocket Protocol Packet:", packed, "| Unpacked X:", unpacked.x, "Y:", unpacked.y, "Color:", unpacked.color

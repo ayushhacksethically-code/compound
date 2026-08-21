@@ -20,6 +20,13 @@
 /simple_en
 /subprocess_suite
 /test_nim
+/mini_os_kernel
+/mini_relational_sql_db
+/datasaver_144p_logic
+/ps_test
+/smalltest
+test_app/
+test_eg_app/
 
 # Suite compiled binaries
 suite/p0*

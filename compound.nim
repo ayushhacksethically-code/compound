@@ -165,8 +165,30 @@ proc main() =
     runRepl(defaultMode)
     quit(0)
 
+  if command == "init":
+    let projName = if args.len >= 2: args[1] else: "my_compound_app"
+    createDir(projName / "src")
+    let tomlContent = "[project]\nname = \"" & projName & "\"\nversion = \"0.1.0\"\ndialect = \"" & (if defaultMode == langEnglish: "english" else: "hinglish") & "\"\n"
+    let mainContent = if defaultMode == langEnglish: "// Main entry point\nshow \"Hello from Compound Language!\"\n" else: "// Main entry point\ndikhayein \"Namaste Compound Language se!\"\n"
+    let ext = if defaultMode == langEnglish: ".eg" else: ".hg"
+    writeFile(projName / "compound.toml", tomlContent)
+    writeFile(projName / "src" / ("main" & ext), mainContent)
+    echo "✨ Initialized Compound project in ./", projName
+    echo "   • Created ", projName / "compound.toml"
+    echo "   • Created ", projName / "src" / ("main" & ext)
+    echo "   • Run: compound run ", projName / "src" / ("main" & ext)
+    quit(0)
+
+  if command == "doctor":
+    styledEcho(fgCyan, styleBright, "🩺 Compound Toolchain Doctor")
+    echo "• Nim Compiler:      ", (if findExe("nim") != "": "OK (" & findExe("nim") & ")" else: "Missing")
+    echo "• GCC / Clang C:     ", (if findExe("gcc") != "" or findExe("clang") != "": "OK" else: "Missing")
+    echo "• Node.js (JS):      ", (if findExe("node") != "": "OK (" & findExe("node") & ")" else: "Missing")
+    echo "• Compound Root:     ", getEnv("HOME") / ".compound"
+    quit(0)
+
   if args.len < 2:
-    echo "Usage: hg / eg [run|build|parse|repl] <file.hg|file.eg>"
+    echo "Usage: compound [init|doctor|run|build|js|js-build|parse|repl] <file.hg|file.eg>"
     quit(1)
 
   let filename = args[1]
@@ -222,6 +244,44 @@ proc main() =
             continue
           if printOutput:
             echo l
+
+  of "js", "js-run", "js-build":
+    let targetNimFile = filename.changeFileExt("nim")
+    let targetJsFile = filename.changeFileExt("js")
+    writeFile(targetNimFile, nimCode)
+
+    let compileCmd = "nim js -o:" & targetJsFile & " " & targetNimFile
+    let (output, exitCode) = execCmdEx(compileCmd)
+    if exitCode != 0:
+      let lines = output.strip().splitLines()
+      var userErrorLine = ""
+      for l in lines:
+        if l.contains("Error:") or l.contains("Galti:"):
+          userErrorLine = l
+          break
+      if userErrorLine.len == 0 and lines.len > 0:
+        userErrorLine = lines[^1]
+      
+      let formattedErr = userErrorLine.replace(targetNimFile, filename)
+      if defaultMode == langHinglish:
+        echo "Galti (JS Target): ", formattedErr
+      else:
+        echo "Error (JS Target): ", formattedErr
+      quit(exitCode)
+    else:
+      if command == "js" or command == "js-run":
+        let (nodeOutput, nodeExitCode) = execCmdEx("node " & targetJsFile)
+        if nodeExitCode != 0:
+          echo nodeOutput
+          quit(nodeExitCode)
+        else:
+          if nodeOutput.strip().len > 0:
+            echo nodeOutput.strip()
+      else:
+        if defaultMode == langHinglish:
+          echo "Safalta: JavaScript file ban gayi hai -> ", targetJsFile
+        else:
+          echo "Success: Compiled to JavaScript -> ", targetJsFile
 
   else:
     echo "Unknown command: ", command

@@ -1,20 +1,16 @@
-#  Sample program in Compound (Hinglish)
+when not defined(js):
+  import std/[osproc, os]
+#  Compound Language Demo (Hinglish - .hg)
+var naam = "Narayana"
+echo "Namaste " & naam & "! Welcome to Compound Language."
 
-var naam = "Dost"
-echo "Namaste!", naam
+var a = 10
+var b = 20
 
-var ginti = 1
-while ginti <= 5:
-  echo "Ginti number:", ginti
-  ginti = ginti + 1
+if a < b:
+  echo "a (" & $a & ") b se chhota hai."
 
-proc jod(a: int, b: int): int {.discardable.} =
-  return a + b
+proc jodo(x: int, y: int): int {.discardable.} =
+  return x + y
 
-var uttar = jod(20, 30)
-echo "20 and 30 ka jod hai:", uttar
-
-if uttar > 40:
-  echo "Kamaal hai! Jod 40 se bada hai."
-else:
-  echo "Jod chhota hai."
+echo "10 + 20 = " & $jodo(a, b)

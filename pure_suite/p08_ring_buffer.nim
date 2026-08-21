@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  8. Circular Ring-Buffer Logger
 var buffer: array[4, int]
 var head = 0

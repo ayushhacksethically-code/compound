@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  4. SQLite Zero-Wrapper Embedded Client
 import strutils
 

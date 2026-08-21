@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  14. Raw TCP Reverse Proxy & Load Balancer
 import strutils
 

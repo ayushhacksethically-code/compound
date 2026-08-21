@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  16. NTP Time Client
 proc decode_ntp_timestamp(packet: array[48, byte]) {.discardable.} =
   echo "[Pure NTP Client] Port 123 UDP Timestamp Packet Decoded."

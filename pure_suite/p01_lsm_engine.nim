@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  1. Append-Only LSM-Tree Storage Engine
 import tables
 

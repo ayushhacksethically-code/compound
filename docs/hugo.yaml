@@ -1,22 +1,20 @@
-title: "Compound Language Documentation"
-baseURL: "http://localhost:1313/"
-languageCode: "en-us"
+baseURL: 'http://localhost:1313/'
+languageCode: 'en-us'
+title: 'Compound Language Documentation'
+theme: 'hugo-book'
 
 params:
-  description: "Official Documentation for Compound (Hinglish & English) Programming Language"
-  bhasha_modes: ["Hinglish (hg)", "English (eg)"]
+  # Official Dark Theme look
+  BookTheme: 'dark'
 
-menu:
-  main:
-    - name: "Getting Started"
-      url: "/docs/getting-started/"
-      weight: 1
-    - name: "Hinglish Guide"
-      url: "/docs/hinglish-guide/"
-      weight: 2
-    - name: "English Guide"
-      url: "/docs/english-guide/"
-      weight: 3
-    - name: "Man Pages (Syntax Ref)"
-      url: "/man/"
-      weight: 4
+  # Instant offline search (Ctrl + K / Search bar)
+  BookSearch: true
+
+  # Code block copy button
+  BookCodeCopy: true
+
+  # Table of Contents on the right side
+  BookToC: true
+
+  # Branding / Logo
+  BookLogo: '/logo.png'

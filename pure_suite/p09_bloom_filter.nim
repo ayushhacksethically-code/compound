@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  9. Bloom Filter with Murmur3 Hash
 import hashes
 

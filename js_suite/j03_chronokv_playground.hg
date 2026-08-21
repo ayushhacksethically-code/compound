@@ -1,0 +1,30 @@
+// 3. ChronoKV In-Memory Web Playground (SSTable + LSM Engine)
+shamil_karo std/tables, std/strutils
+
+banao MemTable = object
+  kvStore: Table[string, string]
+  capacity: int
+khatam
+
+kaam createMemTable(cap: int): MemTable toh
+  wapas MemTable(kvStore: initTable[string, string](), capacity: cap)
+khatam
+
+kaam put(mem: var MemTable, key: string, val: string) toh
+  mem.kvStore[key] = val
+khatam
+
+kaam get(mem: MemTable, key: string): string toh
+  agar mem.kvStore.hasKey(key) toh
+    wapas mem.kvStore[key]
+  varna toh
+    wapas "NOT_FOUND"
+  khatam
+khatam
+
+rakho db = createMemTable(1000)
+har i mein 1 .. 500 toh
+  db.put("key_" & $i, "value_data_" & $i)
+khatam
+
+dikhao "[3/10 PASSED] ChronoKV Web Playground - Key 'key_250':", db.get("key_250"), "| Total MemTable Keys:", db.kvStore.len

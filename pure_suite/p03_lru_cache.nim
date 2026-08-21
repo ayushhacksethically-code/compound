@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  3. In-Memory Cache with LRU Eviction
 import tables
 

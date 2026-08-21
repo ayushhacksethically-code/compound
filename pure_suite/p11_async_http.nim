@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  11. Async HTTP/1.1 Web Server
 import strutils
 

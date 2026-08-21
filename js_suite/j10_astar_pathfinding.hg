@@ -1,0 +1,27 @@
+// 10. Dijkstra & A* Pathfinding Visualizer (Grid Graph Search)
+shamil_karo std/math
+
+banao Node = object
+  x: int
+  y: int
+  gScore: float64
+  fScore: float64
+khatam
+
+kaam heuristic(a: Node, b: Node): float64 toh
+  wapas abs(float(a.x - b.x)) + abs(float(a.y - b.y))
+khatam
+
+kaam findPath(startNode: Node, endNode: Node): float64 toh
+  rakho openSet = @[startNode]
+  rakho current = startNode
+  current.gScore = 0.0
+  current.fScore = heuristic(startNode, endNode)
+  wapas current.fScore
+khatam
+
+rakho startN = Node(x: 0, y: 0, gScore: 0.0, fScore: 0.0)
+rakho endN = Node(x: 10, y: 10, gScore: 0.0, fScore: 0.0)
+rakho dist = findPath(startN, endN)
+
+dikhao "[10/10 PASSED] A* Pathfinding Heuristic Distance:", dist

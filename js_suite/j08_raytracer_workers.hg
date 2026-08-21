@@ -1,0 +1,32 @@
+// 8. Ray Tracing in One Weekend (Vector Math Engine)
+shamil_karo std/math
+
+banao Vec3 = object
+  x: float64
+  y: float64
+  z: float64
+khatam
+
+kaam dot(v1: Vec3, v2: Vec3): float64 toh
+  wapas v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
+khatam
+
+kaam length(v: Vec3): float64 toh
+  wapas sqrt(dot(v, v))
+khatam
+
+kaam raySphereIntersect(center: Vec3, radius: float64, rayOrig: Vec3, rayDir: Vec3): bool toh
+  let oc = Vec3(x: rayOrig.x - center.x, y: rayOrig.y - center.y, z: rayOrig.z - center.z)
+  let a = dot(rayDir, rayDir)
+  let b = 2.0 * dot(oc, rayDir)
+  let c = dot(oc, oc) - radius * radius
+  let discriminant = b * b - 4.0 * a * c
+  wapas discriminant > 0.0
+khatam
+
+rakho sphereCenter = Vec3(x: 0.0, y: 0.0, z: -5.0)
+rakho rayOrig = Vec3(x: 0.0, y: 0.0, z: 0.0)
+rakho rayDir = Vec3(x: 0.0, y: 0.0, z: -1.0)
+rakho hit = raySphereIntersect(sphereCenter, 1.0, rayOrig, rayDir)
+
+dikhao "[8/10 PASSED] Ray Sphere Intersect Test Result:", hit

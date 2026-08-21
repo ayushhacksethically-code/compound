@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  10. FlatBuffers Zero-Copy Reader
 proc zero_copy_get_int(offset: int): int {.discardable.} =
   echo "[Pure FlatBuffers] Traversed memory buffer at offset " & $offset & " without heap allocation."

@@ -1,66 +1,772 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us" dir="ltr" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hinglish Syntax Guide (hg) | Compound Documentation</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; }
-        header { border-bottom: 2px solid #0076d6; padding-bottom: 10px; margin-bottom: 20px; }
-        nav a { margin-right: 15px; color: #0076d6; text-decoration: none; font-weight: bold; }
-        nav a:hover { text-decoration: underline; }
-        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; }
-        code { font-family: "Courier New", Courier, monospace; background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
-        pre code { background: none; padding: 0; }
-        h1, h2, h3 { color: #111; }
-        footer { margin-top: 50px; border-top: 1px solid #ddd; padding-top: 10px; font-size: 0.9em; color: #666; }
-    </style>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Hinglish (.hg) Dialect Syntax Guide# The Hinglish dialect allows developers to program using natural Hindi and English phonetics. It translates intuitive words like rakho, dikhao, agar, toh, and khatam into high-performance native machine binaries.
+📌 Core Keyword &amp; Construct Cheat Sheet# Category Hinglish Keyword (.hg) Nim/C Equivalent Description Variables rakho x = 10 var x = 10 Declare mutable variable Constants pukka MAX = 100 const MAX = 100 Declare immutable constant Output dikhao &#34;Hello&#34; echo &#34;Hello&#34; Print formatted output to console Input rakho input = pucho() readLine(stdin) Read line from standard input Conditionals agar ... toh, varna agar, varna if, elif, else Branching logic Loops jabtak ... toh, har x mein container while, for x in container Iteration loops Functions kaam add(a: int): int toh ... khatam proc add(a: int): int Subroutine definition Return wapas result return result Return value from function Structs banao User = object type User = object Custom record/type definition Matching chuno val toh / jab x toh case val of x: Pattern matching Exceptions koshish_karo, galti_pakdo, galti_phenko try, except, raise Exception handling Assertions shart_jaanch x &gt; 0 doAssert x &gt; 0 Runtime assertion check Block End khatam or bas Indent level decrease End block boundary 1. Variables and Constants# Variables can be declared explicitly using rakho or created implicitly on first assignment. Constants are declared using pukka.
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/hinglish-guide/">
+	<meta property="og:site_name" content="Compound Language Documentation">
+	<meta property="og:title" content="Hinglish Language Guide (.hg)">
+	<meta property="og:description" content="Hinglish (.hg) Dialect Syntax Guide# The Hinglish dialect allows developers to program using natural Hindi and English phonetics. It translates intuitive words like rakho, dikhao, agar, toh, and khatam into high-performance native machine binaries.
+📌 Core Keyword &amp; Construct Cheat Sheet# Category Hinglish Keyword (.hg) Nim/C Equivalent Description Variables rakho x = 10 var x = 10 Declare mutable variable Constants pukka MAX = 100 const MAX = 100 Declare immutable constant Output dikhao &#34;Hello&#34; echo &#34;Hello&#34; Print formatted output to console Input rakho input = pucho() readLine(stdin) Read line from standard input Conditionals agar ... toh, varna agar, varna if, elif, else Branching logic Loops jabtak ... toh, har x mein container while, for x in container Iteration loops Functions kaam add(a: int): int toh ... khatam proc add(a: int): int Subroutine definition Return wapas result return result Return value from function Structs banao User = object type User = object Custom record/type definition Matching chuno val toh / jab x toh case val of x: Pattern matching Exceptions koshish_karo, galti_pakdo, galti_phenko try, except, raise Exception handling Assertions shart_jaanch x &gt; 0 doAssert x &gt; 0 Runtime assertion check Block End khatam or bas Indent level decrease End block boundary 1. Variables and Constants# Variables can be declared explicitly using rakho or created implicitly on first assignment. Constants are declared using pukka.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+		<meta property="article:published_time" content="2026-08-21T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-08-21T00:00:00+00:00">
+
+
+	<meta itemprop="name" content="Hinglish Language Guide (.hg)">
+	<meta itemprop="description" content="Hinglish (.hg) Dialect Syntax Guide# The Hinglish dialect allows developers to program using natural Hindi and English phonetics. It translates intuitive words like rakho, dikhao, agar, toh, and khatam into high-performance native machine binaries.
+📌 Core Keyword &amp; Construct Cheat Sheet# Category Hinglish Keyword (.hg) Nim/C Equivalent Description Variables rakho x = 10 var x = 10 Declare mutable variable Constants pukka MAX = 100 const MAX = 100 Declare immutable constant Output dikhao &#34;Hello&#34; echo &#34;Hello&#34; Print formatted output to console Input rakho input = pucho() readLine(stdin) Read line from standard input Conditionals agar ... toh, varna agar, varna if, elif, else Branching logic Loops jabtak ... toh, har x mein container while, for x in container Iteration loops Functions kaam add(a: int): int toh ... khatam proc add(a: int): int Subroutine definition Return wapas result return result Return value from function Structs banao User = object type User = object Custom record/type definition Matching chuno val toh / jab x toh case val of x: Pattern matching Exceptions koshish_karo, galti_pakdo, galti_phenko try, except, raise Exception handling Assertions shart_jaanch x &gt; 0 doAssert x &gt; 0 Runtime assertion check Block End khatam or bas Indent level decrease End block boundary 1. Variables and Constants# Variables can be declared explicitly using rakho or created implicitly on first assignment. Constants are declared using pukka.">
+	<meta itemprop="datePublished" content="2026-08-21T00:00:00+00:00">
+	<meta itemprop="dateModified" content="2026-08-21T00:00:00+00:00">
+	<meta itemprop="wordCount" content="672">
+
+<title>Hinglish Language Guide (.hg) • Compound Language Documentation</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/hinglish-guide/">
+<link rel="stylesheet" href="/book.min.4d77e98d764f495b145946ef9260681bab38aaf7bc01f96a6f61a3a0fea19dbf.css" integrity="sha256-TXfpjXZPSVsUWUbvkmBoG6s4qve8Aflqb2GjoP6hnb8=" crossorigin="anonymous">
+
+
+
+  <script defer type="module" src="/en.search.min.16c03f64c9a7a8cee0e05ecc2e8321c308761b76d223435372e9c6c9857055af.js" integrity="sha256-FsA/ZMmnqM7g4F7MLoMhwwh2G3bSI0NTcunGyYVwVa8=" crossorigin="anonymous"></script>
+
+  
 </head>
-<body>
-    <header>
-        <h1><a href="/" style="text-decoration: none; color: #111;">Compound Language Docs</a></h1>
-        <nav style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <a href="/docs/getting-started/">Getting Started</a>
-            <a href="/docs/hinglish-guide/">Hinglish Guide</a>
-            <a href="/docs/english-guide/">English Guide</a>
-            <a href="/man/rakho-create/">MAN: Variables</a>
-            <a href="/man/pukka-fixed/">MAN: Constants</a>
-            <a href="/man/banao-type/">MAN: Structures</a>
-            <a href="/man/dikhao-show/">MAN: Output</a>
-            <a href="/man/agar-if/">MAN: Conditionals</a>
-            <a href="/man/jabtak-while/">MAN: Loops</a>
-            <a href="/man/kaam-task/">MAN: Functions</a>
-            <a href="/man/chuno-match/">MAN: Pattern Match</a>
-            <a href="/man/koshish-try/">MAN: Error Handling</a>
-            <a href="/man/shamil-import/">MAN: Modules</a>
-            <a href="/man/c-ffi/">MAN: C FFI</a>
-        </nav>
-    </header>
-    <main>
-        <h1 id="hinglish-hg-language-guide">Hinglish (<code>hg</code>) Language Guide</h1>
-<p>Hinglish allows writing programs using common Hindi/English phonetic words.</p>
-<h2 id="example-program">Example Program</h2>
-<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">bhasha=&#34;hi&#34;
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/logo.png" alt="Logo" /><span>Compound Language Documentation</span>
+  </a>
+</h2>
 
-rakho naam = &#34;Amit&#34;
-dikhao &#34;Namaste!&#34;, naam
 
-rakho ginti = 1
-jabtak ginti chhota ya barabar hai 5 se toh
-    dikhao &#34;Ginti number:&#34;, ginti
-    ginti += 1
-khatam
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
 
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/" class="">
+      Getting Started with Compound</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/hinglish-guide/" class="active">
+      Hinglish Language Guide (.hg)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/" class="">
+      Manual Pages</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/c-ffi/" class="">
+      C Language FFI Integration (c_ka_kaam / c_func)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/shell-powershell/" class="">
+      Shell &amp; PowerShell Subshell Automation (shell-powershell)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/types-and-structs/" class="">
+      Data Types &amp; Structs (types-and-structs)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/stdlib-reference/" class="">
+      Standard Library Reference (stdlib-reference)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/chronokv-db/" class="">
+      chronokv-db</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/powershell-subshell/" class="">
+      powershell-subshell</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/vscode-tooling/" class="">
+      vscode-tooling</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/agar-if/" class="">
+      agar / if (Conditionals &amp; Branching)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/banao-type/" class="">
+      banao / type (Data Types &amp; Structures)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/chuno-match/" class="">
+      chuno / match / switch (Pattern Matching)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/dikhao-show/" class="">
+      dikhao / show / print (Output Command)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/jabtak-while/" class="">
+      jabtak / repeat while (Loops)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/kaam-task/" class="">
+      kaam / task / function (Functions &amp; Subroutines)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/koshish-try/" class="">
+      koshish_karo / try (Error Handling)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/pukka-fixed/" class="">
+      pukka / fixed (Constants)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/rakho-create/" class="">
+      rakho / create (Variable Declaration)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/man/shamil-import/" class="">
+      shamil_karo / import (Module Imports)</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/english-guide/" class="">
+      English Language Guide (.eg)</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Hinglish Language Guide (.hg)</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#-core-keyword--construct-cheat-sheet">📌 Core Keyword &amp; Construct Cheat Sheet</a></li>
+    <li><a href="#1-variables-and-constants">1. Variables and Constants</a></li>
+    <li><a href="#2-functions--subroutines-kaam">2. Functions &amp; Subroutines (<code>kaam</code>)</a></li>
+    <li><a href="#3-conditionals-agar--toh--varna-agar--varna">3. Conditionals (<code>agar</code> / <code>toh</code> / <code>varna agar</code> / <code>varna</code>)</a></li>
+    <li><a href="#4-loops--iteration-jabtak--har--mein">4. Loops &amp; Iteration (<code>jabtak</code> / <code>har ... mein</code>)</a>
+      <ul>
+        <li><a href="#while-loop-jabtak">While Loop (<code>jabtak</code>)</a></li>
+        <li><a href="#range--sequence-loop-har--mein">Range &amp; Sequence Loop (<code>har ... mein</code>)</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-custom-objects--structures-banao">5. Custom Objects &amp; Structures (<code>banao</code>)</a></li>
+    <li><a href="#6-pattern-matching-chuno--jab">6. Pattern Matching (<code>chuno</code> / <code>jab</code>)</a></li>
+    <li><a href="#7-exception-handling-koshish_karo--galti_pakdo--aakhir_mein">7. Exception Handling (<code>koshish_karo</code> / <code>galti_pakdo</code> / <code>aakhir_mein</code>)</a></li>
+    <li><a href="#8-shell-automation--c-ffi-integration">8. Shell Automation &amp; C FFI Integration</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="hinglish-hg-dialect-syntax-guide">Hinglish (<code>.hg</code>) Dialect Syntax Guide<a class="anchor" href="#hinglish-hg-dialect-syntax-guide">#</a></h1>
+<p>The <strong>Hinglish</strong> dialect allows developers to program using natural Hindi and English phonetics. It translates intuitive words like <code>rakho</code>, <code>dikhao</code>, <code>agar</code>, <code>toh</code>, and <code>khatam</code> into high-performance native machine binaries.</p>
+<hr>
+<h2 id="-core-keyword--construct-cheat-sheet">📌 Core Keyword &amp; Construct Cheat Sheet<a class="anchor" href="#-core-keyword--construct-cheat-sheet">#</a></h2>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">Category</th>
+					<th style="text-align: left">Hinglish Keyword (<code>.hg</code>)</th>
+					<th style="text-align: left">Nim/C Equivalent</th>
+					<th style="text-align: left">Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Variables</strong></td>
+					<td style="text-align: left"><code>rakho x = 10</code></td>
+					<td style="text-align: left"><code>var x = 10</code></td>
+					<td style="text-align: left">Declare mutable variable</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Constants</strong></td>
+					<td style="text-align: left"><code>pukka MAX = 100</code></td>
+					<td style="text-align: left"><code>const MAX = 100</code></td>
+					<td style="text-align: left">Declare immutable constant</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Output</strong></td>
+					<td style="text-align: left"><code>dikhao &quot;Hello&quot;</code></td>
+					<td style="text-align: left"><code>echo &quot;Hello&quot;</code></td>
+					<td style="text-align: left">Print formatted output to console</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Input</strong></td>
+					<td style="text-align: left"><code>rakho input = pucho()</code></td>
+					<td style="text-align: left"><code>readLine(stdin)</code></td>
+					<td style="text-align: left">Read line from standard input</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Conditionals</strong></td>
+					<td style="text-align: left"><code>agar ... toh</code>, <code>varna agar</code>, <code>varna</code></td>
+					<td style="text-align: left"><code>if</code>, <code>elif</code>, <code>else</code></td>
+					<td style="text-align: left">Branching logic</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Loops</strong></td>
+					<td style="text-align: left"><code>jabtak ... toh</code>, <code>har x mein container</code></td>
+					<td style="text-align: left"><code>while</code>, <code>for x in container</code></td>
+					<td style="text-align: left">Iteration loops</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Functions</strong></td>
+					<td style="text-align: left"><code>kaam add(a: int): int toh ... khatam</code></td>
+					<td style="text-align: left"><code>proc add(a: int): int</code></td>
+					<td style="text-align: left">Subroutine definition</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Return</strong></td>
+					<td style="text-align: left"><code>wapas result</code></td>
+					<td style="text-align: left"><code>return result</code></td>
+					<td style="text-align: left">Return value from function</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Structs</strong></td>
+					<td style="text-align: left"><code>banao User = object</code></td>
+					<td style="text-align: left"><code>type User = object</code></td>
+					<td style="text-align: left">Custom record/type definition</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Matching</strong></td>
+					<td style="text-align: left"><code>chuno val toh</code> / <code>jab x toh</code></td>
+					<td style="text-align: left"><code>case val of x:</code></td>
+					<td style="text-align: left">Pattern matching</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Exceptions</strong></td>
+					<td style="text-align: left"><code>koshish_karo</code>, <code>galti_pakdo</code>, <code>galti_phenko</code></td>
+					<td style="text-align: left"><code>try</code>, <code>except</code>, <code>raise</code></td>
+					<td style="text-align: left">Exception handling</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Assertions</strong></td>
+					<td style="text-align: left"><code>shart_jaanch x &gt; 0</code></td>
+					<td style="text-align: left"><code>doAssert x &gt; 0</code></td>
+					<td style="text-align: left">Runtime assertion check</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Block End</strong></td>
+					<td style="text-align: left"><code>khatam</code> or <code>bas</code></td>
+					<td style="text-align: left">Indent level decrease</td>
+					<td style="text-align: left">End block boundary</td>
+			</tr>
+	</tbody>
+</table>
+<hr>
+<h2 id="1-variables-and-constants">1. Variables and Constants<a class="anchor" href="#1-variables-and-constants">#</a></h2>
+<p>Variables can be declared explicitly using <code>rakho</code> or created implicitly on first assignment. Constants are declared using <code>pukka</code>.</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">// Explicit variable declaration
+rakho user_name = &#34;Rahul&#34;
+rakho counter = 10
+
+// Implicit assignment (automatically transpiled to var counter_2)
+counter_2 = 20
+
+// Immutable constant
+pukka MAX_LIMIT = 500</code></pre><hr>
+<h2 id="2-functions--subroutines-kaam">2. Functions &amp; Subroutines (<code>kaam</code>)<a class="anchor" href="#2-functions--subroutines-kaam">#</a></h2>
+<p>Functions are defined using <code>kaam</code>. Use <code>wapas</code> to return a value. Blocks must close with <code>khatam</code> or <code>bas</code>.</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">// Function returning an integer
 kaam jod(a: int, b: int): int toh
-    wapas a + b
+  wapas a + b
 khatam
 
-rakho uttar = jod(10, 20)
-dikhao &#34;Jod hai:&#34;, uttar
-</code></pre>
-    </main>
-    <footer>
-        <p>Compound Programming Language Official Documentation & Man Pages | Generated with Hugo</p>
-    </footer>
+// Void function with side effects
+kaam abhinandan(naam: string) toh
+  dikhao &#34;Namaste,&#34;, naam
+khatam
+
+rakho total = jod(25, 75)
+abhinandan(&#34;Amit&#34;)
+dikhao &#34;Total jod:&#34;, total</code></pre><hr>
+<h2 id="3-conditionals-agar--toh--varna-agar--varna">3. Conditionals (<code>agar</code> / <code>toh</code> / <code>varna agar</code> / <code>varna</code>)<a class="anchor" href="#3-conditionals-agar--toh--varna-agar--varna">#</a></h2>
+<p>Conditionals evaluate expressions and route execution. Opening lines optionally end with <code>toh</code>.</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">rakho score = 85
+
+agar score &gt;= 90 toh
+  dikhao &#34;Grade: A+&#34;
+varna agar score &gt;= 75 toh
+  dikhao &#34;Grade: A&#34;
+varna toh
+  dikhao &#34;Grade: Pass&#34;
+khatam</code></pre><hr>
+<h2 id="4-loops--iteration-jabtak--har--mein">4. Loops &amp; Iteration (<code>jabtak</code> / <code>har ... mein</code>)<a class="anchor" href="#4-loops--iteration-jabtak--har--mein">#</a></h2>
+<h3 id="while-loop-jabtak">While Loop (<code>jabtak</code>)<a class="anchor" href="#while-loop-jabtak">#</a></h3>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">rakho i = 1
+jabtak i &lt;= 5 toh
+  dikhao &#34;Iteration ginti:&#34;, i
+  i += 1
+khatam</code></pre><h3 id="range--sequence-loop-har--mein">Range &amp; Sequence Loop (<code>har ... mein</code>)<a class="anchor" href="#range--sequence-loop-har--mein">#</a></h3>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">// Range iteration 1 to 5 inclusive
+har n mein 1 .. 5 toh
+  dikhao &#34;Number:&#34;, n
+khatam
+
+// Sequence iteration
+rakho fruits = @[&#34;Aam&#34;, &#34;Kela&#34;, &#34;Seb&#34;]
+har fruit mein fruits toh
+  dikhao &#34;Phal:&#34;, fruit
+khatam</code></pre><hr>
+<h2 id="5-custom-objects--structures-banao">5. Custom Objects &amp; Structures (<code>banao</code>)<a class="anchor" href="#5-custom-objects--structures-banao">#</a></h2>
+<p>Define custom data structures with <code>banao</code>. You can create value objects or reference types (<code>ref object</code>).</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">banao Khata = object
+  id: int
+  naam: string
+  balance: float64
+khatam
+
+rakho k1 = Khata(id: 101, naam: &#34;Priya&#34;, balance: 5000.50)
+dikhao &#34;Khata Naam:&#34;, k1.naam, &#34;| Balance:&#34;, k1.balance</code></pre><hr>
+<h2 id="6-pattern-matching-chuno--jab">6. Pattern Matching (<code>chuno</code> / <code>jab</code>)<a class="anchor" href="#6-pattern-matching-chuno--jab">#</a></h2>
+<p>Multi-branch evaluation is handled cleanly with <code>chuno</code> and <code>jab</code>.</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">rakho status_code = 200
+
+chuno status_code toh
+  jab 200 toh
+    dikhao &#34;Safal (OK)&#34;
+  jab 404 toh
+    dikhao &#34;Nahi mila (Not Found)&#34;
+  jab 500 toh
+    dikhao &#34;Server Galti (Internal Error)&#34;
+  varna toh
+    dikhao &#34;Agyaat status code&#34;
+khatam</code></pre><hr>
+<h2 id="7-exception-handling-koshish_karo--galti_pakdo--aakhir_mein">7. Exception Handling (<code>koshish_karo</code> / <code>galti_pakdo</code> / <code>aakhir_mein</code>)<a class="anchor" href="#7-exception-handling-koshish_karo--galti_pakdo--aakhir_mein">#</a></h2>
+<p>Safely trap runtime errors using <code>koshish_karo</code> and <code>galti_pakdo</code>. Use <code>galti_phenko</code> to raise exceptions and <code>aakhir_mein</code> for cleanup blocks.</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">koshish_karo toh
+  rakho x = 10
+  agar x == 10 toh
+    galti_phenko &#34;Seema se bahar ki galti!&#34;
+  khatam
+galti_pakdo toh
+  dikhao &#34;Galti pakdi gayi safalta se!&#34;
+aakhir_mein toh
+  dikhao &#34;Har haal mein chalega (Cleanup done)&#34;
+khatam</code></pre><hr>
+<h2 id="8-shell-automation--c-ffi-integration">8. Shell Automation &amp; C FFI Integration<a class="anchor" href="#8-shell-automation--c-ffi-integration">#</a></h2>
+<p>Hinglish integrates seamlessly with Linux shell scripts and native C libraries.</p>
+<pre tabindex="0"><code class="language-hinglish" data-lang="hinglish">// 1. Execute Bash command directly
+$ &#34;echo &#39;Creating log file...&#39; &gt; /tmp/hg_app.log&#34;
+
+// 2. Execute command and capture output
+rakho (output, exit_code) = command(&#34;uname -r&#34;)
+dikhao &#34;Kernel version:&#34;, output.strip()
+
+// 3. Native C Library FFI Import
+c_ka_kaam sin(x: cdouble): cdouble from &#34;math.h&#34;
+c_ka_kaam printf(fmt: cstring, val: cdouble): cint from &#34;stdio.h&#34;
+
+printf(&#34;Sin(1.57) value: %.4f\n&#34;, sin(1.5708))</code></pre></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+<div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/getting-started/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Getting Started with Compound</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/man/" class="flex align-center">
+        <span>Manual Pages</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#-core-keyword--construct-cheat-sheet">📌 Core Keyword &amp; Construct Cheat Sheet</a></li>
+    <li><a href="#1-variables-and-constants">1. Variables and Constants</a></li>
+    <li><a href="#2-functions--subroutines-kaam">2. Functions &amp; Subroutines (<code>kaam</code>)</a></li>
+    <li><a href="#3-conditionals-agar--toh--varna-agar--varna">3. Conditionals (<code>agar</code> / <code>toh</code> / <code>varna agar</code> / <code>varna</code>)</a></li>
+    <li><a href="#4-loops--iteration-jabtak--har--mein">4. Loops &amp; Iteration (<code>jabtak</code> / <code>har ... mein</code>)</a>
+      <ul>
+        <li><a href="#while-loop-jabtak">While Loop (<code>jabtak</code>)</a></li>
+        <li><a href="#range--sequence-loop-har--mein">Range &amp; Sequence Loop (<code>har ... mein</code>)</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-custom-objects--structures-banao">5. Custom Objects &amp; Structures (<code>banao</code>)</a></li>
+    <li><a href="#6-pattern-matching-chuno--jab">6. Pattern Matching (<code>chuno</code> / <code>jab</code>)</a></li>
+    <li><a href="#7-exception-handling-koshish_karo--galti_pakdo--aakhir_mein">7. Exception Handling (<code>koshish_karo</code> / <code>galti_pakdo</code> / <code>aakhir_mein</code>)</a></li>
+    <li><a href="#8-shell-automation--c-ffi-integration">8. Shell Automation &amp; C FFI Integration</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-import std/osproc
+import std/[osproc, os]
 #  2. B+ Tree Disk Indexer
 import algorithm
 
