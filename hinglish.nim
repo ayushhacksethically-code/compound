@@ -1,29 +1,67 @@
 import std/[strutils, osproc]
 
+proc maskStrings(line: string, strTable: var seq[string]): string =
+  var resultStr = ""
+  var inString = false
+  var currentStr = ""
+  var quoteChar = '"'
+  var i = 0
+  while i < line.len:
+    let c = line[i]
+    if not inString:
+      if c == '"' or c == '\'':
+        inString = true
+        quoteChar = c
+        currentStr = $c
+      else:
+        resultStr.add(c)
+    else:
+      currentStr.add(c)
+      if c == quoteChar and (i == 0 or line[i-1] != '\\'):
+        inString = false
+        let placeholder = "___COMPOUND_STR_" & $strTable.len & "___"
+        strTable.add(currentStr)
+        resultStr.add(placeholder)
+    inc i
+  if inString:
+    let placeholder = "___COMPOUND_STR_" & $strTable.len & "___"
+    strTable.add(currentStr)
+    resultStr.add(placeholder)
+  return resultStr
+
+proc unmaskStrings(line: string, strTable: seq[string]): string =
+  var res = line
+  for idx, s in strTable:
+    let placeholder = "___COMPOUND_STR_" & $idx & "___"
+    res = res.replace(placeholder, s)
+  return res
+
 proc translateHinglishLine*(line: string): string =
-  var l = line.strip()
+  var strTable: seq[string] = @[]
+  var maskedLine = maskStrings(line, strTable)
+  var l = maskedLine.strip()
   if l.len == 0: return ""
-  if l.startsWith("//") or l.startsWith("#"): return "# " & l.substr(2)
+  if l.startsWith("//") or l.startsWith("#"): return "# " & unmaskStrings(l.substr(2), strTable)
 
   # 1. Shell Command Execution ($ "cmd" or chalao "cmd")
   if l.startsWith("$ ") or l.startsWith("shell ") or l.startsWith("chalao "):
     let cmdStr = l.replace("$ ", "").replace("shell ", "").replace("chalao ", "")
-    return "discard execCmd(" & cmdStr & ")"
+    return "discard execCmd(" & unmaskStrings(cmdStr, strTable) & ")"
 
   l = l.replace("command(", "execCmdEx(")
 
   # 2. Imports & FFI
   if l.startsWith("shamil_karo ") or l.startsWith("import_karo "):
-    return "import " & l.replace("shamil_karo ", "").replace("import_karo ", "")
+    return "import " & unmaskStrings(l.replace("shamil_karo ", "").replace("import_karo ", ""), strTable)
   elif l.startsWith("c_ka_kaam "):
     let content = l.substr(10)
     if " from " in content:
       let parts = content.split(" from ")
       let header = parts[1].replace("\"", "")
       let fnDef = parts[0]
-      return "proc " & fnDef & " {.importc, header: \"" & header & "\", discardable.}"
+      return "proc " & unmaskStrings(fnDef, strTable) & " {.importc, header: \"" & unmaskStrings(header, strTable) & "\", discardable.}"
     else:
-      return "proc " & content & " {.importc, discardable.}"
+      return "proc " & unmaskStrings(content, strTable) & " {.importc, discardable.}"
 
   # 3. Rigid Operator Substitutions (Word bounded / exact tokens)
   l = l.replace(" += ", " += ")
@@ -103,7 +141,7 @@ proc translateHinglishLine*(line: string): string =
   elif hasToh or l.startsWith("if ") or l.startsWith("elif ") or l == "else" or l.startsWith("while ") or l.startsWith("for ") or l == "try" or l.startsWith("except") or l == "finally" or l.startsWith("case ") or l.startsWith("of "):
     if not l.endsWith(":"): l.add(":")
 
-  return l
+  return unmaskStrings(l, strTable)
 
 proc transpileHinglish*(code: string): string =
   var lines = code.splitLines()
@@ -152,3 +190,4 @@ proc transpileHinglish*(code: string): string =
         inc currentIndent
 
   return nimLines.join("\n")
+
