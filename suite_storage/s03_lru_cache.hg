@@ -1,0 +1,21 @@
+// Storage Engine 3: In-Memory Cache with LRU Eviction
+shamil_karo tables, lists
+
+rakho cacheMap = initTable[string, string]()
+rakho lruOrder: seq[string] = @[]
+
+kaam lru_put(key: string, val: string, capacity: int) se toh
+  agar lruOrder.len >= capacity toh
+    rakho evictedKey = lruOrder[0]
+    dikhao "[LRU Evict] Capacity reached! Evicting oldest key: " & evictedKey
+    cacheMap.del(evictedKey)
+    lruOrder.delete(0)
+  khatam
+  cacheMap[key] = val
+  lruOrder.add(key)
+  dikhao "[LRU Cache] Put key: " & key & " => " & val
+khatam
+
+lru_put("session:1", "active", 2)
+lru_put("session:2", "active", 2)
+lru_put("session:3", "active", 2)

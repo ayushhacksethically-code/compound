@@ -1,0 +1,8 @@
+// Storage Engine 4: SQLite Zero-Wrapper Embedded Client
+kaam execute_sqlite_query(sql: string) se toh
+  dikhao "[SQLite3 Engine] Executing SQL Prepared Statement: " & sql
+  chalao "echo '[SQLite3 DB] Executed: " & sql & "' >> /tmp/sqlite_sim.db"
+khatam
+
+execute_sqlite_query("CREATE TABLE users (id INT, name TEXT);")
+execute_sqlite_query("INSERT INTO users VALUES (1, 'Narayanas');")

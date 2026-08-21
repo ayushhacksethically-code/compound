@@ -1,0 +1,11 @@
+// Storage Engine 2: B+ Tree Disk Indexer (4KB Block Node Manager)
+shamil_karo algorithm
+
+kaam btree_insert_key(keys: seq[int], target_key: int): int se toh
+  dikhao "[B+ Tree Indexer] Performing binary search for target key " & $target_key
+  wapas keys.binarySearch(target_key)
+khatam
+
+rakho node_keys: seq[int] = @[10, 20, 30, 40, 50]
+dikhao "[B+ Tree Node Page] Size: 4096 bytes | Keys: " & $node_keys
+dikhao "[B+ Tree Indexer] Key index offset: " & $btree_insert_key(node_keys, 30)

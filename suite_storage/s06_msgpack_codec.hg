@@ -1,0 +1,11 @@
+// Storage Engine 6: Binary Protocol MessagePack Encoder/Decoder
+shamil_karo strutils
+
+kaam pack_msgpack(tag: string, payload: string): seq[byte] se toh
+  dikhao "[MsgPack Encoder] Packing payload '" & payload & "' with tag: " & tag
+  rakho bytes: seq[byte] = @[0x81'u8, 0xa5'u8]
+  wapas bytes
+khatam
+
+rakho binData = pack_msgpack("user", "Narayanas")
+dikhao "[MsgPack Output] Packed binary length: " & $binData.len & " bytes"

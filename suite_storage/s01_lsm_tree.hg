@@ -1,0 +1,23 @@
+// Storage Engine 1: Append-Only LSM-Tree Storage Engine
+shamil_karo tables, os
+
+rakho memTable = initTable[string, string]()
+
+kaam wal_append(key: string, val: string) se toh
+  dikhao "[LSM WAL] Appending entry -> " & key & ":" & val
+  chalao "echo '" & key & "=" & val & "' >> /tmp/lsm_wal.log"
+khatam
+
+kaam lsm_put(key: string, val: string) se toh
+  wal_append(key, val)
+  memTable[key] = val
+  agar memTable.len >= 3 toh
+    dikhao "[LSM SSTable] MemTable threshold reached! Flushing MemTable to immutable SSTable disk chunk..."
+    chalao "echo '[SSTable Chunk] Flushed 3 entries to disk' >> /tmp/lsm_sstable.log"
+    memTable.clear()
+  khatam
+khatam
+
+lsm_put("user:101", "Alice")
+lsm_put("user:102", "Bob")
+lsm_put("user:103", "Charlie")

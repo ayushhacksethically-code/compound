@@ -1,0 +1,11 @@
+// Storage Engine 7: Custom Columnar File Store
+shamil_karo os, strutils
+
+kaam write_column_data(col_name: string, values: seq[string]) se toh
+  dikhao "[Columnar Store] Writing typed column file: /tmp/col_" & col_name & ".bin"
+  chalao "echo '" & values.join(",") & "' > /tmp/col_" & col_name & ".bin"
+khatam
+
+write_column_data("id", @["1", "2", "3"])
+write_column_data("age", @["25", "30", "35"])
+dikhao "[Columnar Analytical Query] Aggregating column '/tmp/col_age.bin'..."

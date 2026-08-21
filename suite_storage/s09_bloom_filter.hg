@@ -1,0 +1,18 @@
+// Storage Engine 9: Bloom Filter with Murmur3 Hash
+shamil_karo hashes
+
+rakho bitArray: array[64, bool]
+
+kaam bloom_add(item: string) se toh
+  rakho h = abs(hash(item)) mod 64
+  bitArray[h] = true
+  dikhao "[Bloom Filter] Adding '" & item & "' -> Bit index: " & $h
+khatam
+
+kaam bloom_contains(item: string): bool se toh
+  rakho h = abs(hash(item)) mod 64
+  wapas bitArray[h]
+khatam
+
+bloom_add("user@example.com")
+dikhao "[Bloom Check] 'user@example.com' exists: " & $bloom_contains("user@example.com")

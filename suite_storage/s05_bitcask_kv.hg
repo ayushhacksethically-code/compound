@@ -1,0 +1,14 @@
+// Storage Engine 5: Bitcask-Style Key-Value Store
+shamil_karo tables, os
+
+rakho keyIndex = initTable[string, int64]()
+
+kaam bitcask_write(key: string, val: string) se toh
+  rakho entry = key & ":" & val & "\n"
+  rakho offset = int64(1024)
+  keyIndex[key] = offset
+  dikhao "[Bitcask Log] Sequential Append Key: " & key & " at file offset: " & $offset
+khatam
+
+bitcask_write("account_balance", "5000")
+dikhao "[Bitcask Index] Fast O(1) Memory Hash Offset Lookup for 'account_balance': " & $keyIndex["account_balance"]

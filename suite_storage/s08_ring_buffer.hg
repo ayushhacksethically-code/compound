@@ -1,0 +1,15 @@
+// Storage Engine 8: Circular Ring-Buffer Logger
+rakho ringBuffer: array[4, string]
+rakho head = 0
+
+kaam ring_log(msg: string) se toh
+  ringBuffer[head mod 4] = msg
+  dikhao "[RingBuffer Slot #" & $(head mod 4) & "] Logged: " & msg
+  head += 1
+khatam
+
+ring_log("Metric 1")
+ring_log("Metric 2")
+ring_log("Metric 3")
+ring_log("Metric 4")
+ring_log("Metric 5 (Evicts Metric 1)")
