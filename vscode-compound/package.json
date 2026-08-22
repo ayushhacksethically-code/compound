@@ -1,14 +1,21 @@
 {
   "name": "compound-lang",
   "displayName": "Compound Programming Language",
-  "description": "Syntax Highlighting and Language Support for Compound (Hinglish .hg & Plain English .eg)",
-  "version": "1.0.0",
+  "description": "Syntax Highlighting and Execution Support for Compound (Hinglish .hg & Plain English .eg)",
+  "version": "1.1.0",
   "publisher": "antigravity",
+  "main": "./extension.js",
   "engines": {
     "vscode": "^1.60.0"
   },
   "categories": [
     "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:hinglish",
+    "onLanguage:english",
+    "onCommand:compound.runFile",
+    "onCommand:compound.buildFile"
   ],
   "contributes": {
     "languages": [
@@ -36,6 +43,53 @@
         "scopeName": "source.english",
         "path": "./syntaxes/english.tmLanguage.json"
       }
-    ]
+    ],
+    "commands": [
+      {
+        "command": "compound.runFile",
+        "title": "Run Compound File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "compound.buildFile",
+        "title": "Build Compound Native Binary",
+        "icon": "$(tools)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "compound.runFile",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r",
+        "when": "editorTextFocus && (editorLangId == hinglish || editorLangId == english)"
+      },
+      {
+        "command": "compound.buildFile",
+        "key": "ctrl+alt+b",
+        "mac": "cmd+alt+b",
+        "when": "editorTextFocus && (editorLangId == hinglish || editorLangId == english)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "compound.runFile",
+          "group": "navigation",
+          "when": "resourceLangId == hinglish || resourceLangId == english"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "compound.runFile",
+          "group": "1_modification",
+          "when": "resourceLangId == hinglish || resourceLangId == english"
+        },
+        {
+          "command": "compound.buildFile",
+          "group": "1_modification",
+          "when": "resourceLangId == hinglish || resourceLangId == english"
+        }
+      ]
+    }
   }
 }

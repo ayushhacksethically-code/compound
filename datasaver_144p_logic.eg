@@ -8,7 +8,7 @@ task is_144p_quality(width: int, height: int): bool do
     if width <= 144 or height <= 256 do
       return true
     end
-  else
+  else do
     // Standard 16:9 144p video (e.g. 256x144)
     if height <= 144 do
       return true
@@ -19,15 +19,15 @@ task is_144p_quality(width: int, height: int): bool do
 end
 
 task get_ytdl_format(): string do
-  return "bestvideo[height<=?144]+bestaudio/bestvideo[width<=?144]+bestaudio/bestvideo[height<=?256]+bestaudio/bestvideo[height<=?360]+bestaudio/best/worst"
+  return "bestvideo[height<=?144]+bestaudio/bestvideo[width<=?144]+bestvideo[height<=?256]+bestvideo[height<=?360]+bestaudio/best/worst"
 end
 
 // Test Cases
-keep is_vert_144p = $is_144p_quality(144, 256)
-keep is_land_144p = $is_144p_quality(256, 144)
-keep is_hd_1080p  = $is_144p_quality(1080, 1920)
+keep is_vert_144p = is_144p_quality(144, 256)
+keep is_land_144p = is_144p_quality(256, 144)
+keep is_hd_1080p  = is_144p_quality(1080, 1920)
 
-show "Vertical 144p Stream Valid (144x256): " & $is_vert_144p
-show "Landscape 144p Stream Valid (256x144): " & $is_land_144p
-show "HD 1080p Stream Valid (1080x1920): " & $is_hd_1080p
-show "yt-dlp Format String: " & $get_ytdl_format()
+show "Vertical 144p Stream Valid (144x256): ", is_vert_144p
+show "Landscape 144p Stream Valid (256x144): ", is_land_144p
+show "HD 1080p Stream Valid (1080x1920): ", is_hd_1080p
+show "yt-dlp Format String: ", get_ytdl_format()
