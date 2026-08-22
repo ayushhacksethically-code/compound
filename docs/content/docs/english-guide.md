@@ -5,186 +5,332 @@ weight: 3
 draft: false
 ---
 
-# English (`.eg`) Dialect Syntax Guide
+# English (`.eg`) Dialect Technical Manual & Language Guide
 
-The **English** dialect allows non-technical users and software engineers alike to write clean, self-documenting code using plain English terminology (`keep`, `show`, `if`, `task`, `while`, `done`).
+> [!NOTE]
+> The **English (`.eg`)** dialect allows developers, software engineers, and domain specialists to write expressive, high-performance systems and scripting code using clean, natural English terminology (`keep`, `show`, `if` / `do` / `else`, `task`, `while`, `done`).
 
 ---
 
-## 📌 Core Keyword & Construct Cheat Sheet
+## 📋 Comprehensive Keyword & Synonym Reference
 
-| Category | English Keyword (`.eg`) | Nim/C Equivalent | Description |
+| Construct / Intent | Primary English Syntax | Alternative Synonyms | Transpiled Nim / C Target |
 | :--- | :--- | :--- | :--- |
-| **Variables** | `keep x = 10` or `var x = 10` | `var x = 10` | Declare mutable variable |
-| **Constants** | `fixed MAX = 100` or `const MAX = 100` | `const MAX = 100` | Declare immutable constant |
-| **Output** | `show "Hello"` or `print "Hello"` | `echo "Hello"` | Print output to console |
-| **Input** | `keep input = ask()` / `input()` | `readLine(stdin)` | Read input from console stdin |
-| **Conditionals** | `if ... do`, `otherwise if`, `else` | `if`, `elif`, `else` | Branching evaluation |
-| **Loops** | `while ... do`, `for x in container` | `while`, `for x in container` | Loop iteration |
-| **Functions** | `task add(a: int): int do ... done` | `proc add(a: int): int` | Function declaration |
-| **Return** | `return result` | `return result` | Return value from task |
-| **Structs** | `type User = object` or `make User = object` | `type User = object` | Record structure definition |
-| **Matching** | `match val do` / `when x do` | `case val of x:` | Pattern matching |
-| **Exceptions** | `try`, `catch`, `throw` / `raise` | `try`, `except`, `raise` | Exception handling |
-| **Assertions** | `assert x > 0` | `doAssert x > 0` | Assertion validation |
-| **Block End** | `done` or `end` | Indent level decrease | End block boundary |
+| **Variable Declaration** | `keep x = 10` | `var x = 10`, `let x = 10` | `var x = 10` |
+| **Constant Declaration** | `fixed MAX = 100` | `const MAX = 100` | `const MAX = 100` |
+| **Implicit Assignment** | `x = 10` | (auto variable declaration) | `var x = 10` |
+| **Type Struct Definition**| `type User = object` | `make User = object` | `type User = object` |
+| **Console Output** | `show "Hello"` | `print "Hello"` | `echo "Hello"` |
+| **Console Input** | `keep text = ask()` | `keep text = input()` | `readLine(stdin)` |
+| **Conditional If** | `if cond do` | `if cond:` | `if cond:` |
+| **Conditional Elif** | `otherwise if cond do` | `elif cond do`, `elif cond:` | `elif cond:` |
+| **Conditional Else** | `else` | `otherwise` | `else:` |
+| **While Loop** | `while cond do` | `while cond:` | `while cond:` |
+| **For-In Loop** | `for item in container do` | `each item in container do` | `for item in container:` |
+| **Function / Task** | `task name(arg: T): R do` | `function name()`, `proc name()` | `proc name(arg: T): R {.discardable.} =` |
+| **Return Statement** | `return expr` | `return` | `return expr` |
+| **Loop Continue** | `continue` | `skip` | `continue` |
+| **Loop Break** | `break` | `stop` | `break` |
+| **Pass / Discard** | `pass` | `nothing` | `discard` |
+| **Pattern Match** | `match val do` | `match val:` | `case val:` |
+| **Match Case** | `when case_val do` | `case case_val do` | `of case_val:` |
+| **Try Block** | `try` / `try do` | `try:` | `try:` |
+| **Catch Exception** | `catch` / `catch do` | `except` | `except:` |
+| **Finally Block** | `finally` / `finally do` | `finally:` | `finally:` |
+| **Raise Error** | `throw "msg"` | `raise "msg"` | `raise newException(ValueError, "msg")` |
+| **Assert Condition** | `assert cond` | `assert cond` | `doAssert cond` |
+| **Module Import** | `import module_name` | `use module_name` | `import module_name` |
+| **C FFI Function** | `c_func fn(args): T from "hdr.h"` | `c_func fn(args): T` | `proc fn(args): T {.importc, header: "hdr.h", discardable.}` |
+| **Bash Command** | `$ "cmd"` | `shell "cmd"`, `chalao "cmd"` | `discard execCmd("cmd")` |
+| **PowerShell Command** | `ps_kaam "cmd"` | `ps_command "cmd"`, `ps "cmd"` | `discard execCmd("pwsh -NoProfile -NonInteractive -Command " & quoteShell("cmd"))` |
+| **Boolean True** | `true` | `yes` | `true` |
+| **Boolean False** | `false` | `no` | `false` |
+| **Nil / Null Handle** | `nil` | `none`, `empty` | `nil` |
+| **Block Terminator** | `done` | `end` | Indentation level decrease |
+| **Strict Procedure `[UNSTABLE / STAGING]`** | `strict task fn(...) do` | `pukka kaam` | `proc fn(...)` opt-in borrow-checked procedure |
+| **Move Semantics `[UNSTABLE / STAGING]`** | `moved var` | `chala_gaya` | Transfer variable ownership statically |
+| **Option Type `[UNSTABLE / STAGING]`** | `Some(v)` / `None` | `MilGaya` / `Khali` | Value present (`Some`) or missing (`None`) |
+| **Result Type `[UNSTABLE / STAGING]`** | `Ok(v)` / `Err(e)` | `Sahi` / `Galti` | Success result (`Ok`) or Error (`Err`) |
+| **Sum-Type Match `[UNSTABLE / STAGING]`** | `is Variant(...) do` | `hai Variant(...) toh` | Pattern match sum-type variant branch |
+
 
 ---
 
-## 1. Variables and Constants
+## 1. Variables, Scope, & Auto-Declaration
 
-Declare mutable variables using `keep`, `var`, or `let`. Declare immutable constants using `fixed` or `const`.
-
+### Syntax Signatures
 ```english
-// Explicit variable declaration
-keep username = "Alice"
-keep score = 100
+keep variable_name = expression
+fixed CONSTANT_NAME = expression
+variable_name = value
+```
 
-// Implicit assignment (automatically transpiled to var count)
-count = 1
+### Semantics & Scope Behavior
+- **Explicit Variable Declaration (`keep` / `var` / `let`)**: Allocates a mutable variable in the current lexical scope.
+- **Constant Declaration (`fixed` / `const`)**: Declares an immutable constant evaluated at compile-time or program initialization.
+- **Implicit Auto-Declaration**: Assigning to a previously undeclared identifier (`a = 50`) automatically inserts `var a = 50`.
 
-// Immutable constant
-fixed MAX_CONNECTIONS = 1000
+> [!WARNING]
+> **Variable Shadowing & Scope**: Declaring a variable inside an inner block (`if`, `while`, `task`) with the same name as an outer variable shadows the outer variable within that block. Take care not to accidentally re-declare identifiers.
+
+### Code Example
+```english
+// Global constant & variable
+fixed MAX_ITEMS = 100
+keep total_count = 0
+
+// Implicit auto-declaration on assignment
+user_name = "Alice"
+show "User initialized:", user_name
+
+task process_data() do
+    // Local variable shadowing total_count
+    keep total_count = 5
+    show "Inner count:", total_count
+done
+
+process_data()
+show "Outer count:", total_count  // Prints 0
 ```
 
 ---
 
-## 2. Functions & Tasks (`task`)
+## 2. Expressions, Operators, & Synonyms
 
-Define reusable tasks or functions using `task`, `function`, or `proc`. Return values with `return`. Close blocks with `done` or `end`.
+Compound supports expressive natural-language comparison operators alongside standard mathematical symbols:
+
+### Natural Comparison Operator Matrix
+
+| English Phrase Syntax | Standard Symbol Syntax | Nim/C Transpiled Operator |
+| :--- | :--- | :--- |
+| `a is bigger than b` | `a > b` | `a > b` |
+| `a is larger than b` | `a > b` | `a > b` |
+| `a is smaller than b` | `a < b` | `a < b` |
+| `a is bigger than or equal to b` | `a >= b` | `a >= b` |
+| `a is smaller than or equal to b` | `a <= b` | `a <= b` |
+| `a is equal to b` | `a == b` | `a == b` |
+| `a is not equal to b` | `a != b` | `a != b` |
+
+### Math & Bitwise Operators
+
+| Compound Syntax | Operator Meaning | Nim Backend Syntax |
+| :--- | :--- | :--- |
+| `a ** b` | Exponentiation ($a^b$) | `a ^ b` |
+| `a // b` | Integer Division ($\lfloor a/b \rfloor$) | `a div b` |
+| `a % b` | Modulo Remainder ($a \pmod b$) | `a mod b` |
+| `a << b` | Bitwise Left Shift | `a shl b` |
+| `a >> b` | Bitwise Right Shift | `a shr b` |
+| `a &= b` | Bitwise AND Assignment | `a and= b` |
+| `a |= b` | Bitwise OR Assignment | `a or= b` |
 
 ```english
-// Task returning an integer value
-task calculate_total(price: float64, tax_rate: float64): float64 do
-    return price + (price * tax_rate)
+keep width = 10
+keep height = 20
+
+if width is smaller than height do
+    show "Area calculation:", width * height
 done
 
-// Subroutine performing console output
-task greet_user(name: string) do
-    show "Welcome to Compound,", name
-done
-
-keep final_price = calculate_total(100.0, 0.18)
-greet_user("Alice")
-show "Final Price with Tax:", final_price
+keep base = 2
+keep power = 8
+show "2 ** 8 =", base ** power  // Prints 256
 ```
 
 ---
 
-## 3. Conditionals (`if` / `otherwise if` / `else`)
+## 3. Control Flow: Conditionals & Iteration
 
-Use intuitive condition comparisons like `is equal to`, `is bigger than`, `is smaller than`.
+### Conditionals (`if` / `otherwise if` / `else`)
 
 ```english
-keep temperature = 32
+keep temperature = 35
 
 if temperature is bigger than 30 do
-    show "It is hot outside!"
+    show "Extreme Heat Warning!"
 otherwise if temperature is smaller than 15 do
-    show "It is cold outside!"
+    show "Cold Weather Alert"
 else do
-    show "The weather is moderate."
+    show "Optimal Temperature"
 done
 ```
 
----
+### While Loop (`while ... do ... done`)
 
-## 4. Loops & Iteration (`while` / `for-in` / `each-in`)
-
-### While Loop (`while`)
 ```english
-keep step = 1
-while step is smaller than or equal to 3 do
-    show "Current Processing Step:", step
-    step += 1
+keep counter = 1
+while counter is smaller than or equal to 5 do
+    show "Iteration counter:", counter
+    counter += 1
 done
 ```
 
-### Range & Sequence Loop (`for` / `each`)
+### For & Each Loops (`for` / `each`)
+
 ```english
-// Range iteration 1 to 5 inclusive
-each n in 1 .. 5 do
-    show "Processing item:", n
+// Numeric range iteration (inclusive)
+each step in 1 .. 5 do
+    show "Step number:", step
 done
 
 // Collection iteration
-keep servers = @["web-01", "db-01", "cache-01"]
-for server in servers do
-    show "Checking health for server:", server
+keep services = @["auth", "billing", "notifications"]
+for service in services do
+    show "Deploying microservice:", service
 done
 ```
 
 ---
 
-## 5. Custom Object Types (`type` / `make`)
+## 4. Functions & Tasks (`task`)
 
-Define custom data structures using `type` or `make`.
-
+### Syntax Signature
 ```english
-make Account = object
-    id: int
-    holder_name: string
-    balance: float64
+task task_name(param1: Type1, param2: Type2): ReturnType do
+    // body
+    return result
+done
+```
+
+> [!NOTE]
+> Functions declared with `task` or `function` are transpiled with the Nim `{.discardable.}` pragma, allowing callers to ignore return values without throwing compiler warnings.
+
+### Code Example
+```english
+task compute_tax(subtotal: float64, rate: float64): float64 do
+    if subtotal is smaller than 0.0 do
+        return 0.0
+    done
+    return subtotal * rate
 done
 
-keep acc1 = Account(id: 401, holder_name: "Charlie", balance: 12500.75)
-show "Account Holder:", acc1.holder_name, "Balance:", acc1.balance
+keep tax = compute_tax(150.00, 0.18)
+show "Tax computed:", tax
+```
+
+---
+
+## 5. Custom Object Types & Structs (`type` / `make`)
+
+```english
+make DatabaseConnection = object
+    host: string
+    port: int
+    active: bool
+done
+
+keep conn = DatabaseConnection(host: "localhost", port: 5432, active: true)
+show "Database Host:", conn.host, "Port:", conn.port
 ```
 
 ---
 
 ## 6. Pattern Matching (`match` / `when`)
 
-Pattern match against values using `match` and `when` or `case`.
-
 ```english
-keep http_code = 404
+keep status_code = 404
 
-match http_code do
+match status_code do
     when 200 do
-        show "Status: OK"
+        show "HTTP Status: OK (200)"
     when 404 do
-        show "Status: Resource Not Found"
+        show "HTTP Status: Not Found (404)"
     when 500 do
-        show "Status: Internal Server Error"
+        show "HTTP Status: Internal Server Error (500)"
     otherwise do
-        show "Status: Unknown Error Code"
+        show "HTTP Status: Unknown Code"
 done
 ```
 
 ---
 
-## 7. Exception Handling (`try` / `catch` / `finally`)
-
-Handle runtime errors cleanly using `try`, `catch`, `throw`, and `finally`.
+## 7. Exception Handling & Assertions
 
 ```english
-try do
-    keep value = 100
-    if value is equal to 100 do
-        throw "Simulated system processing failure"
+task divide(a: float64, b: float64): float64 do
+    assert b != 0.0
+    if b is equal to 0.0 do
+        throw "Division by zero is undefined"
     done
+    return a / b
+done
+
+try do
+    keep res = divide(10.0, 0.0)
+    show "Result:", res
 catch do
-    show "Caught error gracefully inside catch block!"
+    show "Caught error during division operation!"
 finally do
-    show "Cleanup block executed successfully."
+    show "Execution clean-up complete."
 done
 ```
 
 ---
 
-## 8. Shell Automation & C FFI Integration
+## 8. Foreign Function Interface (C FFI) & Shell Integration
 
-Call shell scripts or PowerShell cmdlets directly from `.eg` code.
+### Direct C FFI Binding (`c_func`)
+```english
+// Import standard C functions directly from header files
+c_func sin(x: cdouble): cdouble from "math.h"
+c_func puts(msg: cstring): cint from "stdio.h"
+
+puts("Hello C Ecosystem from English Dialect!")
+show "sin(3.14159 / 2) =", sin(1.570795)
+```
+
+### Shell & PowerShell Execution
+```english
+// Subprocess command with output return tuple (output, exitCode) - zero imports required!
+
+// 1. Direct Bash command execution
+$ "mkdir -p /tmp/compound_test && touch /tmp/compound_test/log.txt"
+
+// 2. PowerShell execution
+ps_command "Get-Service | Select-Object -First 3"
+```
+
+---
+
+## 9. Borrow Checker, Move Semantics & Sum-Types `[UNSTABLE / STAGING]`
+
+> [!WARNING]
+> Features in this section belong to the experimental `feature/borrow-checker-unstable` branch. See the complete specification at [Unstable Features Specification](/docs/unstable-features/).
+
+### Opt-In Borrow Checker (`strict task`) & Move Semantics (`moved`)
 
 ```english
-// 1. Direct Bash shell command
-$ "echo 'Deployment finished' > /tmp/deploy.log"
+task process(val: string) do
+    show "Processed item:", val
+done
 
-// 2. PowerShell Cmdlet Execution
-ps_command "Get-Process | Select-Object -First 5"
-
-// 3. Foreign Function Interface (FFI) to C
-c_func cos(x: cdouble): cdouble from "math.h"
-show "Cosine of 0:", cos(0.0)
+strict task main() do
+    keep item = "SensitiveData"
+    // Explicit ownership move
+    process(moved item)
+    
+    // ❌ Accessing 'item' here triggers compile-time [Error - BorrowChecker]
+done
 ```
+
+### Sum-Types (`Some`, `None`, `Ok`, `Err`) & Pattern Matching (`match ... is`)
+
+```english
+task test_sum_types() do
+    keep opt = Some(42)
+    match opt
+        is Some(val) do
+            show "Value found:", val
+        is None do
+            show "No value"
+    end
+
+    keep res = Ok("Operation Complete")
+    match res
+        is Ok(msg) do
+            show "Success:", msg
+        is Err(err) do
+            show "Failed:", err
+    end
+done
+```
+

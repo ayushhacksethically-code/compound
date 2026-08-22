@@ -7,141 +7,263 @@ draft: false
 
 # Getting Started with Compound Programming Language
 
-**Compound** is a compiled, dual-dialect programming language designed for ultimate clarity, high performance, and rapid systems engineering. It allows developers to write code in two native dialects:
-
-- **Hinglish (`.hg`)**: Program using natural Hindi and English phonetics (`rakho`, `dikhao`, `agar/toh/varna`, `kaam`, `khatam`).
-- **English (`.eg`)**: Program using clean, expressive plain English (`keep`, `show`, `if/do/else`, `task`, `done`).
-
-Both dialects compile directly into optimized **Nim intermediate code**, which compiles to pure **C code**, and finally into a **native machine binary** via GCC or Clang.
+> [!NOTE]
+> **Compound** is a high-performance, compiled, dual-dialect programming language designed for systems engineering, web scripting, data analytics, and DevOps automation. It provides two native dialects that compile down to identical, highly optimized native C binaries or JavaScript code.
 
 ---
 
-## 🛠️ Toolchain Installation & Setup
+## 🌟 Key Highlights & Philosophy
 
-The standard Compound toolchain provides two main command-line drivers: `hg` (Hinglish compiler CLI) and `eg` (English compiler CLI).
+- **Dual Native Dialects**:
+  - **Hinglish (`.hg`)**: Expressive syntax using intuitive Hindi-English phonetic keywords (`rakho`, `dikhao`, `agar` / `toh` / `varna`, `kaam`, `khatam`).
+  - **English (`.eg`)**: Expressive syntax using plain English keywords (`keep`, `show`, `if` / `do` / `else`, `task`, `done`).
+- **Zero-Cost C Interoperability**: Direct, header-level foreign function interface (FFI) to C standard libraries (`libc`, `libm`, etc.) without wrapper overhead.
+- **Deterministic ORC Memory Model**: Nim-powered Atomic Reference Counting with cycle collection—zero stop-the-world garbage collection pauses.
+- **Dual Target Compilation**: Compiles via C99/C11 (GCC/Clang) for native ELF/PE binaries, or via JavaScript (`nim js`) for Node.js and web browsers.
+- **Interactive Python-Style REPL**: Multi-line block detection, persistent session state, color-highlighted outputs, and built-in management commands.
 
-### Environment Requirements
-- **Nim Compiler**: `nim` (v1.6+ or v2.0+)
-- **C Compiler**: `gcc` or `clang`
-- **PowerShell (Optional for PS Cmdlets)**: `pwsh`
+---
 
-### Building the Compiler Binaries
-In the root directory of the repository, build the primary driver compiler executable:
+## 🛠️ Toolchain Prerequisites & Installation
+
+### Requirements Matrix
+
+| Tool / Dependency | Recommended Version | Required For |
+| :--- | :--- | :--- |
+| **Nim Compiler** | `v1.6+` or `v2.0+` | Intermediate code transpilation engine |
+| **C Compiler** | `GCC 9+` or `Clang 10+` | Native machine code binary generation |
+| **Node.js** | `v14+` | Running compiled JavaScript target files (`js` / `js-run`) |
+| **PowerShell** | `pwsh 7+` (Optional) | Executing `ps_kaam` / `ps_command` subshell cmdlets |
+
+> [!IMPORTANT]
+> Verify that `nim` and `gcc` (or `clang`) are installed and accessible in your system `PATH` before compiling Compound source programs. Run `compound doctor` to automatically verify system dependencies.
+
+### Building from Source
+
+To build the primary driver binary executable from the repository root:
 
 ```bash
 nim c -d:release compound.nim
 ```
 
-You can alias or symlink `compound` as `hg` and `eg`:
+This generates a standalone `compound` binary. You can alias or symlink `compound` as `hg` (Hinglish driver) and `eg` (English driver):
+
 ```bash
-ln -sf /path/to/compound /usr/local/bin/hg
-ln -sf /path/to/compound /usr/local/bin/eg
+# System-wide installation
+sudo cp compound /usr/local/bin/compound
+sudo ln -sf /usr/local/bin/compound /usr/local/bin/hg
+sudo ln -sf /usr/local/bin/compound /usr/local/bin/eg
 ```
 
 ---
 
-## ⚡ Execution Pipeline & Compiler Architecture
+## ⚙️ Compilation Architecture & Pipeline
 
-Compound uses a 4-stage compilation pipeline:
+Compound translates high-level dual-dialect syntax into native binaries through a deterministic four-stage compilation pipeline:
 
 ```
-[ .hg / .eg Source File ]
-          │
-          ▼
-┌───────────────────────────┐
-│ Compound Lexer/Transpiler │  (hinglish.nim / english.nim)
-└─────────┬─────────────────┘
-          │ (Generates Nim AST / Source)
-          ▼
-┌───────────────────────────┐
-│ Nim Compiler Core         │  (nim c -r / -d:release)
-└─────────┬─────────────────┘
-          │ (Transpiles to C code)
-          ▼
-┌───────────────────────────┐
-│ C Compiler Engine         │  (GCC / Clang)
-└─────────┬─────────────────┘
-          │
-          ▼
-[ Native Binary Executable ]
+┌────────────────────────────────────────────────────────┐
+│  Source Code Input (.hg or .eg)                         │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│  Stage 1: String Literal Masking & AST Lexing          │
+│  - Replaces "strings" with ___COMPOUND_STR_N___        │
+│  - Prevents word replacements inside text literals     │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│  Stage 2: Grammar Transpilation & Block Alignment      │
+│  - Maps dialect keywords & synonyms to Nim syntax      │
+│  - Translates block openers (toh/do) & closers (khatam)│
+│  - Auto-declares implicit variable assignments          │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│  Stage 3: Intermediate Nim Code Generation             │
+│  - Generates optimized .nim file                       │
+│  - Emits {.importc.} C FFI definitions                 │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│  Stage 4: C Translation & Native Compilation          │
+│  - Nim transpiles .nim to ANSI C (C99/C11)             │
+│  - GCC/Clang compiles C code into target native binary │
+└───────────────────────────┬────────────────────────────┘
 ```
 
-1. **Source Parsing**: The `.hg` or `.eg` code is parsed line-by-line. String literals are masked to preserve internal formatting.
-2. **Grammar Transpilation**: Dialect keywords, operator synonyms, block openers (`toh`/`do`), and closers (`khatam`/`done`) are mapped directly to clean Nim syntax.
-3. **C Code Generation**: The generated `.nim` file is fed into the Nim compiler engine, producing high-performance C source files.
-4. **Native Compilation**: GCC/Clang compiles the C source code into a standalone binary.
+> [!TIP]
+> Use the `parse` command (`compound parse app.hg`) to view the clean intermediate Nim code generated during Stage 3 without triggering Stage 4 native compilation.
 
 ---
 
-## 🚀 CLI Commands & Driver Flags
+## 🚀 Command-Line Interface (CLI) Guide
 
-Both `hg` and `eg` CLIs support identical flags and subcommands:
+The `compound` CLI (and its aliases `hg` / `eg`) accepts a rich set of subcommands:
 
-### 1. Execute Code Immediately (`run`)
-Compiles and executes the program in a single step:
-```bash
-hg run program.hg
-eg run program.eg
+```
+Usage: compound [init|doctor|run|build|js|js-build|parse|repl] <file.hg|file.eg>
 ```
 
-### 2. Build Native Binary (`build`)
-Compiles the program into a standalone executable binary in the current directory:
+### Subcommand Reference
+
+#### 1. `compound run <file>`
+Compiles and immediately executes the target `.hg` or `.eg` file.
 ```bash
-hg build program.hg
-eg build program.eg
+hg run examples/demo.hg
+eg run examples/demo_en.eg
 ```
 
-### 3. View Transpiled Nim Code (`parse`)
-Inspects the generated intermediate Nim/C source code without building binary output:
+#### 2. `compound build <file>`
+Compiles the target program into a native binary executable in the current working directory.
 ```bash
-hg parse program.hg
-eg parse program.eg
+hg build main.hg    # Output: ./main
+eg build main.eg    # Output: ./main
 ```
 
-### 4. Compile & Run JavaScript (`js` / `js-run`)
-Compiles `.hg` or `.eg` code directly to JavaScript via `nim js` and executes it immediately using Node.js:
+#### 3. `compound parse <file>`
+Outputs the generated intermediate Nim/C source code to `stdout` for inspection and debugging.
 ```bash
-hg js program.hg
-eg js program.eg
+hg parse calc.hg
 ```
 
-### 5. Build Standalone JavaScript File (`js-build`)
-Compiles `.hg` or `.eg` code into a standalone `.js` file suitable for web browsers or Node.js backends:
+#### 4. `compound js <file>` (or `js-run`)
+Compiles the file to JavaScript (`.js`) using `nim js` and executes it immediately via `node`.
 ```bash
-hg js-build program.hg
-eg js-build program.eg
+hg js app.hg
 ```
 
-### 6. Interactive REPL Shell (`shell` / `repl` / `-i`)
-Launches the interactive Python-style REPL shell:
+#### 5. `compound js-build <file>`
+Compiles the file into a standalone JavaScript bundle suitable for deployment in web browsers or serverless functions.
 ```bash
-hg shell
-eg repl
+eg js-build web_client.eg
+```
+
+#### 6. `compound init [project_name]`
+Scaffolds a new Compound project workspace with directory layout, dialect configuration, and entry file.
+```bash
+compound init my_app
+```
+**Generated Structure:**
+```
+my_app/
+├── compound.toml
+└── src/
+    └── main.hg (or main.eg depending on binary invoked)
+```
+
+#### 7. `compound doctor`
+Inspects system environment tools (Nim, GCC/Clang, Node.js, PowerShell) and reports toolchain health status:
+```bash
+$ compound doctor
+🩺 Compound Toolchain Doctor
+• Nim Compiler:      OK (/usr/bin/nim)
+• GCC / Clang C:     OK (/usr/bin/gcc)
+• Node.js (JS):      OK (/usr/bin/node)
+• Compound Root:     /home/user/.compound
+```
+
+#### 8. `compound repl` (or `shell`, `-i`)
+Launches the interactive Python-style REPL shell for instant experimentation.
+```bash
+hg repl
 ```
 
 ---
 
-## 💻 Interactive REPL Shell Features
+## 💻 Interactive REPL Shell Deep-Dive
 
-The Compound REPL shell provides an intuitive environment for rapid experimentation:
+The Compound REPL provides a interactive environment inspired by Python's IDLE:
 
-- **Python-Style Prompts**: Primary prompt `>>> ` for top-level statements; multi-line prompt `... ` inside indentation blocks.
-- **Automatic Block Management**: Entering block statements (`agar`, `if`, `kaam`, `task`, `jabtak`, `while`) automatically switches to multi-line mode with auto-indentation.
-- **Block Execution**: Complete a block by entering `khatam`, `bas`, `done`, `end`, or pressing **Enter** on an empty line.
-- **REPL Commands**:
-  - `help` / `madad`: Displays the REPL command cheat sheet.
-  - `clear` / `saaf`: Clears variable memory and resets persistent state.
-  - `exit` / `quit` / `bahar`: Quits the interactive shell.
+### Key Features & Mechanics
+- **Primary Prompt (`>>> `)**: Displayed when awaiting new top-level statements.
+- **Multi-Line Prompt (`... `)**: Displayed when inside open blocks (`agar`, `if`, `kaam`, `task`, `jabtak`, `while`, `chuno`, `match`).
+- **Block Completion**: Send a blank line (press Enter on empty prompt) or type block closers (`khatam`, `bas`, `done`, `end`) to evaluate the multi-line block.
+- **State Persistence**: Declared variables, imported modules, and functions persist across command evaluations in the REPL session.
+
+### Built-in REPL Commands
+
+| Command (English) | Command (Hinglish) | Action |
+| :--- | :--- | :--- |
+| `help` | `madad` | Display REPL command cheat sheet |
+| `clear` | `saaf` | Clear active REPL environment, memory, and declared variables |
+| `exit` / `quit` | `bahar` | Exit the REPL session |
+
+### Interactive REPL Session Walkthrough
+
+```hinglish
+>>> rakho naam = "Narayana"
+Narayana
+>>> kaam greet(n: string) toh
+...   dikhao "Namaste,", n
+... khatam
+>>> greet(naam)
+Namaste, Narayana
+>>> saaf
+Environment saaf kar diya gaya hai.
+>>> exit
+Alvida!
+```
 
 ---
 
-## 🧠 Deterministic ORC Memory Management
+## 🧠 Deterministic Memory Model (ORC)
 
-Compound leverages Nim's **ORC (Optimized Reference Counting)** deterministic memory management system:
+Compound uses Nim's **ORC (Optimized Reference Counting)** memory manager:
 
-- **Zero Garbage Collection Pauses**: Memory allocation and deallocation happen deterministically at scope boundaries without stop-the-world pauses.
-- **Cyclic Structure Handling**: ORC includes a fast cycle collector for handling complex graph and reference cycles safely.
-- **Value vs Reference Types**:
-  - `object` types are allocated on the stack (value semantics, zero heap overhead).
-  - `ref object` types are heap-allocated managed references with automated cleanup when no longer referenced.
-- **Explicit Memory Release**: Setting a heap pointer to `nil` immediately unreferences memory for deterministic destruction.
+> [!NOTE]
+> **Why ORC?** Traditional garbage collection introduces random "stop-the-world" latency spikes. ORC resolves allocations deterministically at compiler-inserted destructor points while managing cycles with a lightweight, asynchronous cycle collector.
+
+- **Stack Allocation (`object`)**: Value types are allocated directly on the stack with zero heap allocation overhead.
+- **Heap Allocation (`ref object`)**: Managed reference types are allocated on heap. Memory is reclaimed immediately when reference counts hit zero.
+- **Nil Assignment (`khali` / `nil`)**: Reassigning a reference variable to `nil` immediately unreferences memory and releases underlying resources.
+
+---
+
+## 🧪 First Programs: Hello World Comparison
+
+### Hinglish Dialect (`hello.hg`)
+
+```hinglish
+// Hello World in Hinglish (Zero imports required!)
+rakho sandesh = "Namaste Compound Duniya!"
+dikhao sandesh
+
+kaam jod_do(a: int, b: int): int toh
+    wapas a + b
+khatam
+
+rakho result = jod_do(15, 25)
+dikhao "15 + 25 =", result
+```
+
+### English Dialect (`hello.eg`)
+
+```english
+// Hello World in English (Zero imports required!)
+keep message = "Hello Compound World!"
+show message
+
+task add_numbers(a: int, b: int): int do
+    return a + b
+done
+
+keep result = add_numbers(15, 25)
+show "15 + 25 =", result
+```
+
+### Compilation & Output Comparison
+
+```bash
+$ hg run hello.hg
+Namaste Compound Duniya!
+15 + 25 = 40
+
+$ eg run hello.eg
+Hello Compound World!
+15 + 25 = 40
+```

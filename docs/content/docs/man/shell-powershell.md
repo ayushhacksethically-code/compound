@@ -1,90 +1,92 @@
 ---
-title: "Shell & PowerShell Subshell Automation (shell-powershell)"
+title: "Shell & PowerShell Subshell Automation"
 date: 2026-08-21
-weight: 2
 draft: false
+section: "man"
 ---
 
-# MAN PAGE: Shell & PowerShell Automation (`shell-powershell`)
+# MAN PAGE: Bash & PowerShell Subshell Automation (`$` / `chalao` / `shell` / `command`)
 
-## SYNOPSIS
-- **Bash Execution**: `$ "cmd"` | `chalao "cmd"` | `shell "cmd"` | `command("cmd")`
-- **PowerShell Execution**: `ps_kaam "cmd"` | `ps "cmd"` | `ps_command "cmd"` | `ps_shell "cmd"`
-
----
-
-## DESCRIPTION
-
-Compound provides first-class, built-in shell automation primitives. Developers can execute Linux Bash pipelines or cross-platform PowerShell (`pwsh`) cmdlets directly inline without creating boilerplate subprocess handles.
+> **Dialects**: Hinglish (`.hg`) & English (`.eg`)  
+> **Backend Transpilation**: `discard execCmd("cmd")` & `execCmdEx("cmd")`
 
 ---
 
-## 1. BASH & SYSTEM COMMAND EXECUTION
+## 📖 SYNOPSIS
 
-### Inline Shell Execution (`$` / `chalao` / `shell`)
-Appends the target string into a subshell process for background/direct execution.
+### 1. Fire-and-Forget Shell Command Execution
+- **Hinglish (`.hg`)**: `$ "bash command"` or `chalao "bash command"`
+- **English (`.eg`)**: `$ "bash command"` or `shell "bash command"`
 
-#### Hinglish (`.hg`):
+### 2. Capturing Output & Exit Status Code (`command` / `execCmdEx`)
 ```hinglish
-$ "mkdir -p /tmp/build_artifacts"
-chalao "echo 'Build successful' > /tmp/build_artifacts/status.txt"
+rakho (output_string, exit_code) = command("shell_command_string")
 ```
 
-#### English (`.eg`):
-```english
-$ "mkdir -p /tmp/build_artifacts"
-shell "echo 'Build successful' > /tmp/build_artifacts/status.txt"
-```
+### 3. PowerShell Core Cmdlet Execution
+- **Hinglish (`.hg`)**: `ps_kaam "pwsh cmdlet"` or `ps "pwsh cmdlet"`
+- **English (`.eg`)**: `ps_command "pwsh cmdlet"` or `ps "pwsh cmdlet"`
 
-### Capturing Subprocess Output & Exit Codes (`command(...)`)
-Returns a tuple `(output: string, exitCode: int)` for trapping command output and status codes.
+---
+
+## 📝 DESCRIPTION
+
+Compound provides native primitives for embedding system shell commands (`bash`, `sh`, `zsh`, `pwsh`) directly inside `.hg` and `.eg` programs.
+
+1. **Inline Shell Directives (`$` / `chalao` / `shell`)**: Execute shell commands as subprocesses, streaming standard output and error directly to the console.
+2. **Captured Execution (`command`)**: Executes a command and captures both its stdout string and non-zero exit status code in a 2-tuple return value `(string, int)`.
+3. **PowerShell Directives (`ps_kaam` / `ps_command`)**: Spawns PowerShell Core in non-interactive, profile-bypassing mode (`pwsh -NoProfile -NonInteractive -Command ...`).
+
+---
+
+## ⚙️ FEATURE MATRIX
+
+| Syntax Pattern | Return Value | Transpiled Nim Target Code | Description |
+| :--- | :--- | :--- | :--- |
+| `$ "cmd"` | None | `discard execCmd("cmd")` | Fire-and-forget shell command |
+| `chalao "cmd"` / `shell "cmd"` | None | `discard execCmd("cmd")` | Fire-and-forget shell synonym |
+| `command("cmd")` | `(string, int)` | `execCmdEx("cmd")` | Captures output text and exit status code |
+| `ps_kaam "cmd"` / `ps_command "cmd"` | None | `discard execCmd("pwsh ...")` | Executes PowerShell Core cmdlet |
+
+---
+
+## 💡 IMPLEMENTATION & SECURITY NOTES
+
+- **String Protection**: Dynamic command strings inside quotes are protected against keyword transpilation during syntax parsing.
+- **Pipes & Redirection**: Standard shell operators like pipes (`|`), input/output redirection (`>`, `>>`, `<`), and subshell expansions (`$(...)`) are fully supported within command strings.
+
+---
+
+## 🧪 CODE EXAMPLES
+
+### Subprocess Automation Suite in Hinglish (`shell_suite.hg`)
 
 ```hinglish
 shamil_karo std/strutils
 
-rakho (output, exitCode) = command("cat /tmp/build_artifacts/status.txt")
-agar exitCode == 0 toh
-  dikhao "Captured Output:", output.strip()
+dikhao "=== Subprocess Automation Suite ==="
+
+// 1. Fire-and-forget shell execution with pipes and redirection
+$ "mkdir -p /tmp/compound_suite && echo 'Automated Log Data' > /tmp/compound_suite/app.log"
+
+// 2. Capture output and exit code
+rakho (output, exitCode) = command("cat /tmp/compound_suite/app.log")
+dikhao "Captured Command Output:", output.strip()
+dikhao "Exit Status Code:", exitCode
+
+// 3. Trapping command errors cleanly
+rakho (errOutput, errCode) = command("ls /non_existent_directory_999 2>/dev/null")
+agar errCode != 0 toh
+    dikhao "Successfully trapped non-zero exit status code:", errCode
 khatam
+
+// 4. Invoking PowerShell Core cmdlet
+ps_kaam "Get-Date -Format 'yyyy-MM-dd HH:mm:ss'"
 ```
 
 ---
 
-## 2. POWERSHELL CMDLET INTEGRATION (`ps_kaam` / `ps_command` / `ps`)
+## 🔗 SEE ALSO
 
-PowerShell integration transpiles lines prefixed with `ps_kaam`, `ps_command`, or `ps` directly into safe invocation strings using `pwsh -NoProfile -NonInteractive -Command ...`.
-
-### Hinglish (`.hg`):
-```hinglish
-ps_kaam "Get-Process | Where-Object WorkingSet -gt 50000000"
-ps "Write-Host 'PowerShell cmdlet executed cleanly!' -ForegroundColor Green"
-```
-
-### English (`.eg`):
-```english
-ps_command "Get-Process | Where-Object WorkingSet -gt 50000000"
-ps "Write-Host 'PowerShell cmdlet executed cleanly!' -ForegroundColor Green"
-```
-
----
-
-## 3. ASYNC SUBPROCESS CONCURRENCY
-
-Executing multiple subprocess operations concurrently using `asyncdispatch`:
-
-```hinglish
-shamil_karo std/asyncdispatch
-shamil_karo std/osproc
-
-kaam runAsyncJob(id: int): Future[void] {.async.} =
-  let (res, code) = execCmdEx("echo 'Proc " & $id & " complete'")
-  discard res
-khatam
-
-rakho pool = newSeq[Future[void]]()
-har i mein 1 .. 10 toh
-  pool.add(runAsyncJob(i))
-khatam
-waitFor(all(pool))
-dikhao "All 10 parallel background jobs completed successfully!"
-```
+- **[PowerShell Subshell Integration](/docs/man/powershell-subshell/)**: Detailed PowerShell execution guide.
+- **[Standard Library Reference](/docs/man/stdlib-reference/)**: `std/osproc` module reference.

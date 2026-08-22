@@ -1,106 +1,121 @@
 ---
-title: "Data Types & Structs (types-and-structs)"
+title: "Data Types & Structs Manual Page"
 date: 2026-08-21
-weight: 3
 draft: false
+section: "man"
 ---
 
-# MAN PAGE: Custom Types, Structs & Data Collections (`types-and-structs`)
+# MAN PAGE: Primitive Types, Structs, Collections & Memory Model (`types-and-structs`)
 
-## OVERVIEW
-
-Compound supports primitive data types, custom structures (`object` and `ref object`), dynamic sequences (`seq[T]`), Hash Tables (`Table[K,V]`), and tuples.
+> **Dialects**: Hinglish (`.hg`) & English (`.eg`)  
+> **Backend Transpilation**: Nim type system & C compiler native representation
 
 ---
 
-## 1. CUSTOM OBJECT STRUCTS (`banao` / `type` / `make`)
+## 📖 OVERVIEW
 
-Define custom data structures using `banao` (Hinglish) or `type` / `make` (English).
+Compound is a strongly typed, statically typed compiled language. It provides primitive integer and floating-point types, strings, sequence arrays (`seq[T]`), hash maps (`Table[K,V]`), custom value structs (`object`), managed heap pointers (`ref object`), and enumerations (`enum`).
 
-### Value Objects (`object`) vs Reference Objects (`ref object`)
-- **`object`**: Value semantics. Stack allocated or nested directly inside parent structures. Copied on assignment.
-- **`ref object`**: Managed heap reference. Deterministic ORC automatic memory management.
+---
 
+## ⚙️ PRIMITIVE TYPES MATRIX
+
+| Type Keyword | Bit Width | Range / Format | C Language Equivalent |
+| :--- | :--- | :--- | :--- |
+| `int` | Platform Word | Target architecture signed int (32/64-bit) | `intptr_t` / `long` |
+| `int8` | 8-bit | $-128 \dots 127$ | `int8_t` |
+| `int16` | 16-bit | $-32,768 \dots 32,767$ | `int16_t` |
+| `int32` | 32-bit | $-2,147,483,648 \dots 2,147,483,647$ | `int32_t` |
+| `int64` | 64-bit | $-9 \times 10^{18} \dots 9 \times 10^{18}$ | `int64_t` |
+| `uint` | Platform Word | Unsigned word integer | `uintptr_t` / `unsigned long` |
+| `uint8` / `byte` | 8-bit | $0 \dots 255$ | `uint8_t` |
+| `float` / `float64`| 64-bit | Double-precision IEEE 754 float | `double` |
+| `float32` | 32-bit | Single-precision IEEE 754 float | `float` |
+| `bool` | 1 byte | `sahi`/`galat` (HG) or `true`/`false` (EG) | `bool` / `cint` |
+| `char` | 8-bit | Single ASCII character | `char` |
+| `string` | Variable | UTF-8 managed dynamic string | Nim string header struct |
+| `cstring` | Variable | Null-terminated C string pointer | `char*` or `const char*` |
+
+---
+
+## 📦 COMPOSITE COLLECTIONS & STRUCTS
+
+### 1. Dynamic Sequences (`seq[T]`)
+Dynamic arrays initialized using `@[...]` syntax:
 ```hinglish
-// Value object struct
-banao Point = object
-  x: float64
-  y: float64
-khatam
-
-// Managed reference object struct (Heap allocated)
-banao Node = ref object
-  data: int
-  next: Node
-khatam
-
-rakho p1 = Point(x: 10.0, y: 20.5)
-rakho head = Node(data: 1, next: nil)
-```
-
----
-
-## 2. DYNAMIC SEQUENCES (`seq[T]`)
-
-Dynamic arrays in Compound are represented as `seq[T]` with literal notation `@[...]`.
-
-### Sequence Operations
-
-| Operation | Syntax Example | Description |
-| :--- | :--- | :--- |
-| **Literal Creation** | `rakho s = @[1, 2, 3]` | Create pre-filled sequence |
-| **Empty Alloc** | `rakho s = newSeq[string]()` | Initialize empty sequence |
-| **Append** | `s.add("item")` | Append element to back |
-| **Length** | `s.len` | Return number of elements |
-| **Indexing** | `s[0]` | Access element by 0-based index |
-| **Slicing** | `s[0..2]` | Extract sub-sequence slice |
-| **Deletion** | `s.delete(index)` | Remove item at index |
-
-```english
-keep numbers = @[10, 20, 30, 40]
+rakho numbers = @[10, 20, 30, 40]
 numbers.add(50)
+dikhao "Sequence len:", numbers.len, "Element 0:", numbers[0]
+```
 
-show "Sequence Length:", numbers.len
-show "First Item:", numbers[0]
-show "Slice (0..2):", numbers[0..2]
+### 2. Value Objects (`object`)
+Allocated on the stack with value semantics (copied by value on assignment):
+```hinglish
+banao Point = object
+    x: float64
+    y: float64
+khatam
+```
+
+### 3. Managed Reference Objects (`ref object`)
+Allocated on the heap with reference semantics managed by ORC:
+```hinglish
+banao Node = ref object
+    data: string
+    next: Node
+khatam
 ```
 
 ---
 
-## 3. HASH TABLES & MAPS (`Table[K, V]`)
+## 🧠 DETERMINISTIC ORC MEMORY MODEL
 
-Hash Tables provide key-value dictionary mappings, imported from `std/tables`.
+```
+     Stack Memory                    Heap Memory (ORC Managed)
+┌────────────────────┐              ┌───────────────────────────┐
+│ Pointer var (head) ├─────────────►│ Ref Node Object (val: 10) │
+└────────────────────┘              │ [Ref Count = 1]           │
+                                    └─────────────┬─────────────┘
+                                                  │
+                                                  ▼
+                                    ┌───────────────────────────┐
+                                    │ Ref Node Object (val: 20) │
+                                    │ [Ref Count = 1]           │
+                                    └───────────────────────────┘
+```
+
+> [!NOTE]
+> When `head` goes out of scope or is set to `khali` / `nil`, ORC decrements the reference count and immediately frees heap allocation for both node objects without garbage collection pauses.
+
+---
+
+## 🧪 CODE EXAMPLES
+
+### Comprehensive Types & Structs Demo (`types_demo.hg`)
 
 ```hinglish
-shamil_karo std/tables
-
-// Table creation via literal pair sequence
-rakho kvMap = toTable({"user1": 101, "user2": 102})
-
-// Table creation via initTable
-rakho cache = initTable[string, string]()
-cache["session_id_101"] = "active"
-
-// Verification & Lookup
-agar cache.hasKey("session_id_101") toh
-  dikhao "Session Status:", cache["session_id_101"]
+// Enum Definition
+banao ServerStatus = enum
+    StatusOffline, StatusOnline, StatusMaintenance
 khatam
 
-dikhao "Total Cache Entries:", cache.len
+// Ref Object Definition
+banao ServiceHealth = ref object
+    name: string
+    status: ServerStatus
+    latency_ms: float64
+khatam
+
+// Instantiate Reference Objects
+rakho s1 = ServiceHealth(name: "Auth Service", status: StatusOnline, latency_ms: 12.4)
+rakho s2 = ServiceHealth(name: "DB Service", status: StatusMaintenance, latency_ms: 0.0)
+
+dikhao "Service Name:", s1.name, "| Status:", s1.status, "| Latency:", s1.latency_ms, "ms"
 ```
 
 ---
 
-## 4. TUPLES & DESTRUCTURING
+## 🔗 SEE ALSO
 
-Tuples allow grouping heterogeneous data elements without defining a formal struct type.
-
-```hinglish
-// Tuple definition and destructuring
-rakho record = (1001, "Prod_Server", true)
-rakho (server_id, server_name, is_active) = record
-
-dikhao "Server ID:", server_id
-dikhao "Server Name:", server_name
-dikhao "Active State:", is_active
-```
+- **[Custom Structs (`banao` / `type`)](/docs/man/banao-type/)**: Struct definition details.
+- **[C FFI Directives](/docs/man/c-ffi/)**: Mapping primitive C types.

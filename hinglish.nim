@@ -179,9 +179,13 @@ proc translateHinglishLine*(line: string): string =
     return "of rkErr:\nvar " & varName & " = it.error"
 
   # 7. Rigid Word Token Prefix Grammar (Strict Tokens)
-  if l.startsWith("pukka kaam "):
+  if l.startsWith("pakka kaam "):
     let content = l.substr(11)
     l = "proc " & content & " {.discardable.}"
+  elif l.startsWith("pukka kaam "):
+    let content = l.substr(11)
+    l = "proc " & content & " {.discardable.}"
+  elif l.startsWith("pakka "): l = "const " & l.substr(6)
   elif l.startsWith("pukka "): l = "const " & l.substr(6)
   elif l.startsWith("rakho "): l = "var " & l.substr(6)
   elif l.startsWith("banao "): l = "type " & l.substr(6)
