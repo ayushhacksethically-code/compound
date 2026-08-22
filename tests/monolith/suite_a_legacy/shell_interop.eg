@@ -1,0 +1,5 @@
+task main() do
+    chalao "echo Hello Shell"
+end
+
+main()

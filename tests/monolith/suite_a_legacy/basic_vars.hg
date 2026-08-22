@@ -1,0 +1,7 @@
+kaam main() toh
+    rakho a = 10
+    rakho b = 20
+    dikhao "Sum: " & $(a + b)
+khatam
+
+main()

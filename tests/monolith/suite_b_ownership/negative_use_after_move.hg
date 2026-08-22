@@ -1,0 +1,7 @@
+kaam main() toh
+    rakho secret = "MySecret"
+    rakho moved_secret = chala_gaya secret
+    dikhao secret
+khatam
+
+main()

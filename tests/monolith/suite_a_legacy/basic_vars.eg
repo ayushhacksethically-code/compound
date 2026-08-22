@@ -1,0 +1,7 @@
+task main() do
+    keep a = 10
+    keep b = 20
+    show "Sum: " & $(a + b)
+end
+
+main()

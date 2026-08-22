@@ -1,0 +1,4 @@
+rakho x = 40
+rakho y = 2
+dikhao x + y
+exit

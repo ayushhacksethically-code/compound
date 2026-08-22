@@ -1,0 +1,5 @@
+kaam main() toh
+    chalao "echo Hello Shell"
+khatam
+
+main()

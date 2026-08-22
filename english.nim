@@ -183,6 +183,7 @@ proc transpileEnglish*(code: string): string =
   checkBorrowAndOwnership(code, false)
   var lines = code.splitLines()
   var nimLines: seq[string] = @[
+    "import std/strutils",
     "when not defined(js):\n  import std/[osproc, os]",
     "type OptionKind* = enum okSome, okNone",
     "type Option*[T] = object",
@@ -197,9 +198,10 @@ proc transpileEnglish*(code: string): string =
     "proc MilGaya*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)",
     "proc Some*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)",
     "proc Khali*[T](): Option[T] = Option[T](kind: okNone)",
-    "proc Sahi*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)",
-    "proc Ok*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)",
-    "proc Galti*[T, E](e: E): Result[T, E] = Result[T, E](kind: rkErr, error: e)"
+    "proc Sahi*[T](v: T): Result[T, string] = Result[T, string](kind: rkOk, value: v)",
+    "proc Ok*[T](v: T): Result[T, string] = Result[T, string](kind: rkOk, value: v)",
+    "proc Galti*[E](e: E): Result[string, E] = Result[string, E](kind: rkErr, error: e)",
+    "proc Err*[E](e: E): Result[string, E] = Result[string, E](kind: rkErr, error: e)"
   ]
   var declaredVars: seq[string] = @[]
   var currentIndent = 0
@@ -235,7 +237,7 @@ proc transpileEnglish*(code: string): string =
         var indentToUse = currentIndent - 1
         if indentToUse < 0: indentToUse = 0
         nimLines.add("  ".repeat(indentToUse) & tLine)
-        if tLine.endsWith(":"): inc currentIndent
+        currentIndent = indentToUse + 1
         continue
 
       if tLine.startsWith("of "):

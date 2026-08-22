@@ -1,0 +1,26 @@
+kaam test_option() toh
+    rakho opt = MilGaya(99)
+    chuno opt
+        hai MilGaya(num) toh
+            dikhao "Number: " & $num
+        hai Khali toh
+            dikhao "Empty"
+    khatam
+khatam
+
+kaam test_result() toh
+    rakho res = Sahi("Success")
+    chuno res
+        hai Sahi(msg) toh
+            dikhao "Result: " & msg
+        hai Galti(err) toh
+            dikhao "Error: " & err
+    khatam
+khatam
+
+kaam main() toh
+    test_option()
+    test_result()
+khatam
+
+main()

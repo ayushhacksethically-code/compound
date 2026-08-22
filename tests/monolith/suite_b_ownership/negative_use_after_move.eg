@@ -1,0 +1,7 @@
+task main() do
+    keep secret = "MySecret"
+    keep moved_secret = moved secret
+    show secret
+end
+
+main()

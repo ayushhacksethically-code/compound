@@ -1,0 +1,10 @@
+task print_val(v: string) do
+    show "Passed: " & v
+end
+
+task main() do
+    keep item = "ValidItem"
+    print_val(moved item)
+end
+
+main()

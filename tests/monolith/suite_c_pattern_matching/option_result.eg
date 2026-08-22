@@ -1,0 +1,26 @@
+task test_option() do
+    keep opt = Some(99)
+    match opt
+        is Some(num) do
+            show "Number: " & $num
+        is None do
+            show "Empty"
+    end
+end
+
+task test_result() do
+    keep res = Ok("Success")
+    match res
+        is Ok(msg) do
+            show "Result: " & msg
+        is Err(err) do
+            show "Error: " & err
+    end
+end
+
+task main() do
+    test_option()
+    test_result()
+end
+
+main()

@@ -1,0 +1,10 @@
+kaam print_val(v: string) toh
+    dikhao "Passed: " & v
+khatam
+
+kaam main() toh
+    rakho item = "ValidItem"
+    print_val(chala_gaya item)
+khatam
+
+main()

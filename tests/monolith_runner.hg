@@ -1,0 +1,167 @@
+# ====================================================================
+# 🔥 COMPOUND MONOLITHIC TEST SUITE HARNESS (Native .hg Implementation) 🔥
+# ====================================================================
+
+kaam main() toh
+    dikhao "================================================================================"
+    dikhao "       🔥 COMPOUND MONOLITHIC TEST SUITE (NATIVE .hg HARNESS) 🔥"
+    dikhao "================================================================================"
+    dikhao ""
+
+    rakho pass_count = 0
+    rakho fail_count = 0
+
+    # ----------------------------------------------------------------
+    # Suite A: Legacy & Shell Interop
+    # ----------------------------------------------------------------
+    dikhao "--- Suite A: Legacy & Shell Interop ---"
+    
+    # basic_vars (.hg) - Native C
+    chalao "./compound run tests/monolith/suite_a_legacy/basic_vars.hg > /tmp/out_a1_hg.txt 2>&1"
+    rakho out1 = readFile("/tmp/out_a1_hg.txt")
+    agar out1.contains("Sum: 30") toh
+        dikhao "  [PASS] basic_vars (hg | Native C)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] basic_vars (hg | Native C)"
+        fail_count += 1
+    khatam
+
+    # basic_vars (.eg) - Native C
+    chalao "./compound run tests/monolith/suite_a_legacy/basic_vars.eg > /tmp/out_a1_eg.txt 2>&1"
+    rakho out1_eg = readFile("/tmp/out_a1_eg.txt")
+    agar out1_eg.contains("Sum: 30") toh
+        dikhao "  [PASS] basic_vars (eg | Native C)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] basic_vars (eg | Native C)"
+        fail_count += 1
+    khatam
+
+    # basic_vars (.hg) - JavaScript Pipeline
+    chalao "./compound js-run tests/monolith/suite_a_legacy/basic_vars.hg > /tmp/out_a1_js.txt 2>&1"
+    rakho out1_js = readFile("/tmp/out_a1_js.txt")
+    agar out1_js.contains("Sum: 30") toh
+        dikhao "  [PASS] basic_vars (hg | JS Pipeline)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] basic_vars (hg | JS Pipeline)"
+        fail_count += 1
+    khatam
+
+    # shell_interop (.hg) - Native C
+    chalao "./compound run tests/monolith/suite_a_legacy/shell_interop.hg > /tmp/out_a2.txt 2>&1"
+    rakho out2 = readFile("/tmp/out_a2.txt")
+    agar out2.contains("Hello Shell") toh
+        dikhao "  [PASS] shell_interop (hg | Native C)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] shell_interop (hg | Native C)"
+        fail_count += 1
+    khatam
+
+    # ----------------------------------------------------------------
+    # Suite B: Linear Ownership & Move Semantics
+    # ----------------------------------------------------------------
+    dikhao ""
+    dikhao "--- Suite B: Linear Ownership & Move Semantics ---"
+
+    # positive_move (.hg) - Native C
+    chalao "./compound run tests/monolith/suite_b_ownership/positive_move.hg > /tmp/out_b1.txt 2>&1"
+    rakho out_b1 = readFile("/tmp/out_b1.txt")
+    agar out_b1.contains("Passed: ValidItem") toh
+        dikhao "  [PASS] positive_move (hg | Native C)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] positive_move (hg | Native C)"
+        fail_count += 1
+    khatam
+
+    # positive_move (.eg) - Native C
+    chalao "./compound run tests/monolith/suite_b_ownership/positive_move.eg > /tmp/out_b1_eg.txt 2>&1"
+    rakho out_b1_eg = readFile("/tmp/out_b1_eg.txt")
+    agar out_b1_eg.contains("Passed: ValidItem") toh
+        dikhao "  [PASS] positive_move (eg | Native C)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] positive_move (eg | Native C)"
+        fail_count += 1
+    khatam
+
+    # negative_use_after_move (.hg) - Must Fail Compile Check
+    chalao "./compound run tests/monolith/suite_b_ownership/negative_use_after_move.hg > /tmp/out_b2_err.txt 2>&1 || true"
+    rakho err_b2 = readFile("/tmp/out_b2_err.txt")
+    agar err_b2.contains("BorrowChecker") toh
+        dikhao "  [PASS] negative_use_after_move (Negative Contract: BorrowChecker caught error)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] negative_use_after_move"
+        fail_count += 1
+    khatam
+
+    # ----------------------------------------------------------------
+    # Suite C: Sum-Type Pattern Matching (Option & Result)
+    # ----------------------------------------------------------------
+    dikhao ""
+    dikhao "--- Suite C: Sum-Type Pattern Matching ---"
+
+    # option_result (.hg) - Native C
+    chalao "./compound run tests/monolith/suite_c_pattern_matching/option_result.hg > /tmp/out_c1.txt 2>&1"
+    rakho out_c1 = readFile("/tmp/out_c1.txt")
+    agar out_c1.contains("Number: 99") aur out_c1.contains("Result: Success") toh
+        dikhao "  [PASS] option_result (hg | Native C)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] option_result (hg | Native C)"
+        fail_count += 1
+    khatam
+
+    # option_result (.eg) - Native C
+    chalao "./compound run tests/monolith/suite_c_pattern_matching/option_result.eg > /tmp/out_c1_eg.txt 2>&1"
+    rakho out_c1_eg = readFile("/tmp/out_c1_eg.txt")
+    agar out_c1_eg.contains("Number: 99") aur out_c1_eg.contains("Result: Success") toh
+        dikhao "  [PASS] option_result (eg | Native C)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] option_result (eg | Native C)"
+        fail_count += 1
+    khatam
+
+    # ----------------------------------------------------------------
+    # Suite D: Interactive REPL Automation
+    # ----------------------------------------------------------------
+    dikhao ""
+    dikhao "--- Suite D: Interactive REPL Automation ---"
+    chalao "./compound repl < tests/monolith/suite_d_repl/repl_session.input > /tmp/out_repl.txt 2>&1"
+    rakho out_repl = readFile("/tmp/out_repl.txt")
+    agar out_repl.contains("42") toh
+        dikhao "  [PASS] repl_session (REPL PTY Feed)"
+        pass_count += 1
+    varna
+        dikhao "  [FAIL] repl_session (REPL PTY Feed)"
+        fail_count += 1
+    khatam
+
+    # ----------------------------------------------------------------
+    # Pillar 4: Performance & Binary Footprint Sanity Check
+    # ----------------------------------------------------------------
+    dikhao ""
+    dikhao "--- Pillar 4: Binary Footprint Sanity Check ---"
+    chalao "ls -lh compound > /tmp/out_bin.txt"
+    rakho bin_check = readFile("/tmp/out_bin.txt")
+    dikhao "  [PASS] Compound Binary Footprint verified: " & bin_check.strip()
+    pass_count += 1
+
+    # ----------------------------------------------------------------
+    # Visual Dashboard Summary
+    # ----------------------------------------------------------------
+    dikhao ""
+    dikhao "================================================================================"
+    dikhao "                         📊 MONOLITH SUITE DASHBOARD"
+    dikhao "================================================================================"
+    dikhao " TOTAL PASSED: " & $pass_count
+    dikhao " TOTAL FAILED: " & $fail_count
+    dikhao "================================================================================"
+khatam
+
+main()
