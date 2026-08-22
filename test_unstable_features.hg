@@ -1,0 +1,23 @@
+kaam test_option() toh
+  rakho res = MilGaya(42)
+  chuno res
+  hai MilGaya(val) toh
+    dikhao "MilGaya val: " & $val
+  hai Khali toh
+    dikhao "Khali"
+  khatam
+khatam
+
+kaam test_move() toh
+  rakho data = "Important Data"
+  dikhao "Moving data..."
+  rakho data2 = chala_gaya data
+  dikhao "Data moved to data2: " & data2
+khatam
+
+kaam main() toh
+  test_option()
+  test_move()
+khatam
+
+main()

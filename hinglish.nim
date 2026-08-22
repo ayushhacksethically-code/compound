@@ -1,6 +1,53 @@
 import std/[strutils, osproc, os]
 
-proc maskStrings(line: string, strTable: var seq[string]): string =
+type
+  OptionKind* = enum okSome, okNone
+  Option*[T] = object
+    case kind*: OptionKind
+    of okSome: val*: T
+    of okNone: discard
+
+  ResultKind* = enum rkOk, rkErr
+  Result*[T, E] = object
+    case kind*: ResultKind
+    of rkOk: value*: T
+    of rkErr: error*: E
+
+proc MilGaya*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)
+proc Some*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)
+proc Khali*[T](): Option[T] = Option[T](kind: okNone)
+
+proc Sahi*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)
+proc Ok*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)
+proc Galti*[T, E](e: E): Result[T, E] = Result[T, E](kind: rkErr, error: e)
+
+proc checkBorrowAndOwnership*(code: string, isHinglish: bool) =
+  var movedVars: seq[string] = @[]
+  var lineNum = 0
+  let moveKw = if isHinglish: "chala_gaya " else: "moved "
+
+  for rawLine in code.splitLines():
+    inc lineNum
+    let line = rawLine.strip()
+    if line.len == 0 or line.startsWith("#") or line.startsWith("//"):
+      continue
+
+    if moveKw in line:
+      let parts = line.split(moveKw)
+      if parts.len > 1:
+        var targetVar = parts[1].strip()
+        if targetVar.endsWith(")"): targetVar = targetVar[0 .. ^2].strip()
+        if targetVar.endsWith(","): targetVar = targetVar[0 .. ^2].strip()
+        if targetVar.len > 0 and targetVar notin movedVars:
+          movedVars.add(targetVar)
+
+    for mv in movedVars:
+      if moveKw notin line and (line.startsWith(mv & " ") or line.contains(" " & mv & " ") or line.endsWith(" " & mv) or line.contains("(" & mv & ")")):
+        if not (line.startsWith("var ") or line.startsWith("rakho ") or line.startsWith("const ") or line.startsWith("let ")):
+          let errPrefix = if isHinglish: "[Galti - BorrowChecker]" else: "[Error - BorrowChecker]"
+          raise newException(ValueError, errPrefix & " Line " & $lineNum & ": Variable '" & mv & "' use nahi ho sakta kyunki iski ownership move ho chuki hai (" & moveKw.strip() & " " & mv & ").")
+
+proc maskStrings*(line: string, strTable: var seq[string]): string =
   var resultStr = ""
   var inString = false
   var currentStr = ""
@@ -29,7 +76,7 @@ proc maskStrings(line: string, strTable: var seq[string]): string =
     resultStr.add(placeholder)
   return resultStr
 
-proc unmaskStrings(line: string, strTable: seq[string]): string =
+proc unmaskStrings*(line: string, strTable: seq[string]): string =
   var res = line
   for idx, s in strTable:
     let placeholder = "___COMPOUND_STR_" & $idx & "___"
@@ -42,6 +89,17 @@ proc translateHinglishLine*(line: string): string =
   var l = maskedLine.strip()
   if l.len == 0: return ""
   if l.startsWith("//") or l.startsWith("#"): return "# " & unmaskStrings(l.substr(2), strTable)
+
+  # Move Semantics translation
+  if "chala_gaya " in l:
+    let parts = l.split("chala_gaya ")
+    var target = parts[1].strip()
+    var rest = ""
+    if ")" in target:
+      let subParts = target.split(")")
+      target = subParts[0].strip()
+      rest = ")" & subParts[1..^1].join(")")
+    l = parts[0] & "move(" & target & ")" & rest
 
   # 1. Shell Command Execution ($ "cmd", chalao "cmd", or ps_kaam "cmd")
   if l.startsWith("ps_kaam ") or l.startsWith("ps_command ") or l.startsWith("ps_shell ") or l.startsWith("ps "):
@@ -106,9 +164,25 @@ proc translateHinglishLine*(line: string): string =
     l = l[0 .. ^5].strip()
     hasToh = true
 
-  # 6. Rigid Word Token Prefix Grammar (Strict Tokens)
-  if l.startsWith("rakho "): l = "var " & l.substr(6)
+  # 6. Pattern Matching Case Clauses for Option & Result Types
+  if l.startsWith("hai MilGaya(") or l.startsWith("hai Some("):
+    let varName = l.split("(")[1].replace(")", "").strip()
+    return "of okSome:\nvar " & varName & " = it.val"
+  elif l == "hai Khali" or l == "hai None":
+    return "of okNone:"
+  elif l.startsWith("hai Sahi(") or l.startsWith("hai Ok("):
+    let varName = l.split("(")[1].replace(")", "").strip()
+    return "of rkOk:\nvar " & varName & " = it.value"
+  elif l.startsWith("hai Galti(") or l.startsWith("hai Err("):
+    let varName = l.split("(")[1].replace(")", "").strip()
+    return "of rkErr:\nvar " & varName & " = it.error"
+
+  # 7. Rigid Word Token Prefix Grammar (Strict Tokens)
+  if l.startsWith("pukka kaam "):
+    let content = l.substr(11)
+    l = "proc " & content & " {.discardable.}"
   elif l.startsWith("pukka "): l = "const " & l.substr(6)
+  elif l.startsWith("rakho "): l = "var " & l.substr(6)
   elif l.startsWith("banao "): l = "type " & l.substr(6)
   elif l.startsWith("dikhao "): l = "echo " & l.substr(7)
   elif l.startsWith("agar "): l = "if " & l.substr(5)
@@ -136,7 +210,9 @@ proc translateHinglishLine*(line: string): string =
   elif l == "galti_pakdo": l = "except"
   elif l == "aakhir_mein": l = "finally"
   elif l.startsWith("shart_jaanch "): l = "doAssert " & l.substr(13)
-  elif l.startsWith("chuno "): l = "case " & l.substr(6)
+  elif l.startsWith("chuno "):
+    let expr = l.substr(6).strip()
+    return "let it = " & expr & "\ncase it.kind:"
   elif l.startsWith("jab ") and not l.contains("defined("): l = "of " & l.substr(4)
 
   l = l.replace("pucho()", "readLine(stdin)")
@@ -152,8 +228,27 @@ proc translateHinglishLine*(line: string): string =
   return unmaskStrings(l, strTable)
 
 proc transpileHinglish*(code: string): string =
+  checkBorrowAndOwnership(code, true)
   var lines = code.splitLines()
-  var nimLines: seq[string] = @["when not defined(js):\n  import std/[osproc, os]"]
+  var nimLines: seq[string] = @[
+    "when not defined(js):\n  import std/[osproc, os]",
+    "type OptionKind* = enum okSome, okNone",
+    "type Option*[T] = object",
+    "  case kind*: OptionKind",
+    "  of okSome: val*: T",
+    "  of okNone: discard",
+    "type ResultKind* = enum rkOk, rkErr",
+    "type Result*[T, E] = object",
+    "  case kind*: ResultKind",
+    "  of rkOk: value*: T",
+    "  of rkErr: error*: E",
+    "proc MilGaya*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)",
+    "proc Some*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)",
+    "proc Khali*[T](): Option[T] = Option[T](kind: okNone)",
+    "proc Sahi*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)",
+    "proc Ok*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)",
+    "proc Galti*[T, E](e: E): Result[T, E] = Result[T, E](kind: rkErr, error: e)"
+  ]
   var declaredVars: seq[string] = @[]
   var currentIndent = 0
 
@@ -171,31 +266,38 @@ proc transpileHinglish*(code: string): string =
 
     var translated = translateHinglishLine(stripped)
 
-    if translated.startsWith("var "):
-      let parts = translated.substr(4).split("=")
-      let varName = parts[0].split(":")[0].strip()
-      if varName notin declaredVars: declaredVars.add(varName)
+    # If translated contains multiple lines (e.g. from chuno or pattern match)
+    let subLines = translated.splitLines()
+    for sLine in subLines:
+      let subStripped = sLine.strip()
+      if subStripped.len == 0: continue
 
-    # Automatic variable declaration on assignment (Python-style 'a = 0' -> 'var a = 0')
-    if "=" in translated and not (translated.startsWith("var ") or translated.startsWith("const ") or translated.startsWith("type ") or translated.startsWith("if ") or translated.startsWith("proc ") or translated.startsWith("iterator ") or translated.startsWith("discard ") or translated.endsWith("=")):
-      let parts = translated.split("=")
-      let varName = parts[0].strip()
-      if not (varName.contains(" ") or varName.contains("(") or varName.contains("[") or varName.contains("]") or varName.contains(".")):
-        if varName notin declaredVars:
-          declaredVars.add(varName)
-          translated = "var " & translated
+      var tLine = subStripped
 
-    if translated == "else:" or translated.startsWith("elif ") or translated.startsWith("except") or translated == "finally:" or translated.startsWith("of "):
-      var indentToUse = currentIndent - 1
-      if indentToUse < 0: indentToUse = 0
-      nimLines.add("  ".repeat(indentToUse) & translated)
-      if not translated.endsWith(":"): inc currentIndent
-      continue
+      if tLine.startsWith("var "):
+        let parts = tLine.substr(4).split("=")
+        let varName = parts[0].split(":")[0].strip()
+        if varName notin declaredVars: declaredVars.add(varName)
 
-    if translated.len > 0:
-      nimLines.add("  ".repeat(currentIndent) & translated)
-      if (translated.endsWith(":") or translated.endsWith("=") or translated.endsWith("object") or translated.startsWith("iterator ")) and not translated.startsWith("#"):
-        inc currentIndent
+      if tLine == "else:" or tLine.startsWith("elif ") or tLine.startsWith("except") or tLine == "finally:":
+        var indentToUse = currentIndent - 1
+        if indentToUse < 0: indentToUse = 0
+        nimLines.add("  ".repeat(indentToUse) & tLine)
+        if tLine.endsWith(":"): inc currentIndent
+        continue
+
+      if tLine.startsWith("of "):
+        var indentToUse = currentIndent - 1
+        if indentToUse < 0: indentToUse = 0
+        nimLines.add("  ".repeat(indentToUse) & tLine)
+        currentIndent = indentToUse + 1
+        continue
+
+      if tLine.len > 0:
+        nimLines.add("  ".repeat(currentIndent) & tLine)
+        if (tLine.endsWith(":") or tLine.endsWith("=") or tLine.endsWith("object") or tLine.startsWith("iterator ")) and not tLine.startsWith("#"):
+          inc currentIndent
 
   return nimLines.join("\n")
+
 

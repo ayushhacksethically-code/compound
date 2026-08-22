@@ -1,40 +1,6 @@
 import std/[strutils, osproc, os]
 
-proc maskStrings(line: string, strTable: var seq[string]): string =
-  var resultStr = ""
-  var inString = false
-  var currentStr = ""
-  var quoteChar = '"'
-  var i = 0
-  while i < line.len:
-    let c = line[i]
-    if not inString:
-      if c == '"' or c == '\'':
-        inString = true
-        quoteChar = c
-        currentStr = $c
-      else:
-        resultStr.add(c)
-    else:
-      currentStr.add(c)
-      if c == quoteChar and (i == 0 or line[i-1] != '\\'):
-        inString = false
-        let placeholder = "___COMPOUND_STR_" & $strTable.len & "___"
-        strTable.add(currentStr)
-        resultStr.add(placeholder)
-    inc i
-  if inString:
-    let placeholder = "___COMPOUND_STR_" & $strTable.len & "___"
-    strTable.add(currentStr)
-    resultStr.add(placeholder)
-  return resultStr
-
-proc unmaskStrings(line: string, strTable: seq[string]): string =
-  var res = line
-  for idx, s in strTable:
-    let placeholder = "___COMPOUND_STR_" & $idx & "___"
-    res = res.replace(placeholder, s)
-  return res
+import hinglish
 
 proc translateEnglishLine*(line: string): string =
   var strTable: seq[string] = @[]
@@ -42,6 +8,17 @@ proc translateEnglishLine*(line: string): string =
   var l = maskedLine.strip()
   if l.len == 0: return ""
   if l.startsWith("//") or l.startsWith("#"): return "# " & unmaskStrings(l.substr(2), strTable)
+
+  # Move Semantics translation
+  if "moved " in l:
+    let parts = l.split("moved ")
+    var target = parts[1].strip()
+    var rest = ""
+    if ")" in target:
+      let subParts = target.split(")")
+      target = subParts[0].strip()
+      rest = ")" & subParts[1..^1].join(")")
+    l = parts[0] & "move(" & target & ")" & rest
 
   # 1. Shell Command Execution ($ "cmd", shell "cmd", or ps_command "cmd")
   if l.startsWith("ps_kaam ") or l.startsWith("ps_command ") or l.startsWith("ps_shell ") or l.startsWith("ps "):
@@ -117,8 +94,24 @@ proc translateEnglishLine*(line: string): string =
     l = l[0 .. ^4].strip()
     hasTrigger = true
 
-  # 6. Rigid English Word Token Prefix Grammar (Strict Tokens)
-  if l.startsWith("keep "): l = "var " & l.substr(5)
+  # 6. Pattern Matching Case Clauses for Option & Result Types
+  if l.startsWith("is Some(") or l.startsWith("is MilGaya("):
+    let varName = l.split("(")[1].replace(")", "").strip()
+    return "of okSome:\n  var " & varName & " = it.val"
+  elif l == "is None" or l == "is Khali":
+    return "of okNone:"
+  elif l.startsWith("is Ok(") or l.startsWith("is Sahi("):
+    let varName = l.split("(")[1].replace(")", "").strip()
+    return "of rkOk:\n  var " & varName & " = it.value"
+  elif l.startsWith("is Err(") or l.startsWith("is Galti("):
+    let varName = l.split("(")[1].replace(")", "").strip()
+    return "of rkErr:\n  var " & varName & " = it.error"
+
+  # 7. Rigid English Word Token Prefix Grammar (Strict Tokens)
+  if l.startsWith("strict task "):
+    let content = l.substr(12)
+    l = "proc " & content & " {.discardable.}"
+  elif l.startsWith("keep "): l = "var " & l.substr(5)
   elif l.startsWith("var "): l = "var " & l.substr(4)
   elif l.startsWith("let "): l = "var " & l.substr(4)
   elif l.startsWith("fixed "): l = "const " & l.substr(6)
@@ -167,7 +160,9 @@ proc translateEnglishLine*(line: string): string =
   elif l == "catch" or l == "except": l = "except"
   elif l == "finally": l = "finally"
   elif l.startsWith("assert "): l = "doAssert " & l.substr(7)
-  elif l.startsWith("match "): l = "case " & l.substr(6)
+  elif l.startsWith("match "):
+    let expr = l.substr(6).strip()
+    return "let it = " & expr & "\ncase it.kind:"
   elif l.startsWith("case "): l = "of " & l.substr(5)
   elif l.startsWith("when ") and not l.contains("defined("): l = "of " & l.substr(5)
 
@@ -185,8 +180,27 @@ proc translateEnglishLine*(line: string): string =
   return unmaskStrings(l, strTable)
 
 proc transpileEnglish*(code: string): string =
+  checkBorrowAndOwnership(code, false)
   var lines = code.splitLines()
-  var nimLines: seq[string] = @["when not defined(js):\n  import std/[osproc, os]"]
+  var nimLines: seq[string] = @[
+    "when not defined(js):\n  import std/[osproc, os]",
+    "type OptionKind* = enum okSome, okNone",
+    "type Option*[T] = object",
+    "  case kind*: OptionKind",
+    "  of okSome: val*: T",
+    "  of okNone: discard",
+    "type ResultKind* = enum rkOk, rkErr",
+    "type Result*[T, E] = object",
+    "  case kind*: ResultKind",
+    "  of rkOk: value*: T",
+    "  of rkErr: error*: E",
+    "proc MilGaya*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)",
+    "proc Some*[T](v: T): Option[T] = Option[T](kind: okSome, val: v)",
+    "proc Khali*[T](): Option[T] = Option[T](kind: okNone)",
+    "proc Sahi*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)",
+    "proc Ok*[T, E](v: T): Result[T, E] = Result[T, E](kind: rkOk, value: v)",
+    "proc Galti*[T, E](e: E): Result[T, E] = Result[T, E](kind: rkErr, error: e)"
+  ]
   var declaredVars: seq[string] = @[]
   var currentIndent = 0
 
@@ -204,30 +218,36 @@ proc transpileEnglish*(code: string): string =
 
     var translated = translateEnglishLine(stripped)
 
-    if translated.startsWith("var "):
-      let parts = translated.substr(4).split("=")
-      let varName = parts[0].split(":")[0].strip()
-      if varName notin declaredVars: declaredVars.add(varName)
+    # If translated contains multiple lines
+    let subLines = translated.splitLines()
+    for sLine in subLines:
+      let subStripped = sLine.strip()
+      if subStripped.len == 0: continue
 
-    # Automatic variable declaration on assignment (Python-style 'a = 0' -> 'var a = 0')
-    if "=" in translated and not (translated.startsWith("var ") or translated.startsWith("const ") or translated.startsWith("type ") or translated.startsWith("if ") or translated.startsWith("proc ") or translated.startsWith("iterator ") or translated.startsWith("discard ") or translated.endsWith("=")):
-      let parts = translated.split("=")
-      let varName = parts[0].strip()
-      if not (varName.contains(" ") or varName.contains("(") or varName.contains("[") or varName.contains("]") or varName.contains(".")):
-        if varName notin declaredVars:
-          declaredVars.add(varName)
-          translated = "var " & translated
+      var tLine = subStripped
 
-    if translated == "else:" or translated.startsWith("elif ") or translated.startsWith("except") or translated == "finally:" or translated.startsWith("of "):
-      var indentToUse = currentIndent - 1
-      if indentToUse < 0: indentToUse = 0
-      nimLines.add("  ".repeat(indentToUse) & translated)
-      if not translated.endsWith(":"): inc currentIndent
-      continue
+      if tLine.startsWith("var "):
+        let parts = tLine.substr(4).split("=")
+        let varName = parts[0].split(":")[0].strip()
+        if varName notin declaredVars: declaredVars.add(varName)
 
-    if translated.len > 0:
-      nimLines.add("  ".repeat(currentIndent) & translated)
-      if (translated.endsWith(":") or translated.endsWith("=") or translated.endsWith("object") or translated.startsWith("iterator ")) and not translated.startsWith("#"):
-        inc currentIndent
+      if tLine == "else:" or tLine.startsWith("elif ") or tLine.startsWith("except") or tLine == "finally:":
+        var indentToUse = currentIndent - 1
+        if indentToUse < 0: indentToUse = 0
+        nimLines.add("  ".repeat(indentToUse) & tLine)
+        if tLine.endsWith(":"): inc currentIndent
+        continue
+
+      if tLine.startsWith("of "):
+        var indentToUse = currentIndent - 1
+        if indentToUse < 0: indentToUse = 0
+        nimLines.add("  ".repeat(indentToUse) & tLine)
+        currentIndent = indentToUse + 1
+        continue
+
+      if tLine.len > 0:
+        nimLines.add("  ".repeat(currentIndent) & tLine)
+        if (tLine.endsWith(":") or tLine.endsWith("=") or tLine.endsWith("object") or tLine.startsWith("iterator ")) and not tLine.startsWith("#"):
+          inc currentIndent
 
   return nimLines.join("\n")
